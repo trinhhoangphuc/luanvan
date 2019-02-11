@@ -183,7 +183,7 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.kh_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.kh_hoTen+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -250,6 +250,7 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
 		    		.then(function(response){	
 		    		
 		    			if(response.data.error == true){
+		    				$scope.LoadingFrm = false;
 		    				if(response.data.message.email != undefined)
 		    					$('#dlgExistEmail').text(response.data.message.email[0]).show().fadeOut( 4000 );
 		    				if(response.data.message.dienthoai != undefined)
@@ -341,4 +342,88 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
 	    	}
 	    }
     });
+
+	$("#delte").on("submit", function(event){ // xóa dữ liệu
+        switch($scope.status){
+
+            case "delete" : //xóa
+
+                i = indexOfMember($scope.id_member);
+                if(i == -1){
+                    $('#myModal2').modal('hide');
+                    toastr.warning("Mã khách hàng không tồn tại!");
+                }else{
+
+                    var requestURL = MainURL + "khachhang/delete/" + $scope.id_member;
+
+                    $http.delete(requestURL)
+                    .then(function(response){
+
+                        if(response.data.message){
+                            $scope.dsKhachhang.splice(i, 1);
+                            $('#myModal2').modal('hide');
+                            toastr.success("Xóa khách hàng thành công!");
+                        }else{
+                            $('#myModal2').modal('hide');
+                            toastr.error("Xóa khách hàng không thành công!");
+                        }
+
+                    }).catch(function(reason){
+                        if(reason.status == 500){
+                            $('#myModal2').modal('hide');
+                            toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
+                        }
+                    });
+
+                }
+            break;
+
+            case "deleteAll":
+
+                dsCheckbox = [];
+                for(i=1; i<= $scope.dsKhachhang.length; i++){
+                    if($('#chk'+i).prop("checked"))
+                        dsCheckbox.push($('#chk'+i).val());
+                }
+
+                if(dsCheckbox.length > 0){
+
+                    var requestURL = MainURL + 'khachhang/deleteAll';
+                    var requestData = $.param({items: dsCheckbox});
+
+                    $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
+                    .then(function(response){
+
+                        if(response.data.message){
+                            for(i in dsCheckbox){
+                                memberKey = dsCheckbox[i];
+                                dbMember = indexOfMember(memberKey);
+                                if(dbMember != -1){
+                                    $scope.dsKhachhang.splice(dbMember, 1);
+                                } 
+                            }
+                            $('#myModal2').modal('hide');
+                            toastr.success("Xóa các khách hàng thành công!");
+                        }else{
+                            $('#myModal2').modal('hide');
+                            toastr.error("Xóa các khách hàng thành công!");
+                        }
+
+                    }).catch(function(reason){
+                        if(reason.status == 500){
+                            $('#myModal2').modal('hide');
+                            toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
+                        }
+                    });
+
+                }else{
+                    $('#myModal2').modal('hide');
+                    toastr.warning("Vui lòng chọn dữ liệu trước khi xóa!");
+                }
+
+            break;
+        } 
+    });
+
+
 });

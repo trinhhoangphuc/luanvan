@@ -280,6 +280,25 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
+	// Quản lý nhà khách hàng
+	Route::get('danhgia', function () {
+		return view('admin.danhgia');
+	})->name("QLdanhgia");
+
+	Route::group(["prefix" =>"danhgia"], function(){
+
+		Route::get('danhsach',  'DanhgiaController@index'); // load dánh sách
+
+		Route::post('store', "DanhgiaController@store");
+
+		Route::post('update/{id}', "DanhgiaController@update"); 
+
+		Route::delete('delete/{id}', "DanhgiaController@destroy");
+
+		Route::post('deleteAll', "DanhgiaController@destroyAll");
+	});
+	// kết thúc
+
 
 });
 // kết thúc quản trị
@@ -291,7 +310,7 @@ Route::get('/', function () {
 });
 
 Route::get('/index', function () {
-		return view('layouts.admin.master2');	
+		return view('customer.index');	
 })->name("homepage");
 
 Route::get('/chi-tiet-san-pham', function () {
