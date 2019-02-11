@@ -1,0 +1,15 @@
+.AngularFileUploader .my-drop-zone { border: dotted 3px lightgray; }
+.AngularFileUploader .nv-file-over { border: dotted 3px red; } 
+.AngularFileUploader .ListOfFiles {
+    display: block;
+    border: solid 3px lightgray;
+    margin-bottom: 10px;
+    height: 200px;
+    overflow: auto;
+}
+.AngularFileUploader .ListOfFiles th {
+    text-align: center;
+}
+.AngularFileUploader .ListOfFiles tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
