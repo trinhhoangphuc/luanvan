@@ -107,7 +107,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield('kh')"><a href="{{route('QLkhachhang')}}"><i class="fa fa-circle-o"></i> Khách hàng</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Đánh giá</a></li>
+            <li class="@yield('dg')"><a href="{{route('QLdanhgia')}}"><i class="fa fa-circle-o"></i> Đánh giá</a></li>
           </ul>
         </li>
 

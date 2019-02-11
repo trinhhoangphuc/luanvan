@@ -1,16 +1,16 @@
-app.controller('hangController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
+app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
 	
-	$scope.dsHang = [];
-	$scope.dataTitle = "nhà sản xuất";
+	$scope.dsDanhgia = [];
+	$scope.dataTitle = "bình luận";
 	$scope.status = "edit";
 	$scope.frm_details_oldTr = null;
 	$scope.newMember_Data = null;
     $scope.isLoading = true;
 
-	$scope.refresh = function(){ // Lấy danh sách nhà sản xuất
-		var requestURL = MainURL + "hang/danhsach";
+	$scope.refresh = function(){ // Lấy danh sách bình luận
+		var requestURL = MainURL + "danhgia/danhsach";
 		$http.get(requestURL).then(function(response){
-			$scope.dsHang = response.data.message.hang;
+			$scope.dsDanhgia = response.data.message.danhgia;
             $scope.isLoading = false;
 		});
 	}
@@ -47,19 +47,19 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 		'<table align="center" class="table table-bordered" style="margin:0px"><tbody>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Mã nhà sản xuât:</b></td>'+
-		'<td style="text-align: left !important;">'+member.h_ma+'</td>'+
+		'<td style="text-align: left !important;">'+member.gy_ma+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Tên nhà sản xuât:</b></td>'+
-		'<td style="text-align: left !important;">'+member.h_ten+'</td>'+
+		'<td style="text-align: left !important;">'+member.gy_ten+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày tạo:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.h_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.gy_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày cập nhật:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.h_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.gy_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>';
 
 
@@ -69,15 +69,15 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 	}
 
 	function indexOfMember(id){ // lấy vị trí theo id
-		for(i=0; i < $scope.dsHang.length; i++){
-			if (id == $scope.dsHang[i].h_ma)
+		for(i=0; i < $scope.dsDanhgia.length; i++){
+			if (id == $scope.dsDanhgia[i].gy_ma)
 				return i;
 		}
 		return -1;
 	}
 
 
-	function isMemberDiff(db, frm){ return db.h_ten != frm.ten || db.h_trangThai != frm.trangThai; }
+	function isMemberDiff(db, frm){ return db.gy_ten != frm.ten || db.gy_trangThai != frm.trangThai; }
 
 
 	$scope.checkInput = function(){ // lấy tất cả dòng dữ liệu
@@ -96,7 +96,7 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
         		i = indexOfMember(id);
         		if(i != -1){
 
-        			item = $scope.dsHang[i];
+        			item = $scope.dsDanhgia[i];
         			tr = $("#tr_"+id);
         			icon = $(tr).find(".btn-detail i"); 
 
@@ -133,7 +133,7 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
         		$scope.dialogTiTle = "Thêm " + $scope.dataTitle + " mới";
         		$scope.dialogButton = "Thêm";
         		$scope.status = status;
-        		$scope.hang = {ten: null, trangThai: 1};
+        		$scope.danhgia = {ten: null, trangThai: 1};
         		
         		$("#myModal").modal("show");
 
@@ -141,16 +141,16 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 
     		case "edit":
 
-    			member = $scope.dsHang[indexOfMember(id)];
+    			member = $scope.dsDanhgia[indexOfMember(id)];
         		$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
         		$scope.dialogButton = "Sửa";
         		$scope.status = status;
-        		$scope.id_member = member.h_ma;
-        		$scope.hang = {
-        			ten: member.h_ten, 
-        			trangThai: member.h_trangThai
+        		$scope.id_member = member.gy_ma;
+        		$scope.danhgia = {
+        			ten: member.gy_ten, 
+        			trangThai: member.gy_trangThai
         		};
-        		$scope.frm_ten           = member.h_ten;
+        		$scope.frm_ten           = member.gy_ten;
                 $scope.la_ten_moi        = true;
                 $scope.isNewMember       = true;
         		$("#myModal").modal("show");
@@ -159,12 +159,12 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 
     		case "delete":
 
-    			member = $scope.dsHang[indexOfMember(id)];
+    			member = $scope.dsDanhgia[indexOfMember(id)];
     			$scope.dialogTiTle = "Xóa " + $scope.dataTitle;
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.h_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.gy_ten+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -198,8 +198,8 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 
                 case "create": //thêm
 
-                    var requestURL = MainURL + "hang/store";
-                    var requestData = $.param($scope.hang);
+                    var requestURL = MainURL + "danhgia/store";
+                    var requestData = $.param($scope.danhgia);
 
                     $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
                     .then(function(response){
@@ -207,23 +207,23 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                             if(response.data.message.ten != undefined)
                                $('#dlgExistName').text(response.data.message.ten[0]).show().fadeOut( 4000 );
                         }else{
-                            if(response.data.message.hang != null){
+                            if(response.data.message.danhgia != null){
                                 list = [];
-                                list.push(response.data.message.hang); 
+                                list.push(response.data.message.danhgia); 
 
-                                for(i=0; i < $scope.dsHang.length; i++){
-                                    list.push($scope.dsHang[i]);
+                                for(i=0; i < $scope.dsDanhgia.length; i++){
+                                    list.push($scope.dsDanhgia[i]);
                                 }
 
-                                $scope.dsHang = list;
+                                $scope.dsDanhgia = list;
                                 $scope.status = 'edit';
 
                                 // Hiển thị bg dữ liệu
-                                $scope.newMember_Data = response.data.message.hang.h_ma;
+                                $scope.newMember_Data = response.data.message.danhgia.gy_ma;
                                 setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
 
                                 $('#myModal').modal('hide');
-                                toastr.success("Thêm nhà sản xuất thành công!");
+                                toastr.success("Thêm bình luận thành công!");
                                 
                             }
                         }
@@ -231,7 +231,7 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                         }).catch(function(reason){
                             if(reason.status == 500){
                                 $('#myModal').modal('hide');
-                                toastr.error("Thêm nhà sản xuất không thành công!");
+                                toastr.error("Thêm bình luận không thành công!");
                             }
                         });
 
@@ -244,12 +244,12 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                         $('#myModal').modal('hide');
                         toastr.warning("Mã nhà sanr xuất không chính xác!");
                     }else{
-                        member = $scope.dsHang[i];
-                        var diff = isMemberDiff(member, $scope.hang);
+                        member = $scope.dsDanhgia[i];
+                        var diff = isMemberDiff(member, $scope.danhgia);
                         if(diff){
 
-                            var requestURL = MainURL + "hang/update/" + $scope.id_member;
-                            var requestData = $.param($scope.hang);
+                            var requestURL = MainURL + "danhgia/update/" + $scope.id_member;
+                            var requestData = $.param($scope.danhgia);
 
                             $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
                             .then(function(response){
@@ -258,15 +258,15 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                                     if(response.data.message.ten != undefined)
                                        $('#dlgExistName').text(response.data.message.ten[0]).show().fadeOut( 4000 );
                                 }else{
-                                    if(response.data.message.hang != null){
-                                        data = response.data.message.hang;
-                                        $scope.dsHang[i] = data;
+                                    if(response.data.message.danhgia != null){
+                                        data = response.data.message.danhgia;
+                                        $scope.dsDanhgia[i] = data;
 
-                                        $scope.newMember_Data = response.data.message.hang.h_ma;
+                                        $scope.newMember_Data = response.data.message.danhgia.gy_ma;
                                         setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
 
                                         $('#myModal').modal('hide');
-                                        toastr.success("Sửa nhà sản xuất thành công!");
+                                        toastr.success("Sửa bình luận thành công!");
                                         
                                     }
                                 }
@@ -274,7 +274,7 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                             }).catch(function(reason){
                                 if(reason.status == 500){
                                     $('#myModal').modal('hide');
-                                    toastr.error("Sửa nhà sản xuất không thành công!");
+                                    toastr.error("Sửa bình luận không thành công!");
                                 }
                             });
                         }
@@ -294,27 +294,27 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                 i = indexOfMember($scope.id_member);
                 if(i == -1){
                     $('#myModal2').modal('hide');
-                    toastr.warning("Mã nhà sản xuất không chính xác!");
+                    toastr.warning("Mã bình luận không chính xác!");
                 }else{
 
-                    var requestURL = MainURL + "hang/delete/" + $scope.id_member;
+                    var requestURL = MainURL + "danhgia/delete/" + $scope.id_member;
 
                     $http.delete(requestURL)
                     .then(function(response){
 
                         if(response.data.message){
-                            $scope.dsHang.splice(i, 1);
+                            $scope.dsDanhgia.splice(i, 1);
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa nhà sản xuất thành công!");
+                            toastr.success("Xóa bình luận thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa nhà sản xuất không thành công!");
+                            toastr.error("Xóa bình luận không thành công!");
                         }
 
                     }).catch(function(reason){
                         if(reason.status == 500){
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa nhà sản xuất không thành công!");
+                            toastr.error("Xóa bình luận không thành công!");
                         }
                     });
 
@@ -324,14 +324,14 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
             case "deleteAll":
 
                 dsCheckbox = [];
-                for(i=1; i<= $scope.dsHang.length; i++){
+                for(i=1; i<= $scope.dsDanhgia.length; i++){
                     if($('#chk'+i).prop("checked"))
                         dsCheckbox.push($('#chk'+i).val());
                 }
 
                 if(dsCheckbox.length > 0){
 
-                    var requestURL = MainURL + 'hang/deleteAll';
+                    var requestURL = MainURL + 'danhgia/deleteAll';
                     var requestData = $.param({items: dsCheckbox});
 
                     $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
@@ -342,14 +342,14 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                                 memberKey = dsCheckbox[i];
                                 dbMember = indexOfMember(memberKey);
                                 if(dbMember != -1){
-                                    $scope.dsHang.splice(dbMember, 1);
+                                    $scope.dsDanhgia.splice(dbMember, 1);
                                 } 
                             }
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa các nhà sản xuất thành công!");
+                            toastr.success("Xóa các bình luận thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa các nhà sản xuất không thành công!");
+                            toastr.error("Xóa các bình luận không thành công!");
                         }
 
                     }).catch(function(reason){
