@@ -274,6 +274,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 		Route::post('update/{id}', "KhachhangController@update"); 
 
+		Route::post('updatePassword/{id}', "KhachhangController@updatePassword"); 
+
 		Route::delete('delete/{id}', "KhachhangController@destroy");
 
 		Route::post('deleteAll', "KhachhangController@destroyAll");

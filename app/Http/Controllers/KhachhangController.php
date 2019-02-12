@@ -128,6 +128,42 @@ class KhachhangController extends Controller
         }
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+       try{
+
+            $khachhang = Khachhang::where('kh_ma', $id)->first();
+            if($khachhang){
+
+                $str = '';
+                $str = md5(rand());
+                $matkhau = substr($str, 0, 6);
+                $khachhang->kh_matKhau = md5($matkhau);
+
+                if($khachhang->save()){
+
+                    $data = [
+                        'hoTen' => $khachhang->kh_hoTen,
+                        'matKhau' => $matkhau,
+                    ];
+                    Mail::send('mail.newPass', $data, function($message) use ($khachhang){
+                        $message->from('webredshop@gmail.com', 'RedShop.vn')
+                        ->to($khachhang->kh_email)->subject('[RedShop.vn] Cấp lại mật khẩu');
+                    });
+
+                    $khachhang = Khachhang::where('kh_ma', $khachhang->kh_ma)->first();
+                    $json = json_encode($khachhang);
+                    return response(['error'=>false, 'message'=>compact('khachhang', 'json')], 200);
+               }
+            }
+  
+        }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
+
     public function destroy($id) // xóa thanh toans
     {
         try{

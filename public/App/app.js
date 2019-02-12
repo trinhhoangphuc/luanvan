@@ -1,4 +1,4 @@
-var app = angular.module("redshop", ['ngMaterial','ckeditor', 'datatables', 'angularFileUpload']).constant('MainURL', "http://localhost/redshop/admin/");
+var app = angular.module("redshop", ['ngMaterial','ckeditor', 'datatables', 'angularFileUpload']).constant('MainURL', "http://localhost/luanvan/admin/");
 
 function En2Vn(alias, isURL = false) {
     var str = alias;

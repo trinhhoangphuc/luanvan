@@ -5,6 +5,9 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 	$scope.status = "edit";
 	$scope.frm_details_oldTr = null;
 	$scope.newMember_Data = null;
+    $scope.frm_ten           = "";
+    $scope.la_ten_moi        = true;
+    $scope.isNewMember       = true;
     $scope.isLoading = true;
 
 	$scope.refresh = function(){ // Lấy danh sách nhà sản xuất

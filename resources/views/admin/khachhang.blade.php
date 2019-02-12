@@ -86,6 +86,7 @@
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.kh_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
                                             <button   class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.kh_ma)"><i class="fa fa-pencil"></i></button>
+                                             <button class="btn  btn-sm btn-flat bg-purple btn-resetPass" ng-click="CreateEdit_show('resetPass', item.kh_ma)"><i class="fa fa-key"></i></button>
                                             <button   class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.kh_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>
@@ -205,8 +206,16 @@
 
         <div class="modal fade" id="myModal2">
             <div class="modal-dialog">
-                
-                <div class="modal-content">
+                <table ng-show="LoadingFrm" width="100%" style="background-color: #fff;">
+                    <tr>
+                        <td width="45%" class="text-right">Đang xử lý dữ liệu</td>
+                        <td width="150" class="text-center">
+                            <md-progress-circular class="md-warn" md-diameter="100" md-mode="indeterminate"></md-progress-circular>
+                        </td>
+                        <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
+                    </tr>
+                </table>
+                <div class="modal-content" ng-show="!LoadingFrm">
                     <div class="modal-header">
                         <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
@@ -216,7 +225,7 @@
                         </div>
                      </div>
                     <div class="modal-body">
-                        <form name="delte" id="delte">
+                        <form name="delte" id="delte" >
                             <div class="form-group"> 
                                 <div id="message" class="text-center"></div>
                             </div>
@@ -231,6 +240,7 @@
 
                             </div>
                         </form>
+                        
                     </div>
                 </div>
             </div>

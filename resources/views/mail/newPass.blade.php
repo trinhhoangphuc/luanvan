@@ -5,10 +5,8 @@
 </head>
 <body>
 <p>Xin chào Quý khách hàng <b>{{ $hoTen }}</b>,</p>
-<p>Quý khách đã đăng ký tài khoản thành công.</p>
-<p>Tài khoản: {{ $email }}.</p>
-<p>Mật khẩu: {{ $matKhau }}.</p>
-<p>Xin Quý khách vui lòng <a href=''>đăng nhập</a> để thay đổi mật khẩu</p>
+<p>Chúc mừng quý khách đã đổi mật khẩu thành công.</p>
+<p>Mật khậu mới của quý khách là: {{ $matKhau }}</p>
 <hr/>
 <p>Mọi thắc mắc xin Quý khách vui lòng: 
 <ul>

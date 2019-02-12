@@ -1,13 +1,13 @@
 app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
 	
 	$scope.dsDanhgia = [];
-	$scope.dataTitle = "bình luận";
+	$scope.dataTitle = "đánh giá";
 	$scope.status = "edit";
 	$scope.frm_details_oldTr = null;
 	$scope.newMember_Data = null;
     $scope.isLoading = true;
 
-	$scope.refresh = function(){ // Lấy danh sách bình luận
+	$scope.refresh = function(){ // Lấy danh sách đánh giá
 		var requestURL = MainURL + "danhgia/danhsach";
 		$http.get(requestURL).then(function(response){
 			$scope.dsDanhgia = response.data.message.danhgia;
@@ -46,20 +46,16 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
 		'<table align="center" class="table table-bordered" style="margin:0px"><tbody>'+
 		'<tr>'+
-		'<td class="text-left bg-info" width="20%"><b>Mã nhà sản xuât:</b></td>'+
-		'<td style="text-align: left !important;">'+member.gy_ma+'</td>'+
-		'</tr>'+
-		'<tr>'+
-		'<td class="text-left bg-info" width="20%"><b>Tên nhà sản xuât:</b></td>'+
-		'<td style="text-align: left !important;">'+member.gy_ten+'</td>'+
+		'<td class="text-left bg-info" width="20%"><b>Mã đánh giá:</b></td>'+
+		'<td style="text-align: left !important;">'+member.dg_ma+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày tạo:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.gy_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dg_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày cập nhật:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.gy_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dg_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>';
 
 
@@ -70,14 +66,14 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
 	function indexOfMember(id){ // lấy vị trí theo id
 		for(i=0; i < $scope.dsDanhgia.length; i++){
-			if (id == $scope.dsDanhgia[i].gy_ma)
+			if (id == $scope.dsDanhgia[i].dg_ma)
 				return i;
 		}
 		return -1;
 	}
 
 
-	function isMemberDiff(db, frm){ return db.gy_ten != frm.ten || db.gy_trangThai != frm.trangThai; }
+	function isMemberDiff(db, frm){ return db.dg_ten != frm.ten || db.dg_trangThai != frm.trangThai; }
 
 
 	$scope.checkInput = function(){ // lấy tất cả dòng dữ liệu
@@ -145,12 +141,12 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
         		$scope.dialogButton = "Sửa";
         		$scope.status = status;
-        		$scope.id_member = member.gy_ma;
+        		$scope.id_member = member.dg_ma;
         		$scope.danhgia = {
-        			ten: member.gy_ten, 
-        			trangThai: member.gy_trangThai
+        			ten: member.dg_ten, 
+        			trangThai: member.dg_trangThai
         		};
-        		$scope.frm_ten           = member.gy_ten;
+        		$scope.frm_ten           = member.dg_ten;
                 $scope.la_ten_moi        = true;
                 $scope.isNewMember       = true;
         		$("#myModal").modal("show");
@@ -164,7 +160,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.gy_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.dg_ten+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -196,53 +192,12 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         submitHandler: function(form) {
             switch($scope.status){
 
-                case "create": //thêm
-
-                    var requestURL = MainURL + "danhgia/store";
-                    var requestData = $.param($scope.danhgia);
-
-                    $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
-                    .then(function(response){
-                        if(response.data.error == true){
-                            if(response.data.message.ten != undefined)
-                               $('#dlgExistName').text(response.data.message.ten[0]).show().fadeOut( 4000 );
-                        }else{
-                            if(response.data.message.danhgia != null){
-                                list = [];
-                                list.push(response.data.message.danhgia); 
-
-                                for(i=0; i < $scope.dsDanhgia.length; i++){
-                                    list.push($scope.dsDanhgia[i]);
-                                }
-
-                                $scope.dsDanhgia = list;
-                                $scope.status = 'edit';
-
-                                // Hiển thị bg dữ liệu
-                                $scope.newMember_Data = response.data.message.danhgia.gy_ma;
-                                setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
-
-                                $('#myModal').modal('hide');
-                                toastr.success("Thêm bình luận thành công!");
-                                
-                            }
-                        }
-
-                        }).catch(function(reason){
-                            if(reason.status == 500){
-                                $('#myModal').modal('hide');
-                                toastr.error("Thêm bình luận không thành công!");
-                            }
-                        });
-
-                break;
-
                 case "edit": //sửa
 
                     i = indexOfMember($scope.id_member);
                     if(i == -1){
                         $('#myModal').modal('hide');
-                        toastr.warning("Mã nhà sanr xuất không chính xác!");
+                        toastr.warning("Mã đánh giá không chính xác!");
                     }else{
                         member = $scope.dsDanhgia[i];
                         var diff = isMemberDiff(member, $scope.danhgia);
@@ -254,27 +209,22 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                             $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
                             .then(function(response){
                                 
-                                if(response.data.error == true){
-                                    if(response.data.message.ten != undefined)
-                                       $('#dlgExistName').text(response.data.message.ten[0]).show().fadeOut( 4000 );
-                                }else{
-                                    if(response.data.message.danhgia != null){
-                                        data = response.data.message.danhgia;
-                                        $scope.dsDanhgia[i] = data;
+                                if(response.data.message.danhgia != null){
+                                    data = response.data.message.danhgia;
+                                    $scope.dsDanhgia[i] = data;
 
-                                        $scope.newMember_Data = response.data.message.danhgia.gy_ma;
-                                        setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+                                    $scope.newMember_Data = response.data.message.danhgia.dg_ma;
+                                    setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
 
-                                        $('#myModal').modal('hide');
-                                        toastr.success("Sửa bình luận thành công!");
-                                        
-                                    }
+                                    $('#myModal').modal('hide');
+                                    toastr.success("Sửa đánh giá thành công!");
+
                                 }
 
                             }).catch(function(reason){
                                 if(reason.status == 500){
                                     $('#myModal').modal('hide');
-                                    toastr.error("Sửa bình luận không thành công!");
+                                    toastr.error("Sửa đánh giá không thành công!");
                                 }
                             });
                         }
@@ -294,7 +244,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                 i = indexOfMember($scope.id_member);
                 if(i == -1){
                     $('#myModal2').modal('hide');
-                    toastr.warning("Mã bình luận không chính xác!");
+                    toastr.warning("Mã đánh giá không chính xác!");
                 }else{
 
                     var requestURL = MainURL + "danhgia/delete/" + $scope.id_member;
@@ -305,16 +255,16 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                         if(response.data.message){
                             $scope.dsDanhgia.splice(i, 1);
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa bình luận thành công!");
+                            toastr.success("Xóa đánh giá thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa bình luận không thành công!");
+                            toastr.error("Xóa đánh giá không thành công!");
                         }
 
                     }).catch(function(reason){
                         if(reason.status == 500){
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa bình luận không thành công!");
+                            toastr.error("Xóa đánh giá không thành công!");
                         }
                     });
 
@@ -346,10 +296,10 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                                 } 
                             }
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa các bình luận thành công!");
+                            toastr.success("Xóa các đánh giá thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa các bình luận không thành công!");
+                            toastr.error("Xóa các đánh giá không thành công!");
                         }
 
                     }).catch(function(reason){

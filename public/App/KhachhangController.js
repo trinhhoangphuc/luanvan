@@ -85,16 +85,13 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
 	}
 
 	function isMemberDiff(db, frm){
-		var d1 = Date.parse(frm.ngaysinh);
-		var d2 = Date.parse(db.kh_ngaySinh);
     	return db.kh_hoTen != frm.ten 
     	|| db.cv_ma != frm.chucvu
     	|| db.kh_gioiTinh != frm.gioitinh
     	|| db.kh_email != frm.email
     	|| db.kh_dienThoai != frm.dienthoai
     	|| db.kh_diaChi != frm.diachi
-    	|| db.kh_trangThai != frm.trangThai
-    	|| d1 != d2;
+    	|| db.kh_trangThai != frm.trangThai;
     }
 
     $scope.checkInput = function(){
@@ -169,10 +166,20 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
 					email: member.kh_email,
 					diachi: member.kh_diaChi,
 					dienthoai: member.kh_dienThoai,
-					chucvu: member.cv_ma,
-					ngaysinh: new Date(member.kh_ngaySinh),
 				};
+
 				$("#myModal").modal("show");
+
+			break;
+
+			case "resetPass":
+				member = $scope.dsKhachhang[indexOfMember(id)];
+    			$scope.dialogTiTle = "Cấp lại mật khẩu " + $scope.dataTitle;
+        		$scope.dialogButton = "Cấp lại mật khẩu";
+        		$scope.status = status;
+        		$scope.id_member = id;
+        		$("#message").html("Bạn có muốn cấp lại mật khẩu cho \"<b class='text-danger'>"+member.kh_hoTen+"</b>\" ?");
+        		$("#myModal2").modal("show");
 
 			break;
 
@@ -420,7 +427,54 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
                     $('#myModal2').modal('hide');
                     toastr.warning("Vui lòng chọn dữ liệu trước khi xóa!");
                 }
+            break;
 
+            case "resetPass" : //xóa
+
+            	$scope.LoadingFrm = true;
+
+                i = indexOfMember($scope.id_member);
+                if(i == -1){
+                	$('#myModal').modal('hide');
+                	toastr.warning("Mã khách hàng không tồn tại, vui lòng kiểm tra lại!");
+                }else{
+                	member = $scope.dsKhachhang[i];
+
+                	var requestURL = MainURL + "khachhang/updatePassword/" + $scope.id_member;
+                	var requestData = $.param({});
+
+                	$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
+                	.then(function(response){
+
+
+                		if(response.data.message.khachhang != null){
+                			data = response.data.message.khachhang;
+                			$scope.dsKhachhang[i] = data;
+
+                			$scope.newMember_Data = response.data.message.khachhang.kh_ma;
+                			setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+
+                			$('#myModal2').modal('hide');
+                			toastr.success("Cấp lại mật khẩu khách hàng thành công!");
+                			$scope.LoadingFrm = false;
+
+                		}else{
+                			$('#myModal2').modal('hide');
+                			toastr.error("Cấp lại mật khẩu khách hàng không thành công!, vui lòng kiểm tra lại");
+                			$scope.LoadingFrm = false;
+                		}
+
+
+                	}).catch(function(reason){
+                		if(reason.status == 500){
+                			$('#myModal2').modal('hide');
+                			toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
+                			$scope.LoadingFrm = false;
+                		}
+                	});
+                	
+
+                }
             break;
         } 
     });
