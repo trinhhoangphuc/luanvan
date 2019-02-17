@@ -124,6 +124,7 @@
           <ul class="treeview-menu">
             <li class="@yield('sanpham')"><a href="{{route('QLsanpham')}}"><i class="fa fa-circle-o"></i> Sản phẩm</a></li>
             <li class="@yield('loai')"><a href="{{route('QLloaisanpham')}}"><i class="fa fa-circle-o"></i> Loại sản phẩm</a></li>
+            <li class="@yield('hv')"><a href="{{route('QLhuongvi')}}"><i class="fa fa-circle-o"></i> Hương vị</a></li>
             <li class="@yield('nsx')"><a href="{{route('QLnhasanxuat')}}"><i class="fa fa-circle-o"></i> Nhà sản xuất</a></li>
             <li class="@yield('vc')"><a href="{{route('QLvanchuyen')}}"><i class="fa fa-circle-o"></i> Vận chuyển</a></li>
             <li class="@yield('tt')"><a href="{{route('QLthanhtoan')}}"><i class="fa fa-circle-o"></i> Thanh toán</a></li>

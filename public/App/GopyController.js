@@ -1,16 +1,16 @@
-app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
+app.controller('gopyController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
 	
-	$scope.dsDanhgia = [];
-	$scope.dataTitle = "đánh giá";
+	$scope.dsGopy = [];
+	$scope.dataTitle = "bình luận";
 	$scope.status = "edit";
 	$scope.frm_details_oldTr = null;
 	$scope.newMember_Data = null;
     $scope.isLoading = true;
 
-	$scope.refresh = function(){ // Lấy danh sách đánh giá
-		var requestURL = MainURL + "danhgia/danhsach";
+	$scope.refresh = function(){ // Lấy danh sách bình luận
+		var requestURL = MainURL + "gopy/danhsach";
 		$http.get(requestURL).then(function(response){
-			$scope.dsDanhgia = response.data.message.danhgia;
+			$scope.dsGopy = response.data.message.gopy;
             $scope.isLoading = false;
 		});
 	}
@@ -46,20 +46,20 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
 		'<table align="center" class="table table-bordered" style="margin:0px"><tbody>'+
 		'<tr>'+
-		'<td class="text-left bg-info" width="20%"><b>Mã đánh giá:</b></td>'+
-		'<td style="text-align: left !important;">'+member.dg_ma+'</td>'+
+		'<td class="text-left bg-info" width="20%"><b>Mã bình luận:</b></td>'+
+		'<td style="text-align: left !important;">'+member.gy_ma+'</td>'+
 		'</tr>'+
-        '<tr>'+
-        '<td class="text-left bg-info" width="20%"><b>Bình luận:</b></td>'+
-        '<td style="text-align: left !important;">'+member.dg_noiDung+'</td>'+
-        '</tr>'+
+			'<tr>'+
+		'<td class="text-left bg-info" width="20%"><b>Mã bình luận:</b></td>'+
+		'<td style="text-align: left !important;">'+member.gy_noiDung+'</td>'+
+		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày tạo:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dg_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.gy_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày cập nhật:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dg_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.gy_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>';
 
 
@@ -69,15 +69,15 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 	}
 
 	function indexOfMember(id){ // lấy vị trí theo id
-		for(i=0; i < $scope.dsDanhgia.length; i++){
-			if (id == $scope.dsDanhgia[i].dg_ma)
+		for(i=0; i < $scope.dsGopy.length; i++){
+			if (id == $scope.dsGopy[i].gy_ma)
 				return i;
 		}
 		return -1;
 	}
 
 
-	function isMemberDiff(db, frm){ return db.dg_ten != frm.ten || db.dg_trangThai != frm.trangThai; }
+	function isMemberDiff(db, frm){ return db.gy_ten != frm.ten || db.gy_trangThai != frm.trangThai; }
 
 
 	$scope.checkInput = function(){ // lấy tất cả dòng dữ liệu
@@ -96,7 +96,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		i = indexOfMember(id);
         		if(i != -1){
 
-        			item = $scope.dsDanhgia[i];
+        			item = $scope.dsGopy[i];
         			tr = $("#tr_"+id);
         			icon = $(tr).find(".btn-detail i"); 
 
@@ -133,7 +133,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		$scope.dialogTiTle = "Thêm " + $scope.dataTitle + " mới";
         		$scope.dialogButton = "Thêm";
         		$scope.status = status;
-        		$scope.danhgia = {ten: null, trangThai: 1};
+        		$scope.gopy = {ten: null, trangThai: 1};
         		
         		$("#myModal").modal("show");
 
@@ -141,16 +141,16 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
     		case "edit":
 
-    			member = $scope.dsDanhgia[indexOfMember(id)];
+    			member = $scope.dsGopy[indexOfMember(id)];
         		$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
         		$scope.dialogButton = "Sửa";
         		$scope.status = status;
-        		$scope.id_member = member.dg_ma;
-        		$scope.danhgia = {
-        			ten: member.dg_ten, 
-        			trangThai: member.dg_trangThai
+        		$scope.id_member = member.gy_ma;
+        		$scope.gopy = {
+        			ten: member.gy_ten, 
+        			trangThai: member.gy_trangThai
         		};
-        		$scope.frm_ten           = member.dg_ten;
+        		$scope.frm_ten           = member.gy_ten;
                 $scope.la_ten_moi        = true;
                 $scope.isNewMember       = true;
         		$("#myModal").modal("show");
@@ -159,12 +159,12 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
     		case "delete":
 
-    			member = $scope.dsDanhgia[indexOfMember(id)];
+    			member = $scope.dsGopy[indexOfMember(id)];
     			$scope.dialogTiTle = "Xóa " + $scope.dataTitle;
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.dg_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.gy_ten+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -201,34 +201,34 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                     i = indexOfMember($scope.id_member);
                     if(i == -1){
                         $('#myModal').modal('hide');
-                        toastr.warning("Mã đánh giá không chính xác!");
+                        toastr.warning("Mã bình luận không chính xác!");
                     }else{
-                        member = $scope.dsDanhgia[i];
-                        var diff = isMemberDiff(member, $scope.danhgia);
+                        member = $scope.dsGopy[i];
+                        var diff = isMemberDiff(member, $scope.gopy);
                         if(diff){
 
-                            var requestURL = MainURL + "danhgia/update/" + $scope.id_member;
-                            var requestData = $.param($scope.danhgia);
+                            var requestURL = MainURL + "gopy/update/" + $scope.id_member;
+                            var requestData = $.param($scope.gopy);
 
                             $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
                             .then(function(response){
                                 
-                                if(response.data.message.danhgia != null){
-                                    data = response.data.message.danhgia;
-                                    $scope.dsDanhgia[i] = data;
+                                if(response.data.message.gopy != null){
+                                    data = response.data.message.gopy;
+                                    $scope.dsGopy[i] = data;
 
-                                    $scope.newMember_Data = response.data.message.danhgia.dg_ma;
+                                    $scope.newMember_Data = response.data.message.gopy.gy_ma;
                                     setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
 
                                     $('#myModal').modal('hide');
-                                    toastr.success("Sửa đánh giá thành công!");
+                                    toastr.success("Sửa bình luận thành công!");
 
                                 }
 
                             }).catch(function(reason){
                                 if(reason.status == 500){
                                     $('#myModal').modal('hide');
-                                    toastr.error("Sửa đánh giá không thành công!");
+                                    toastr.error("Sửa bình luận không thành công!");
                                 }
                             });
                         }
@@ -248,27 +248,27 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                 i = indexOfMember($scope.id_member);
                 if(i == -1){
                     $('#myModal2').modal('hide');
-                    toastr.warning("Mã đánh giá không chính xác!");
+                    toastr.warning("Mã bình luận không chính xác!");
                 }else{
 
-                    var requestURL = MainURL + "danhgia/delete/" + $scope.id_member;
+                    var requestURL = MainURL + "gopy/delete/" + $scope.id_member;
 
                     $http.delete(requestURL)
                     .then(function(response){
 
                         if(response.data.message){
-                            $scope.dsDanhgia.splice(i, 1);
+                            $scope.dsGopy.splice(i, 1);
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa đánh giá thành công!");
+                            toastr.success("Xóa bình luận thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa đánh giá không thành công!");
+                            toastr.error("Xóa bình luận không thành công!");
                         }
 
                     }).catch(function(reason){
                         if(reason.status == 500){
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa đánh giá không thành công!");
+                            toastr.error("Xóa bình luận không thành công!");
                         }
                     });
 
@@ -278,14 +278,14 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
             case "deleteAll":
 
                 dsCheckbox = [];
-                for(i=1; i<= $scope.dsDanhgia.length; i++){
+                for(i=1; i<= $scope.dsGopy.length; i++){
                     if($('#chk'+i).prop("checked"))
                         dsCheckbox.push($('#chk'+i).val());
                 }
 
                 if(dsCheckbox.length > 0){
 
-                    var requestURL = MainURL + 'danhgia/deleteAll';
+                    var requestURL = MainURL + 'gopy/deleteAll';
                     var requestData = $.param({items: dsCheckbox});
 
                     $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
@@ -296,14 +296,14 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                                 memberKey = dsCheckbox[i];
                                 dbMember = indexOfMember(memberKey);
                                 if(dbMember != -1){
-                                    $scope.dsDanhgia.splice(dbMember, 1);
+                                    $scope.dsGopy.splice(dbMember, 1);
                                 } 
                             }
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa các đánh giá thành công!");
+                            toastr.success("Xóa các bình luận thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa các đánh giá không thành công!");
+                            toastr.error("Xóa các bình luận không thành công!");
                         }
 
                     }).catch(function(reason){

@@ -9,7 +9,7 @@ class Danhgia extends Model {
     const     UPDATED_AT    = 'dg_capNhat';
 
     protected $table        = 'danhgia';
-    protected $fillable     = ['dg_sao', 'sp_ma', 'kh_ma', 'dg_taoMoi', 'dg_capNhat', 'dg_trangThai'];
+    protected $fillable     = ['dg_sao', 'sp_ma', 'kh_ma', 'dg_taoMoi', 'dg_capNhat', 'dg_trangThai', 'dg_noiDung'];
     protected $guarded      = ['dg_ma'];
 
     protected $primaryKey   = 'dg_ma';

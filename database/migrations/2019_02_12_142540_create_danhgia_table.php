@@ -17,6 +17,7 @@ class CreateDanhgiaTable extends Migration
             $table->engine = 'InnoDB';
             $table->unsignedBigInteger('dg_ma')->autoIncrement()->comment('góp ý mã');
             $table->unsignedTinyInteger('dg_sao')->default('1')->comment('1 sao');
+            $table->text('dg_noiDung')->nullable()->default(null)->comment('nội dung góp ý');
             $table->unsignedBigInteger('kh_ma')->comment('kh góp ý khóa ngoại');
             $table->unsignedBigInteger('sp_ma')->comment('sản phẩm mã khóa mãi');
             $table->unsignedTinyInteger('dg_trangThai')->default('2')->comment('1 khóa, 2 khả dụng');

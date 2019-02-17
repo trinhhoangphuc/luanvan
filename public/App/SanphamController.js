@@ -4,7 +4,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	$scope.dsLoai			 = [];
 	$scope.dsHang			 = [];
 	$scope.dsHinh			 = [];
-	$scope.dsHuong 			 = [];
+	$scope.dsChitiethuong 			 = [];
 	$scope.isLoading		 = true;
 
 	$scope.dataTitle         = "sản phẩm";
@@ -46,6 +46,11 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 		var requestURL_3 = MainURL + "hang/danhsach";
 		$http.get(requestURL_3).then(function(response){
 			$scope.dsHang = response.data.message.hang;
+		});
+
+		var requestURL_4 = MainURL + "huongvi/danhsach";
+		$http.get(requestURL_4).then(function(response){
+			$scope.dsHuongvi = response.data.message.huongvi;
 		});
 
 		var requestURL_2 = MainURL + "sanpham/danhsach";
@@ -207,15 +212,30 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
 			break;
 
-			case "colorOrstate":
-				$scope.id_member = id;
-				 $http.get(MainURL + "huongvi/danhsach/" + id).then(function (response) {
-					$scope.dsHuong = response.data.message.huong;
-					$scope.dialogTiTle = "Thêm các lựa chọn";
-					$("#myModal4").modal("show");
-				});
-				
+			case "uploadIMG":
+				sp_idx = indexOfMember(id);
+			    if (sp_idx != -1) {
+			    	$scope.id_member = id;
 
+			        $http.get(MainURL + 'hinhanh/images/'+id).then(function (response) {
+			          $scope.dsHinh = response.data.message.hinhanh;
+			          sp = $scope.dsSanpham[sp_idx];
+			          $scope.formData.upload_sp_ma  = sp.sp_ma;
+			          $scope.formData.upload_l_ma   = sp.l_ma;
+			          $scope.formData.upload_sp_ten = sp.sp_ten;
+			        }); // Lấy hình ảnh theo id
+
+			        
+					$http.get(MainURL + "chitiethuongvi/danhsach/" + id).then(function (response) {
+						$scope.dsChitiethuong = response.data.message.chitiethuong;
+						$scope.huongvi = {
+							maHuong : $scope.dsHuongvi[0].hv_ma
+						};
+					}); // Lấy danh sách hương vị theo id
+
+					$scope.dialogTiTle = "Các tùy chọn sản phẩm";	
+					$("#myModal4").modal("show");
+			    }
 			break;
 
 			case "delete":
@@ -231,6 +251,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     		break;
 		}
 	}
+
 
 	$("#frmCreatEdit").validate({ // thêm sửa bằng jquery validate
     	rules: {
@@ -362,15 +383,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
 	$("#createHuongVi").validate({ // thêm sửa bằng jquery validate
     	rules: {
-    		hv_ten: {   
-    			required: true,
-    		}
     	}, 
     	messages: {
-    		hv_ten: {
-    			required: "Xin vui lòng nhập màu sắc hoặc hương vị!",
-    		}
-    		
     	},
     	submitHandler: function(form) {
     		i = indexOfMember($scope.id_member);
@@ -379,19 +393,17 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     			toastr.warning("Mã sản phẩm không tồn tại, vui lòng kiểm tra lại!");
     		}else{
 
-    			var requestURL = MainURL + "huongvi/store/" + $scope.id_member;
+    			var requestURL = MainURL + "chitiethuongvi/store/" + $scope.id_member;
     			var requestData = $.param($scope.huongvi);
 
     			$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
     			.then(function(response){
 
     					if(response.data.message == false)
-    						$('#dlgExistNameHV').removeClass("d-none").text(response.data.message.ten[0]);
-
+    						$('#dlgExistNameHV').text("Sản phẩm đã có hương vị mà bạn đã chọn!!!").show().fadeOut( 4000 );
     					else{
-    						$scope.huongvi.hv_ten = "";
-    						$scope.dsHuong = response.data.message.huong;
-    						$('#dlgExistNameHV').addClass('d-none');
+    						$scope.huongvi.maHang = $scope.dsHuongvi[0].hv_ma;
+    						$scope.dsChitiethuong = response.data.message.chitiethuong;
     					}
 
     			}).catch(function(reason){
@@ -487,9 +499,9 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     	} 
     });
 
-    $scope.dsHuong_Delete = function(hv_ma){
-    	for (i = 0; i < $scope.dsHuong.length ; i++) {
-    		if(hv_ma == $scope.dsHuong[i].hv_ma){
+    $scope.dsChitiethuong_Delete = function(hv_ma){
+    	for (i = 0; i < $scope.dsChitiethuong.length ; i++) {
+    		if(hv_ma == $scope.dsChitiethuong[i].hv_ma){
     			vitri = i;
     			break;
     		}
@@ -497,7 +509,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 		var required = MainURL + "huongvi/delete/" + hv_ma;
 		$http.delete(required).then(function(response){
 			if(response.data.message){
-				$scope.dsHuong.splice(vitri, 1);
+				$scope.dsChitiethuong.splice(vitri, 1);
 			}
 		});
 	}
@@ -511,19 +523,9 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	}
 
 	//Hình ảnh
-    $scope.frmUpload_Show = function(sp_ma) {
-      sp_idx = indexOfMember(sp_ma);
-      if (sp_idx != -1) {
-        $http.get(MainURL + 'hinhanh/images/'+sp_ma).then(function (response) {
-          $scope.dsHinh = response.data.message.hinhanh;
-          sp = $scope.dsSanpham[sp_idx];
-          $scope.formData.upload_sp_ma  = sp.sp_ma;
-          $scope.formData.upload_l_ma   = sp.l_ma;
-          $scope.formData.upload_sp_ten = sp.sp_ten;
-          $("#frmUpload").modal("show");
-        });
-      }
-    }
+    // $scope.frmUpload_Show = function(sp_ma) {
+      
+    // }
 
     $scope.frmUpload_setMainImage = function(sp_ma, ha_ma){
         var requestURL = MainURL + 'hinhanh/updateImages';
@@ -535,7 +537,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
             $scope.dsSanpham[i].sp_hinh = img;
         });
 
-        $("#frmUpload").modal("hide");
+        $("#myModal4").modal("hide");
 
         toastr.success("Cập nhật ảnh đại diện sản phẩm thành công!");
     }

@@ -155,19 +155,41 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// Kết thúc
 
-	// Quản lý hình ảnh
+	// Quản lý hương vị
+	Route::get('huongvi', function () {
+		return view('admin.huongvi');
+	})->name("QLhuongvi");
+
 	Route::group(["prefix" =>"huongvi"], function(){
 
-		Route::get('danhsach/{id}',  'HuongController@index'); // load dánh sách
+		Route::get('danhsach',  'HuongviController@index'); // load dánh sách
 
-		Route::post('store/{id}',  'HuongController@store')->name("check");
+		Route::get('checkExistName/{name}', 'HuongviController@checkExistName'); //kiểm tra trùng tên
 
-		// Route::post('updateImages',  'HinhanhController@setMainImg');
+		Route::post('store', "HuongviController@store");
 
-		Route::delete('delete/{id}',  'HuongController@delete');
+		Route::post('update/{id}', "HuongviController@update"); 
 
+		Route::delete('delete/{id}', "HuongviController@destroy");
+
+		Route::post('deleteAll', "HuongviController@destroyAll");
 	});
-	// Kết thúc
+	// kết thúc
+
+	// Quản lý hương vị
+	Route::group(["prefix" =>"chitiethuongvi"], function(){
+
+		Route::get('danhsach/{id}',  'ChitiethuongviController@index'); // load dánh sách
+
+		Route::post('store/{id}', "ChitiethuongviController@store");
+
+		Route::post('update/{id}', "ChitiethuongviController@update"); 
+
+		Route::delete('delete/{id}', "ChitiethuongviController@destroy");
+
+		Route::post('deleteAll', "ChitiethuongviController@destroyAll");
+	});
+	// kết thúc
 
 	// Quản lý chức vụ
 	Route::get('chucvu', function () {
@@ -282,7 +304,7 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
-	// Quản lý nhà khách hàng
+	// Quản lý  đánh giá
 	Route::get('danhgia', function () {
 		return view('admin.danhgia');
 	})->name("QLdanhgia");
@@ -300,7 +322,6 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::post('deleteAll', "DanhgiaController@destroyAll");
 	});
 	// kết thúc
-
 
 });
 // kết thúc quản trị

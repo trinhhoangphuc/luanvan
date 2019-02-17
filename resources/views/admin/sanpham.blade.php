@@ -136,8 +136,7 @@
                                             <td class="text-center">
                                                 <p><button class="btn  btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.sp_ma)"><i class="fa fa-eye-slash"></i></button></p>
                                                 <p><button class="btn  btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.sp_ma)"><i class="fa fa-pencil"></i></button></p>
-                                                <p><button  class="btn  btn-sm btn-flat bg-teal btn-img" ng-click="frmUpload_Show(item.sp_ma)"><i class="fa fa-file-image-o"></i></button></p>
-                                                <p><button  class="btn  btn-sm btn-flat bg-purple" ng-click="CreateEdit_show('colorOrstate', item.sp_ma)"><i class="fa fa-sliders"></i></button></p>
+                                                <p><button  class="btn  btn-sm btn-flat bg-purple" ng-click="CreateEdit_show('uploadIMG', item.sp_ma)"><i class="fa fa-sliders"></i></button></p>
                                                 <p><button  class="btn  btn-sm btn-flat bg-maroon  btn-delete" ng-click="CreateEdit_show('delete', item.sp_ma)"><i class="fa fa-trash" ></i></button></p>
                                             </td>
                                         </tr>
@@ -198,9 +197,9 @@
                             <div class="form-group">
                                 <label for="type" class=""><b>Loại sản phẩm:</b></label>
                                 <select name="maLoai" id="type" class="form-control" ng-model="sanpham.maLoai" ng-required="true">
-                                 <option ng-show="dsLoai.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
-                                 <option ng-repeat="l in dsLoai" value="@{{ l.l_ma }}" ng-value="l.l_ma">@{{ l.l_ten }}</option>
-                             </select>
+                                     <option ng-show="dsLoai.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
+                                     <option ng-repeat="l in dsLoai" value="@{{ l.l_ma }}" ng-value="l.l_ma">@{{ l.l_ten }}</option>
+                                </select>
                          </div>
                          <div class="form-group">
                             <label for="brand" class=""><b>Nhà sản xuất:</b></label>
@@ -266,7 +265,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="frmUpload">
+        <div class="modal fade" id="myModal4">
             <div class="modal-dialog modal-lg">
 
                 <div class="modal-content">
@@ -274,105 +273,177 @@
                         <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
                             <div class="logo-login-register">
-                               <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">Cập nhật hình ảnh</span></h3>
+                               <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">
+                                   @{{dialogTiTle}}
+                               </span></h3>
                            </div>
                        </div>
                    </div>
                    <div class="modal-body">
-                        
-                        <div class="ListOfFiles border-img-upload" >
-                            <div class="row" ng-if="dsHinh.length > 0" >
-                                <div class="" ng-repeat="hinh in dsHinh" style=" width: 20%; display:inline-table; margin: auto !important;">
-                                    <div class="box-img" style="margin-top: 5px;">
-                                        <img src="{{asset('public/images/products')}}/@{{hinh.ha_ten}}" width="100%" class="img-responsive" />
-                                        <button class="btn btn-sm btn-flat bg-maroon btn-uload-img left" ng-click="frmUpload_Delete(hinh.sp_ma, hinh.ha_ma)">
-                                            <span class="fa fa-trash"></span>
-                                        </button>
-                                        <button class="btn btn-sm btn-flat btn-success btn-uload-img" ng-click="frmUpload_setMainImage(hinh.sp_ma, hinh.ha_ma)">
-                                            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" ng-if="dsHinh.length == 0" >
-                                <div class="col-sm-12 text-center">
-                                    Sản phẩm <b>"@{{formData.upload_sp_ten}}"</b> chưa có hình
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ImageManagement">
-                            <div class="row" style="margin-top: 20px;">
-                            <div class="col-sm-7">
-                                <input type="file" nv-file-select="" uploader="uploader" multiple="" accept=".png, .jpg, .jpeg" multiple="" />
-                            </div>
-                            <div class="col-sm-5 text-right">
-                                    <p>Số lượng: @{{ uploader.queue.length }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th width="50%">Tập tin</th>
-                                                <th ng-show="uploader.isHTML5">Kích thước</th>
-                                                <th ng-show="uploader.isHTML5"><i class="fa fa-tasks" aria-hidden="true"></i></th>
-                                                <th><i class="fa fa-check"></i></th>
-                                                <th>Quản lý</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in uploader.queue" class="text-center">
-                                                <td><strong>@{{ item.file.name }}</strong></td>
-                                                <td ng-show="uploader.isHTML5" nowrap>@{{ item.file.size/1024/1024|number:2 }} MB</td>
-                                                <td ng-show="uploader.isHTML5" style="vertical-align: middle;">
-                                                    <div class="progress" style="margin-bottom: 0;">
-                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                              <li class="active"><a href="#IMAGES" data-toggle="tab"><span class="glyphicon glyphicon-picture"></span> Hình ảnh</a></li>
+                              <li><a href="#TASTE" data-toggle="tab"><span class="glyphicon glyphicon-apple"></span> Hương vị</a></li>
+                               <li><a href="#QUNTITY" data-toggle="tab"><span class="glyphicon glyphicon-tag"></span> Số lượng</a></li>
+                          </ul>
+                          <div class="tab-content">
+                              
+                              <div class="tab-pane active" id="IMAGES">
+                                    <div id="frmUpload">
+                                        <div class="ListOfFiles border-img-upload" >
+                                            <div class="row" ng-if="dsHinh.length > 0" >
+                                                <div class="" ng-repeat="hinh in dsHinh" style=" width: 20%; display:inline-table; margin: auto !important;">
+                                                    <div class="box-img" style="margin-top: 5px;">
+                                                        <img src="{{asset('public/images/products')}}/@{{hinh.ha_ten}}" width="100%" class="img-responsive" />
+                                                        <button class="btn btn-sm btn-flat bg-maroon btn-uload-img left" ng-click="frmUpload_Delete(hinh.sp_ma, hinh.ha_ma)">
+                                                            <span class="fa fa-trash"></span>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-flat btn-success btn-uload-img" ng-click="frmUpload_setMainImage(hinh.sp_ma, hinh.ha_ma)">
+                                                            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                                                        </button>
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
-                                                    <span ng-show="item.isCancel"><i class="fa fa-ban" aria-hidden="true"></i></span>
-                                                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
-                                                </td>
-                                                <td nowrap>
-                                                    <button type="button" class="btn btn-success btn-sm btn-flat" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                        <i class="fa fa-upload" aria-hidden="true"></i>
-                                                    </button>
-                                                   <!--  <button type="button" class="btn bg-orange btn-sm btn-flat" ng-click="item.cancel()" ng-disabled="!item.isUploading">
-                                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                                    </button> -->
-                                                    <button type="button" class="btn bg-maroon btn-sm btn-flat" ng-click="item.remove()">
-                                                        <i class="fa fa-remove"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div>
-                                        <div style="margin: 10px">
-                                            Tiến trình upload:
-                                            <div class="progress" style="margin-top: 10px; margin-bottom: 10px;">
-                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-if="dsHinh.length == 0" >
+                                                <div class="col-sm-12 text-center">
+                                                    Sản phẩm <b>"@{{formData.upload_sp_ten}}"</b> chưa có hình
+                                                </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-                                            <span class="glyphicon glyphicon-upload"></span> Lưu ảnh
-                                        </button>
-                                       <!--  <button type="button" class="btn bg-orange btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-                                            <span class="glyphicon glyphicon-ban-circle"></span> Hủy bỏ
-                                        </button> -->
-                                        <button type="button" class="btn bg-maroon btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                                            <span class="glyphicon glyphicon-trash"></span> Xóa 
-                                        </button>
+                                        <div class="ImageManagement">
+                                            <div class="row" style="margin-top: 20px;">
+                                                <div class="col-sm-7">
+                                                    <input type="file" nv-file-select="" uploader="uploader" multiple="" accept=".png, .jpg, .jpeg" multiple="" />
+                                                </div>
+                                                <div class="col-sm-5 text-right">
+                                                    <p>Số lượng: @{{ uploader.queue.length }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="50%">Tập tin</th>
+                                                                <th ng-show="uploader.isHTML5">Kích thước</th>
+                                                                <th ng-show="uploader.isHTML5"><i class="fa fa-tasks" aria-hidden="true"></i></th>
+                                                                <th><i class="fa fa-check"></i></th>
+                                                                <th>Quản lý</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in uploader.queue" class="text-center">
+                                                                <td><strong>@{{ item.file.name }}</strong></td>
+                                                                <td ng-show="uploader.isHTML5" nowrap>@{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                                <td ng-show="uploader.isHTML5" style="vertical-align: middle;">
+                                                                    <div class="progress" style="margin-bottom: 0;">
+                                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                                                    <span ng-show="item.isCancel"><i class="fa fa-ban" aria-hidden="true"></i></span>
+                                                                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                                                                </td>
+                                                                <td nowrap>
+                                                                    <button type="button" class="btn btn-success btn-sm btn-flat" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <!-- <button type="button" class="btn bg-orange btn-sm btn-flat" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                                                    </button> -->
+                                                                    <button type="button" class="btn bg-maroon btn-sm btn-flat" ng-click="item.remove()">
+                                                                        <i class="fa fa-remove"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div>
+                                                        <div style="margin: 10px">
+                                                            Tiến trình upload:
+                                                            <div class="progress" style="margin-top: 10px; margin-bottom: 10px;">
+                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                            <span class="glyphicon glyphicon-upload"></span> Lưu ảnh
+                                                        </button>
+                                                       <!--  <button type="button" class="btn bg-orange btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                                            <span class="glyphicon glyphicon-ban-circle"></span> Hủy bỏ
+                                                        </button> -->
+                                                        <button type="button" class="btn bg-maroon btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                                            <span class="glyphicon glyphicon-trash"></span> Xóa 
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                              </div>
+
+                              <div class="tab-pane" id="TASTE">
+                                <div id="frmTaste">
+                                    <form name="createHuongVi" id="createHuongVi" >
+                                        <div class="row">
+                                            {{csrf_field()}}
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-8">
+                                                <div class="form-group">
+                                                    
+                                                    <select name="maHuong" id="type" class="form-control" ng-model="huongvi.maHuong" ng-required="true">
+                                                       <option ng-show="dsHuongvi.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
+                                                       <option ng-repeat="hv in dsHuongvi" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
+                                                   </select>
+                                                    <span class="text-danger" id="dlgExistNameHV"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="submit" class="btn btn-flat btn-success">Thêm</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-sm-12 table-responsive border border-danger border-img-upload">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th>STT</th>
+                                                        <th>Hương vị</th>
+                                                        <th>Xóa</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="hv in dsChitiethuong">
+                                                        <td>@{{ $index+1 }}</td>
+                                                        <td>@{{ hv.hv_ten }}</td>
+                                                        <td>
+                                                            <button class="btn bg-maroon btn-sm btn-flat" ng-click="dsChitiethuong_Delete(hv.hv_ma)"><i class="fa fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> 
+                              </div>
+ 
+
+                              <div class="tab-pane" id="QUNTITY">
+                                    G4
+                              </div>
+
+                          </div>
+                        
+                      </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -425,7 +496,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="myModal4">
+   <!--      <div class="modal fade" id="myModal4">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -464,11 +535,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="hv in dsHuong">
+                                    <tr ng-repeat="hv in dsChitiethuong">
                                         <td>@{{ $index+1 }}</td>
                                         <td>@{{ hv.hv_ten }}</td>
                                         <td>
-                                            <button class="btn bg-maroon btn-sm btn-flat" ng-click="dsHuong_Delete(hv.hv_ma)"><i class="fa fa-trash"></i></button>
+                                            <button class="btn bg-maroon btn-sm btn-flat" ng-click="dsChitiethuong_Delete(hv.hv_ma)"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -477,7 +548,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     </section>

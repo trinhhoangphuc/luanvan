@@ -312,3 +312,7 @@ h3.title-comm:before {
 .text-success{
   color: #00B966 !important;
 }
+
+.nav-tabs-custom>.nav-tabs>li.active {
+    border-top-color: #EF5350;
+}

@@ -2,24 +2,24 @@
 @extends('layouts.admin.master')
 
 @section('title')
-    Redshop - Quản lý đánh giá
+    Redshop - Quản lý hương vị
 @endsection
 
-@section("khachhang")
+@section("hanghoa")
     active
 @endsection
 
-@section("dg")
+@section("hv")
     active
 @endsection
 
 @section('noidung')
-<script src="{{asset('public/App/DanhgiaController.js')}}"></script>
-<div class="content-wrapper" ng-controller="danhgiaController">
+<script src="{{asset('public/App/HuongviController.js')}}"></script>
+<div class="content-wrapper" ng-controller="huongviController">
 
     <section class="content-header">
         <h1>
-            Khách hàng - đánh giá
+            Hàng hóa
             <small>@{{dataTitle}}</small>
         </h1>
         <ol class="breadcrumb">
@@ -45,7 +45,7 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsDanhgia.length != 0">
+                        <div class="" ng-show="!isLoading && dsHuongvi.length != 0">
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
@@ -53,43 +53,35 @@
                                             <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
                                             <button id="btn-deleteall" class="btn btn-default btn-sm" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                         </th>
-                                        <th>Sản phẩm</th>
-                                        <th>Khách hàng</th>
-                                        <th>Đánh giá</th>
+
+                                        <th>Hương vị</th>
                                         <th>Trạng Thái</th>
                                         <th>
                                             <button class="btn   btn-sm btn-flat btn-primary btn-refresh" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
-                                         <!--    <button class="btn   btn-sm btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button> -->
+                                            <button class="btn   btn-sm btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody ng-if="dsDanhgia.length > 0">
-                                    <tr  ng-repeat="item in dsDanhgia" id="tr_@{{item.dg_ma}}" ng-class="item.dg_ma == newMember_Data? 'bg-default':''">
-                                        <td><input type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.dg_ma }}" /></td>
-                                        <td class="text-dark">@{{item.sp_ten}}</td>
-                                        <td class="text-dark">@{{item.kh_hoTen}}</td>
-                                        <td class="text-dark">
-                                            <i class="fa chech-star" ng-class="item.dg_sao >= 1 ? 'fa-star':'fa-star-o'"></i>
-                                            <i class="fa chech-star" ng-class="item.dg_sao >= 2 ? 'fa-star':'fa-star-o'"></i>
-                                            <i class="fa chech-star" ng-class="item.dg_sao >= 3 ? 'fa-star':'fa-star-o'"></i>
-                                            <i class="fa chech-star" ng-class="item.dg_sao >= 4 ? 'fa-star':'fa-star-o'"></i>
-                                            <i class="fa chech-star" ng-class="item.dg_sao == 5 ? 'fa-star':'fa-star-o'"></i>
-                                        </td>
+                                <tbody ng-if="dsHuongvi.length > 0">
+                                    <tr  ng-repeat="item in dsHuongvi" id="tr_@{{item.hv_ma}}" ng-class="item.hv_ma == newMember_Data? 'bg-default':''">
+                                        <td><input type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.hv_ma }}" /></td>
+
+                                        <td class="text-dark"><b>@{{item.hv_ten}}</b></td>
                                         <td>
-                                            <span ng-if="item.dg_trangThai == 1" class="label bg-green">Hiển thị</span>
-                                            <span ng-if="item.dg_trangThai == 0" class="label bg-red">Khóa</span>
+                                            <span ng-if="item.hv_trangThai == 1" class="label bg-green">Hiển thị</span>
+                                            <span ng-if="item.hv_trangThai == 0" class="label bg-red">Khóa</span>
                                         </td>
                                         <td >
-                                            <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.dg_ma)">
+                                            <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.hv_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
-                                            <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.dg_ma)"><i class="fa fa-pencil"></i></button>
-                                            <button class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.dg_ma)"><i class="fa fa-trash" ></i></button>
+                                            <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.hv_ma)"><i class="fa fa-pencil"></i></button>
+                                            <button class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.hv_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="" ng-show="!isLoading && dsDanhgia.length == 0 ">
+                        <div class="" ng-show="!isLoading && dsHuongvi.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
                                     <tr >
@@ -97,19 +89,18 @@
                                             <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
                                             <button id="btn-deleteall" class="btn btn-default btn-sm" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                         </th>
-                                        <th>Sản phẩm</th>
-                                        <th>Khách hàng</th>
-                                        <th>Đánh giá</th>
+
+                                        <th>Hương vị</th>
                                         <th>Trạng Thái</th>
                                         <th>
                                             <button class="btn btn-sm btn-flat btn-primary btn-refresh" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
-                                            <!-- <button class="btn btn-sm btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button> -->
+                                            <button class="btn btn-sm btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="6" style="width: 10% !important; text-align: center;">
+                                        <td colspan="4" style="width: 10% !important; text-align: center;">
                                             Chưa có dữ liệu
                                         </td>
                                     </tr>
@@ -137,18 +128,24 @@
                         <div class="modal-body">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
+                                <label for="name" class=""><b>Tên hương vị:</b></label>
+                                <input type="text" id="name" name="ten" ng-model="huongvi.ten" class="form-control " placeholder="Nhập tên hương vị" ng-required="true"autocomplete="off">
+                                <span class="error" id="dlgExistName"></span>
+                            </div>
+                            <div class="form-group">
                                 <label for="trangthaiKhoa" class="control-label"><b>Trạng Thái:</b></label>
-
+                                <div>
                                     &nbsp;
                                     <label class="radio-content">
-                                        <input type="radio" name="trangThai" id="trangthaiKhaDung" ng-model="danhgia.trangThai" ng-value="1" value="1">
+                                        <input type="radio" name="trangThai" id="trangthaiKhaDung" ng-model="huongvi.trangThai" ng-value="1" value="1">
                                         <i class="fa fa-heart text-danger"></i> Hiển thị
                                     </label>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <label class="radio-content">
-                                        <input type="radio" name="trangThai" id="trangthaiKhoa" ng-model="danhgia.trangThai" ng-value="0" value="0">
+                                        <input type="radio" name="trangThai" id="trangthaiKhoa" ng-model="huongvi.trangThai" ng-value="0" value="0">
                                         <i class="fa fa-lock text-blue"></i> Tạm khóa
                                     </label>
-               
+                                    
+                                </div>
                             </div>
                             <div class="form-group"> 
                                 <button type="submit" class="btn bg-maroon btn-block" >@{{dialogButton}}</button>

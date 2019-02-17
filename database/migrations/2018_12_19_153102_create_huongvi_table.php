@@ -16,10 +16,10 @@ class CreateHuongviTable extends Migration
         Schema::create('huongvi', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->unsignedSmallInteger('hv_ma')->autoIncrement()->comment('mã hinh sản phẩm');
-            $table->unsignedBigInteger('sp_ma')->comment('sản phẩm mã khóa ngoại');
-            $table->string('hv_ten',150)->comment('hương vị tên');
-
-            $table->foreign('sp_ma')->references('sp_ma')->on('sanpham')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('hv_ten', 100)->unique()->comment('loại tên');
+            $table->timestamp('hv_taoMoi')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('tạo mới');
+            $table->timestamp('hv_capNhat')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('cập nhật');
+            $table->unsignedTinyInteger('hv_trangThai')->default('1')->comment('1 là khóa, 2 là khả dụng');
         });
     }
 
