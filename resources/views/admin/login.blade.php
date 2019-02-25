@@ -13,19 +13,20 @@
 	<title>Đăng nhập - Quản trị Redshop.vn</title>
 
 	<!--bootstrap-->
-	<link href="{{asset('public/css/lib/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
+	<link rel="stylesheet" href="{{asset('public/libs2/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="{{asset('public/libs2/bower_components/font-awesome/css/font-awesome.min.css')}}">
 
-	<!--jquery-->
-	<script src="{{asset('public/js/lib/jquery/jquery.min.js')}}"></script>
+	<!-- jQuery 3 -->
+	<script src="{{asset('public/libs2/bower_components/jquery/dist/jquery.min.js')}}"></script>
 
-	<!-- Bootstrap tether Core JavaScript -->
-	<script src="{{asset('public/js/lib/bootstrap/js/popper.min.js')}}"></script>
-	<script src="{{asset('public/js/lib/bootstrap/js/bootstrap.min.js')}}"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="{{asset('public/libs2/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 
 	<!--jquery validate-->
 	<script src="{{asset('public/libs/jquery-validate/jquery.validate.min.js')}}"></script>
 
-	<link href="{{asset('public/css/login_admin.css')}}" rel="stylesheet">
+	<link href="{{asset('public/css/login-admin-2.css')}}" rel="stylesheet">
 	<style type="text/css" media="screen">
 		html, body{
 			width: 100%;
@@ -37,36 +38,37 @@
 	</style>
 </head>
 <body>
-
-	<div class="container h-100">
-		<div class="d-flex justify-content-center h-100">
-			<div class="user_card">
-				<div class="d-flex justify-content-center">
-					<div class="brand_logo_container">
-						<img src="{{asset('public/images/layouts/logo.jpg')}}" class="brand_logo" alt="Logo">
-					</div>
-				</div>
-				<br/><br/>
-				<div class="login-content">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-6">
+				<div class="login-form">
+					<div class="title">Đăng nhập</div>
+					<p class="title-2">
+						Vui lòng sử dụng tài khoản, mật khẩu mà chúng tôi đã cung cấp cho bạn để đăng nhập vào hệ thống.
+					</p>
+					<hr class="custom-hr" />
 					<form name="login-admin" id="login-admin" method="POST">
-							<input type="hidden" name="_token" value="{{ csrf_token() }}">
-							<div class="form-group">
-								<label for="email"><b>Email:</b></label>
-								<input type="email" class="form-control" id="email" name="email" placeholder="Nhập địa chỉ email">
-							</div>
-							<div class="form-group">
-								<label for="pwd"><b>Mật khẩu:</b></label>
-								<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Nhập mật khẩu">
-							</div>
-							<div class="form-group">
-								<span id="errorLogin" class="error"></span>
-							</div>
-							<button type="submit" class="btn login_btn border-radis-none btn-block">Đăng nhập</button>
-						</form>
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<div class="form-group">
+							<label for="email"><b>Email:</b></label>
+							<input type="email" class="form-control none-border-radius" id="email" name="email" placeholder="Nhập địa chỉ email">
+						</div>
+						<div class="form-group">
+							<label for="pwd"><b>Mật khẩu:</b></label>
+							<input type="password" class="form-control none-border-radius" id="pwd" name="pwd" placeholder="Nhập mật khẩu">
+						</div>
+						<div class="form-group">
+							<span id="errorLogin" class="error"></span>
+						</div>
+						<hr class="custom-hr" />
+						<button type="submit" class="btn none-border-radius btn-block btn-login">Đăng nhập</button>
+					</form>
 				</div>
 			</div>
+			<div class="col-sm-3"></div>
 		</div>
-	</div>
+	</div> 
 </body>
 </html>
 <script type="text/javascript">

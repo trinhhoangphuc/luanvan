@@ -4,7 +4,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	$scope.dsLoai			 = [];
 	$scope.dsHang			 = [];
 	$scope.dsHinh			 = [];
-	$scope.dsChitiethuong 			 = [];
+	$scope.dsChitiethuong 	 = [];
+	$scope.checkHuong 		 = [];
 	$scope.isLoading		 = true;
 
 	$scope.dataTitle         = "sản phẩm";
@@ -58,6 +59,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 			$scope.dsSanpham = response.data.message.sanpham;
             $scope.isLoading = false;
 		});
+
+		
 	}
 
 	$scope.refresh();
@@ -121,6 +124,26 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
 
 	function isMemberDiff(db, frm){
+
+		var test = 0;
+
+		for (var i = 0; i< $scope.sanpham.maHuong.length; i++) {
+			for (var y = 0; y< $scope.dsChitiethuong.length; y++) {
+				if ($scope.sanpham.maHuong[i] == $scope.dsChitiethuong[y].hv_ma) {
+					test++;
+				}
+			}	
+		}
+
+		if(test == $scope.sanpham.maHuong.length)
+			check = true;
+		else check = false;
+
+		console.log("checkHuong: " + $scope.checkHuong.length);
+		console.log("test " + test);
+		console.log("mang " + $scope.checkHuong.length);
+		console.log("check " + check);
+
     	return db.sp_ten != frm.ten 
     	|| db.h_ma != frm.maHang 
     	|| db.l_ma != frm.maLoai
@@ -128,7 +151,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     	|| db.sp_soLuong != frm.soluong
     	|| db.sp_thongTin != frm.thongTin
     	|| db.sp_tinhTrang != frm.tinhTrang
-    	|| db.sp_trangThai != frm.trangThai;
+    	|| db.sp_trangThai != frm.trangThai
+    	|| !check;
     }
 
 	$scope.CreateEdit_show = function (status, id) {
@@ -187,28 +211,45 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 					maHang: ma_hang,
 					thongTin: "",
 				};
+
 				$("#myModal").modal("show");
 
 			break;
 
 			case "edit":
 
-				$scope.dialogButton = "Sửa";
-				$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
-				$scope.status = status;
-				$scope.id_member = id;
-				member = $scope.dsSanpham[indexOfMember(id)];
-				$scope.sanpham = {
-					ten: member.sp_ten, 
-					trangThai: member.sp_trangThai, 
-					tinhTrang: member.sp_tinhTrang,
-					gia: member.sp_giaBan,
-					soluong: member.sp_soLuong,
-					maLoai: member.l_ma,
-					maHang: member.h_ma,
-					thongTin: member.sp_thongTin,
-				};
-				$("#myModal").modal("show");
+
+				var requestURL5 = MainURL + "chitiethuongvi/danhsach/" + id;
+				$http.get(requestURL5).then(function(response){
+					$scope.dsChitiethuong = response.data.message.chitiethuong;
+
+					$scope.dialogButton = "Sửa";
+					$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
+					$scope.status = status;
+					$scope.id_member = id;
+					member = $scope.dsSanpham[indexOfMember(id)];
+					//lấy hương vị sản phâme
+					
+
+					$scope.sanpham = {
+						ten: member.sp_ten, 
+						trangThai: member.sp_trangThai, 
+						tinhTrang: member.sp_tinhTrang,
+						gia: member.sp_giaBan,
+						soluong: member.sp_soLuong,
+						maLoai: member.l_ma,
+						maHang: member.h_ma,
+						thongTin: member.sp_thongTin,
+
+					};
+					$scope.sanpham.maHuong = [];
+					for(i=0; i< $scope.dsChitiethuong.length; i++)
+					{
+						$scope.sanpham.maHuong.push($scope.dsChitiethuong[i].hv_ma);
+					}
+
+					$("#myModal").modal("show");
+				});
 
 			break;
 
@@ -223,6 +264,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 			          $scope.formData.upload_sp_ma  = sp.sp_ma;
 			          $scope.formData.upload_l_ma   = sp.l_ma;
 			          $scope.formData.upload_sp_ten = sp.sp_ten;
+			          
+			          $scope.dialogTiTle = sp.sp_ma +" - "+ sp.sp_ten;
 			        }); // Lấy hình ảnh theo id
 
 			        
@@ -233,7 +276,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 						};
 					}); // Lấy danh sách hương vị theo id
 
-					$scope.dialogTiTle = "Các tùy chọn sản phẩm";	
+						
 					$("#myModal4").modal("show");
 			    }
 			break;
@@ -267,6 +310,9 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     			required: true,
     			number: true,
     			digits: true,
+    		},
+    		maHuong:{
+    			required: true,
     		}
     	}, 
     	messages: {
@@ -282,7 +328,10 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     			required: "Xin vui lòng nhập chi phí!",
     			number: "Chi phí tiền bắt buộc là số!",
     			digits : "Không được nhập số âm!",
-    		}
+    		},
+    		maHuong: {
+    			required: "Xin vui chọn các tùy chọn!",
+    		},
     	},
     	submitHandler: function(form) {
     		switch($scope.status){
@@ -291,6 +340,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
 		    		var requestURL = MainURL + "sanpham/store";
 		    		var requestData = $.param($scope.sanpham);
+		    		console.log($scope.sanpham.maHuong);
+		    					
 
 		    		$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
 		    		.then(function(response){
@@ -315,6 +366,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
 		    					$('#myModal').modal('hide');
 		    					toastr.success("Thêm sản phẩm thành công!");
+
+		    					console.log($scope.sanpham.maHuong);
 		    					
 		    				}else{
 		    					$('#myModal').modal('hide');
@@ -325,6 +378,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 		    			if(reason.status == 500){
 		    				$('#myModal').modal('hide');
 		    				toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
+
 		    			}
 		    		});
 
@@ -337,8 +391,12 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	    				$('#myModal').modal('hide');
 	        			toastr.warning("Mã sản phẩm không tồn tại, vui lòng kiểm tra lại!");
 	    			}else{
+	    				
+
 	    				member = $scope.dsSanpham[i];
+
 	    				var diff = isMemberDiff(member, $scope.sanpham);
+
 	    				if(diff){
 
 	    					var requestURL = MainURL + "sanpham/update/" + $scope.id_member;
@@ -499,19 +557,23 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     	} 
     });
 
-    $scope.dsChitiethuong_Delete = function(hv_ma){
+    $scope.dsChitiethuong_Delete = function(cthv_ma){
     	for (i = 0; i < $scope.dsChitiethuong.length ; i++) {
-    		if(hv_ma == $scope.dsChitiethuong[i].hv_ma){
+    		if(cthv_ma == $scope.dsChitiethuong[i].cthv_ma){
     			vitri = i;
     			break;
     		}
     	}
-		var required = MainURL + "huongvi/delete/" + hv_ma;
-		$http.delete(required).then(function(response){
-			if(response.data.message){
-				$scope.dsChitiethuong.splice(vitri, 1);
-			}
-		});
+    	if(confirm("Bạn có chắc muốn xóa?"))
+    	{
+    		var required = MainURL + "chitiethuongvi/delete/" + cthv_ma;
+			$http.delete(required).then(function(response){
+				if(response.data.message){
+					$scope.dsChitiethuong.splice(vitri, 1);
+				}
+			});
+    	}else{ return; }
+		
 	}
 
 	$scope.ClickShowImg = function(sp_ma){

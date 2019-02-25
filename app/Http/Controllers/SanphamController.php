@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sanpham;
+use App\Chitiethuong;
 use App\Hinhanh;
 use Illuminate\Database\QueryException;
 use Validator;
@@ -67,8 +68,21 @@ class SanphamController extends Controller
               $sanpham->sp_thongTin = $request->thongTin;
               $sanpham->sp_danhGia = 0;
               $sanpham->sp_trangThai = $request->trangThai;
+
+
+
               if($sanpham->save()){
                  $sanpham = Sanpham::where('sp_ma', $sanpham->sp_ma)->first();
+                for ($i=0; $i < count($request->maHuong) ; $i++) { 
+                    
+                }
+
+                foreach ($request->maHuong as $key) {
+                    $Chitiethuong = new Chitiethuong();
+                    $Chitiethuong->hv_ma = $key;
+                    $Chitiethuong->sp_ma = $sanpham->sp_ma;
+                    $Chitiethuong->save();
+                }
                  $json = json_encode($sanpham);
                  return response(['error'=>false, 'message'=>compact('sanpham', 'json')], 200);
              }
@@ -108,6 +122,16 @@ class SanphamController extends Controller
 
                 if($sanpham->save()){
                     $sanpham = Sanpham::where('sp_ma', $sanpham->sp_ma)->first();
+
+                    Chitiethuong::where("sp_ma", $sanpham->sp_ma)->delete();
+
+                    foreach ($request->maHuong as $key) {
+                        $Chitiethuong = new Chitiethuong();
+                        $Chitiethuong->hv_ma = $key;
+                        $Chitiethuong->sp_ma = $sanpham->sp_ma;
+                        $Chitiethuong->save();
+                    }
+
                     $json = json_encode($sanpham);
                     return response(['error'=>false, 'message'=>compact('sanpham', 'json')], 200);
                 }

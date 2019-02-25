@@ -1,0 +1,52 @@
+*{ padding: 0px; margin: 0px; }
+
+body{ 
+	background-image: url('../images/layouts/bg-login-2.jpg'); 
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: 'Sawarabi Gothic', 
+	sans-serif; font-size: 14px;
+}
+
+.login-form{
+	background: #fff;
+	width: 80%;
+	margin: 100px auto;
+	border-top: 4px solid #E9224A;
+	padding: 10px 20px;
+	padding-bottom: 40px;
+}
+
+.login-form .title{
+	color: #777777;
+	font-size: 26px;
+	padding: 20px 5px;
+	text-align: center;
+}
+
+.login-form .title-2{
+	padding: 0px 10px 5px 10px;
+	color: #777;
+	text-align: center;
+	font-size: 16px;
+}
+
+.none-border-radius{
+	border-radius: 0px;
+}
+
+.btn-login{
+	background: #E9224A;
+	color: #fff;
+}
+
+.btn-login:hover{
+	background: #C41336;
+	color: #fff;
+}
+
+/*.login-form .custom-hr{
+	width: 90% !important;
+	margin: auto;
+}*/

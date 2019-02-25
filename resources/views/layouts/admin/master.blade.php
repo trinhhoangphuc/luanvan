@@ -77,7 +77,7 @@
 	<!-- FastClick -->
 	<script src="{{asset('public/libs2/bower_components/fastclick/lib/fastclick.js')}}"></script>
 
-	<script src="{{asset('public/libs2/bower_components/ckeditor/ckeditor.js')}}"></script>
+<!-- 	<script src="{{asset('public/libs2/bower_components/ckeditor/ckeditor.js')}}"></script> -->
 	<!-- AdminLTE App -->
 	<script src="{{asset('public/libs2/dist/js/adminlte.min.js')}}"></script>
 	<!-- AdminLTE for demo purposes -->
@@ -105,7 +105,7 @@
 	<script src="{{asset('public/libs/angular-file-upload/console-sham.min.js')}}"></script>
 
 	<script src="{{asset('public/libs/angular-file-upload/angular-file-upload.min.js')}}"></script>
-	<!-- <script src="{{asset('public/libs/ckeditor/ckeditor.js')}}"></script> -->
+	<script src="{{asset('public/libs/ckeditor/ckeditor.js')}}"></script>
 	<script src="{{asset('public/libs/angular-ckeditor-master/angular-ckeditor.min.js')}}"></script>
 
 
@@ -202,7 +202,7 @@
     })
   })
 </script>
-<script>
+<!-- <script>
   $(function () {
     // Replace the <textarea id="editor1"> with a CKEditor
     // instance, using default configuration.
@@ -210,5 +210,5 @@
     //bootstrap WYSIHTML5 - text editor
     // $('.textarea').wysihtml5()
   })
-</script>
+</script> -->
 </html>

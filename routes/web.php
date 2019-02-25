@@ -173,10 +173,12 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::delete('delete/{id}', "HuongviController@destroy");
 
 		Route::post('deleteAll', "HuongviController@destroyAll");
+
+		Route::get('huongvibyid/{id}', "HuongviController@getHuongViById"); 
 	});
 	// kết thúc
 
-	// Quản lý hương vị
+	// Quản lý chi tiết hương vị
 	Route::group(["prefix" =>"chitiethuongvi"], function(){
 
 		Route::get('danhsach/{id}',  'ChitiethuongviController@index'); // load dánh sách

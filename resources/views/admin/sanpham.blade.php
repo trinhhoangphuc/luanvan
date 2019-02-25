@@ -212,14 +212,27 @@
                             <label for="gia" class=""><b>Giá bán:</b></label>
                             <input type="number" id="gia" name="gia" ng-model="sanpham.gia" class="form-control" ng-required="true"  autocomplete="off" min="1" max="9999999999999">
                         </div>
-
                         <div class="form-group">
-                            <label for="soluong" class=""><b>Số lượng:</b></label>
-                            <input type="number" id="soluong" name="soluong" ng-model="sanpham.soluong" class="form-control" ng-required="true"  autocomplete="off" min="0" max="9999999999999" value="0">
+                            <label for="thongTin" class=""><b>Chọn 1 hoặc nhiều:</b></label>
+                            <select name="maHuong" id="maHuong" class="form-control" ng-model="sanpham.maHuong"  style="width: 100%;" multiple="multiple">
+                                 <option ng-if="dsHuongvi.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
+                                 <option ng-repeat="hv in dsHuongvi" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
+                            </select>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="thongTin" class=""><b>Mô tả:</b></label>
+                            <textarea ckeditor="formData.ckeditorOptions"  ng-model="sanpham.thongTin" name="thongTin" id="thongTin"></textarea>
+                            <!-- <form>
+                                <textarea id="editor1" name="editor1" rows="10" cols="80" ckeditor="formData.ckeditorOptions" ng-model="sanpham.thongTin" name="thongTin">
+                                 
+                                </textarea>
+                            </form> -->
+                        </div>
+
                         <div class="form-group" ng-if=" status=='edit' ">
                             <label for="trangthaiKhoa" class="control-label"><b>Sản phẩm mới: </b></label>
-                            <div>
+                            <span>
                                 &nbsp;
                                 <label class="radio-content">
                                     <input type="radio" name="tinhTrang" id="phai" ng-model="sanpham.tinhTrang" ng-value="1" value="1">
@@ -229,21 +242,12 @@
                                     <input type="radio" name="tinhTrang" id="khong" ng-model="sanpham.tinhTrang" ng-value="0" value="0">
                                     <i class="fa fa-times text-danger"></i> Không phải
                                 </label>
-
-                            </div>
+                            </span>
                         </div>
-                        <div class="form-group">
-                            <label for="thongTin" class=""><b>Mô tả:</b></label>
-                            <!-- <textarea ckeditor="formData.ckeditorOptions"  ng-model="sanpham.thongTin" name="thongTin" id="thongTin"></textarea> -->
-                            <form>
-                                <textarea id="editor1" name="editor1" rows="10" cols="80" ckeditor="formData.ckeditorOptions" ng-model="sanpham.thongTin" name="thongTin">
-                                 
-                                </textarea>
-                            </form>
-                        </div>
+                       
                         <div class="form-group">
                             <label for="trangthaiKhoa" class="control-label"><b>Trạng Thái:</b></label>
-                            <div>
+                            <span>
                                 &nbsp;
                                 <label class="radio-content">
                                     <input type="radio" name="trangThai" id="trangthaiKhaDung" ng-model="sanpham.trangThai" ng-value="1" value="1">
@@ -254,10 +258,10 @@
                                     <i class="fa fa-lock text-blue"></i> Tạm khóa
                                 </label>
 
-                            </div>
+                            </span>
                         </div>
                         <div class="form-group"> 
-                            <button type="submit" class="btn bg-maroon btn-block"  ng-click="CreateEdit_save()">@{{dialogButton}}</button>
+                            <button type="submit" class="btn btn-danger btn-block"  ng-click="CreateEdit_save()">@{{dialogButton}}</button>
                         </div>
                     </div>
                     </div>
@@ -284,7 +288,6 @@
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
                               <li class="active"><a href="#IMAGES" data-toggle="tab"><span class="glyphicon glyphicon-picture"></span> Hình ảnh</a></li>
-                              <li><a href="#TASTE" data-toggle="tab"><span class="glyphicon glyphicon-apple"></span> Hương vị</a></li>
                                <li><a href="#QUNTITY" data-toggle="tab"><span class="glyphicon glyphicon-tag"></span> Số lượng</a></li>
                           </ul>
                           <div class="tab-content">
@@ -384,55 +387,7 @@
                                         </div> 
                                     </div>
                               </div>
-
-                              <div class="tab-pane" id="TASTE">
-                                <div id="frmTaste">
-                                    <form name="createHuongVi" id="createHuongVi" >
-                                        <div class="row">
-                                            {{csrf_field()}}
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-8">
-                                                <div class="form-group">
-                                                    
-                                                    <select name="maHuong" id="type" class="form-control" ng-model="huongvi.maHuong" ng-required="true">
-                                                       <option ng-show="dsHuongvi.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
-                                                       <option ng-repeat="hv in dsHuongvi" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
-                                                   </select>
-                                                    <span class="text-danger" id="dlgExistNameHV"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-flat btn-success">Thêm</button>
-                                            </div>
-
-                                        </div>
-                                    </form>
-                                    <div class="row">
-                                        <div class="col-sm-12 table-responsive border border-danger border-img-upload">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th>STT</th>
-                                                        <th>Hương vị</th>
-                                                        <th>Xóa</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="hv in dsChitiethuong">
-                                                        <td>@{{ $index+1 }}</td>
-                                                        <td>@{{ hv.hv_ten }}</td>
-                                                        <td>
-                                                            <button class="btn bg-maroon btn-sm btn-flat" ng-click="dsChitiethuong_Delete(hv.hv_ma)"><i class="fa fa-trash"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
  
-
                               <div class="tab-pane" id="QUNTITY">
                                     G4
                               </div>

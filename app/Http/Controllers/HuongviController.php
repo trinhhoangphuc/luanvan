@@ -118,4 +118,19 @@ class HuongviController extends Controller
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }
     }
+
+    public function getHuongViById($id)
+    {
+        try {
+            $huongviSP = Huongvi::where("sp_ma", $id)->get();
+            if($huongviSP){
+                $json = json_encode($huongviSP);
+                return response(['error'=>false, 'message'=>compact('huongviSP', 'json')], 200);
+            }
+         }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
 }

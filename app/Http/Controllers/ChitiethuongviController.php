@@ -15,7 +15,8 @@ class ChitiethuongviController extends Controller
     {
     	try{
 
-    		$chitiethuong = DB::table('chitiethuong')->select("chitiethuong.*", "huongvi.hv_ten")->join("huongvi", "huongvi.hv_ma", "chitiethuong.hv_ma")->where("sp_ma", $id)->orderBy("cthv_ma", "desc")->get();
+    		// $chitiethuong = DB::table('chitiethuong')->select("chitiethuong.*", "huongvi.hv_ten")->join("huongvi", "huongvi.hv_ma", "chitiethuong.hv_ma")->where("sp_ma", $id)->orderBy("cthv_ma", "desc")->get();
+            $chitiethuong = Chitiethuong::where("sp_ma", $id)->get();
     		$json = json_encode($chitiethuong);
     		return response(["error"=>false, "message"=>compact("chitiethuong", "json")], 200);
 
@@ -43,6 +44,23 @@ class ChitiethuongviController extends Controller
         		}
         	}
            
+        }catch(QueryException $ex){
+            return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        try
+        {   
+            $item = Chitiethuong::where("cthv_ma", $request->id)->first();
+            if($item){
+            	$item->delete();
+            	return response(["error"=>false, "message"=>true], 200);
+            }
+
         }catch(QueryException $ex){
             return response(["error"=>true, "message"=>$ex->getMessage()], 200);
         }catch(PDOException $ex){
