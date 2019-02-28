@@ -7,6 +7,8 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Huongvi;
+use App\Sanpham;
+use App\Nhap;
 
 class HuongviController extends Controller
 {

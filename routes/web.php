@@ -141,6 +141,28 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
+	// Quản lý  đánh giá
+
+	Route::group(["prefix" =>"nhap"], function(){
+
+		Route::get('danhsach/{id}',  'NhapController@index'); // load dánh sách
+
+		Route::post('storeProduct/{id}', "NhapController@storeProduct");
+
+		Route::post('updateProduct/{id}', "NhapController@updateProduct");
+
+		Route::delete('deleteProduct/{id}', "NhapController@deleteProduct");
+
+		// Route::post('store', "DanhgiaController@store");
+
+		// Route::post('update/{id}', "DanhgiaController@update"); 
+
+		// Route::delete('delete/{id}', "DanhgiaController@destroy");
+
+		// Route::post('deleteAll', "DanhgiaController@destroyAll");
+	});
+	// kết thúc
+
 	// Quản lý hình ảnh
 	Route::group(["prefix" =>"hinhanh"], function(){
 

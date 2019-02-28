@@ -11,6 +11,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	$scope.dataTitle         = "sản phẩm";
 	$scope.status            = "edit";
 	$scope.newMember_Data	 = "";
+	$scope.today = new Date();
 
 	$scope.formData = {
 
@@ -122,6 +123,16 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 		return -1;
 	}
 
+	function indexOfMemberNhap(id){
+		for(i=0; i<$scope.dsSoLuongNhap.length; i++){
+			if( id == $scope.dsSoLuongNhap[i].n_ma ){
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
 
 	function isMemberDiff(db, frm){
 
@@ -154,6 +165,25 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     	|| db.sp_trangThai != frm.trangThai
     	|| !check;
     }
+
+    function isMemberDiff_Nhap(db, frm){
+
+    	var DateNgaySX = Date.parse(db.n_ngaySX);
+        var DateNgaySX_2 = Date.parse(frm.ngaysanxuat);
+
+        var DateHanSD = Date.parse(db.n_hanSD);
+        var DateHanSD_2 = Date.parse(frm.hansudung);
+
+
+
+        return db.hv_ma != frm.maHuong
+        	|| db.n_soLuong != frm.soluong
+        	|| DateNgaySX != DateNgaySX_2
+        	|| DateHanSD != DateHanSD_2;
+    }
+
+
+
 
 	$scope.CreateEdit_show = function (status, id) {
 		
@@ -269,11 +299,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 			        }); // Lấy hình ảnh theo id
 
 			        
-					$http.get(MainURL + "chitiethuongvi/danhsach/" + id).then(function (response) {
-						$scope.dsChitiethuong = response.data.message.chitiethuong;
-						$scope.huongvi = {
-							maHuong : $scope.dsHuongvi[0].hv_ma
-						};
+					$http.get(MainURL + "nhap/danhsach/" + id).then(function (response) {
+						$scope.dsSoLuongNhap = response.data.message.nhap;
 					}); // Lấy danh sách hương vị theo id
 
 						
@@ -295,6 +322,87 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 		}
 	}
 
+	$scope.CreateEditSoLuong_show = function (status, id_nhap) {
+		
+		switch(status){
+
+			case "list":
+				$http.get(MainURL + "nhap/danhsach/" + $scope.id_member).then(function (response) {
+					$scope.dsSoLuongNhap = response.data.message.nhap;
+				}); 
+
+				$("#tableSoLuong").removeClass("hidden");
+				$("#frmSoluong").addClass("hidden");
+				
+			break;
+
+			case "create":
+
+				var requestURL5 = MainURL + "chitiethuongvi/danhsach/" + $scope.id_member;
+				$http.get(requestURL5).then(function(response){
+					$scope.dsChitiethuong = response.data.message.chitiethuong;
+					$scope.nhap = {
+	                    maHuong: $scope.dsChitiethuong[0].hv_ma,
+	                    soluong: 10,
+	                    ngaysanxuat:  $scope.today,
+	                    hansudung:  $scope.today
+	                }
+	                $scope.dialogButton = "Thêm";
+	                $scope.status = "create";
+					$("#tableSoLuong").addClass("hidden");
+					$("#frmSoluong").removeClass("hidden");
+				});
+			 	
+				
+			break;
+
+			case "edit":
+				$scope.id_nhap = id_nhap;
+				var nhap_member = [];
+				var requestURL5 = MainURL + "chitiethuongvi/danhsach/" + $scope.id_member;
+				$http.get(requestURL5).then(function(response){
+					$scope.dsChitiethuong = response.data.message.chitiethuong;
+
+					nhap_member = $scope.dsSoLuongNhap[indexOfMemberNhap(id_nhap)];
+
+					$scope.nhap = {
+	                    maHuong: nhap_member.hv_ma,
+	                    soluong: nhap_member.n_soLuong,
+	                    ngaysanxuat:  new Date(nhap_member.n_ngaySX),
+	                    hansudung:   new Date(nhap_member.n_hanSD)
+	                }
+	                $scope.dialogButton = "Cập nhật";
+	                $scope.status = "edit";
+					$("#tableSoLuong").addClass("hidden");
+					$("#frmSoluong").removeClass("hidden");
+				});
+			 	
+				
+			break;
+
+			case "delete":
+                if(confirm("Bạn có thật sự muốn xóa dữ liệu???")){
+                    var requestURL = MainURL + "nhap/deleteProduct/" + id_nhap;
+                    $http.delete(requestURL).then(function(response){
+                        if(response.data.message){
+                             $scope.CreateEditSoLuong_show('list', -1);
+
+                             var requestURL_2 = MainURL + "sanpham/danhsach";
+                             $http.get(requestURL_2).then(function(response){
+                             	$scope.dsSanpham = response.data.message.sanpham;
+                             });
+                             
+                        }else{
+                            alert("Xóa không thành công!");
+                        }
+                    }).catch(function(reason){alert("Có lỗi xảy ra!");});
+                }else{
+                    return;
+                }
+            break;
+
+		}
+	}
 
 	$("#frmCreatEdit").validate({ // thêm sửa bằng jquery validate
     	rules: {
@@ -439,42 +547,6 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	    }
     });
 
-	$("#createHuongVi").validate({ // thêm sửa bằng jquery validate
-    	rules: {
-    	}, 
-    	messages: {
-    	},
-    	submitHandler: function(form) {
-    		i = indexOfMember($scope.id_member);
-    		if(i == -1){
-    			$('#myModal4').modal('hide');
-    			toastr.warning("Mã sản phẩm không tồn tại, vui lòng kiểm tra lại!");
-    		}else{
-
-    			var requestURL = MainURL + "chitiethuongvi/store/" + $scope.id_member;
-    			var requestData = $.param($scope.huongvi);
-
-    			$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
-    			.then(function(response){
-
-    					if(response.data.message == false)
-    						$('#dlgExistNameHV').text("Sản phẩm đã có hương vị mà bạn đã chọn!!!").show().fadeOut( 4000 );
-    					else{
-    						$scope.huongvi.maHang = $scope.dsHuongvi[0].hv_ma;
-    						$scope.dsChitiethuong = response.data.message.chitiethuong;
-    					}
-
-    			}).catch(function(reason){
-    				if(reason.status == 500){
-    					$('#myModal4').modal('hide');
-    					toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");    				}
-    			});
-    			
-
-    		}
-	    }
-    });
-
 	$("#delte").on("submit", function(event){ // xóa dữ liệu
     	switch($scope.status){
 
@@ -555,6 +627,94 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
     		break;
     	} 
+    });
+
+    $("#frmaddproduct").on("submit", function(event){ // xóa dữ liệu
+        switch($scope.status){
+
+            case "create":
+
+            	$scope.nhap.ngaysanxuat = $filter('date')(new Date($scope.nhap.ngaysanxuat),'yyyy-MM-dd');
+                $scope.nhap.hansudung = $filter('date')(new Date($scope.nhap.hansudung),'yyyy-MM-dd');
+
+            	var d1 = Date.parse($scope.nhap.ngaysanxuat);
+        		var d2 = Date.parse($scope.nhap.hansudung);
+
+            	if( d1 >= d2){
+            		alert('Ngày sản xuất không được lớn hoặc bằng hạn sử dụng!');
+            	}else{
+            		var requestURL = MainURL + "nhap/storeProduct/" + $scope.id_member;
+	                var requestData = $.param($scope.nhap);
+	                $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
+	                .then(function (response) {
+	                	if(!response.data.message_2)
+	                	{
+	                		if(response.data.message)
+		                    {   
+		                        $scope.CreateEditSoLuong_show('list', -1);
+
+		                        var requestURL_2 = MainURL + "sanpham/danhsach";
+								$http.get(requestURL_2).then(function(response){
+									$scope.dsSanpham = response.data.message.sanpham;
+								});
+								
+		                    }else{
+		                        alert('Nhập số lượng không thành công!');
+		                    }
+	                	}else{
+	                		alert('Thông tin này đã tồn tại!');
+	                	}    
+	                    
+	                }).catch(function(reason) {
+	                     alert('Có lỗi xảy ra vui lòng kiểm tra lại!')
+	                });
+            	}
+                      
+            break;
+
+            case "edit":
+	            $scope.nhap.ngaysanxuat = $filter('date')(new Date($scope.nhap.ngaysanxuat),'yyyy-MM-dd');
+                $scope.nhap.hansudung = $filter('date')(new Date($scope.nhap.hansudung),'yyyy-MM-dd');
+
+            	var d1 = Date.parse($scope.nhap.ngaysanxuat);
+        		var d2 = Date.parse($scope.nhap.hansudung);
+
+            	if( d1 >= d2){
+            		alert('Ngày sản xuất không được lớn hoặc bằng hạn sử dụng!');
+            	}else{
+
+            		nhap_member = $scope.dsSoLuongNhap[indexOfMemberNhap($scope.id_nhap)];
+            		diff = isMemberDiff_Nhap(nhap_member, $scope.nhap);
+            		if(diff){
+
+            			var requestURL = MainURL + "nhap/updateProduct/" + $scope.id_nhap;
+            			var requestData = $.param($scope.nhap);
+            			$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
+            			.then(function (response) {
+
+            				if(!response.data.message_2){
+            					if(response.data.message){   
+            						$scope.CreateEditSoLuong_show('list', -1);
+
+            						var requestURL_2 = MainURL + "sanpham/danhsach";
+            						$http.get(requestURL_2).then(function(response){
+            							$scope.dsSanpham = response.data.message.sanpham;
+            						});
+
+            					}else{
+            						alert('Cập Nhật số lượng không thành công!');
+            					}
+            				}else{
+            					alert('Thông tin này đã tồn tại!');
+            				}    
+	                    
+            			}).catch(function(reason) {
+            				alert('Có lỗi xảy ra vui lòng kiểm tra lại!');
+            			});
+            		}
+            	}
+            break;
+        } 
     });
 
     $scope.dsChitiethuong_Delete = function(cthv_ma){

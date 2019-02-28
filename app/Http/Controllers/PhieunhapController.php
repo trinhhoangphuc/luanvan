@@ -226,7 +226,7 @@ class PhieunhapController extends Controller
         }
     }
 
-     public function deleteProduct($id)
+    public function deleteProduct($id)
     {
         try {
             

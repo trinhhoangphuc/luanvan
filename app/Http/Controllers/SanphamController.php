@@ -64,7 +64,7 @@ class SanphamController extends Controller
               $sanpham->h_ma = $request->maHang;
               $sanpham->sp_hinh = "noimage.jpg";
               $sanpham->sp_giaBan = $request->gia;
-              $sanpham->sp_soLuong = $request->soluong;
+              $sanpham->sp_soLuong = 0;
               $sanpham->sp_thongTin = $request->thongTin;
               $sanpham->sp_danhGia = 0;
               $sanpham->sp_trangThai = $request->trangThai;

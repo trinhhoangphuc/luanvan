@@ -62,7 +62,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tdody>
                                         <tr  ng-repeat="item in dsSanpham" id="tr_@{{item.sp_ma}}" ng-class="item.sp_ma == newMember_Data? 'bg-default':''" >
                                             <td style="width: 10% !important;"><input type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.sp_ma }}" /></td>
                                             <td class="text-dark" style="width: 15% !important;">
@@ -98,7 +98,7 @@
                                                     <tr>
                                                         <td><b>Tình trạng:</b></td>
                                                         <td class="text-center">
-                                                            <span class="badge bg-teal" ng-if="item.sp_soLuong > 10">Còn hàng</span>
+                                                            <span class="badge bg-olive" ng-if="item.sp_soLuong > 10">Còn hàng</span>
                                                             <span class="badge bg-maroon" ng-if="item.sp_soLuong == 0">Hết hàng</span>
                                                             <span class="badge bg-orange" ng-if="item.sp_soLuong <= 10 && item.sp_soLuong > 0">Sắp hết</span>
                                                         </td>
@@ -140,7 +140,7 @@
                                                 <p><button  class="btn  btn-sm btn-flat bg-maroon  btn-delete" ng-click="CreateEdit_show('delete', item.sp_ma)"><i class="fa fa-trash" ></i></button></p>
                                             </td>
                                         </tr>
-                                    </tbody>
+                                    </tdody>
                                 </table>
                         </div>
                         <div class="" ng-show="!isLoading && dsLoai.length == 0 ">
@@ -160,13 +160,13 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tdody>
                                     <tr>
                                         <td colspan="4" style="width: 10% !important; text-align: center;">
                                             Chưa có dữ liệu
                                         </td>
                                     </tr>
-                                </tbody>
+                                </tdody>
                             </table>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                             <input type="number" id="gia" name="gia" ng-model="sanpham.gia" class="form-control" ng-required="true"  autocomplete="off" min="1" max="9999999999999">
                         </div>
                         <div class="form-group">
-                            <label for="thongTin" class=""><b>Chọn 1 hoặc nhiều:</b></label>
+                            <label for="thongTin" class=""><b>Hương vị:</b></label>
                             <select name="maHuong" id="maHuong" class="form-control" ng-model="sanpham.maHuong"  style="width: 100%;" multiple="multiple">
                                  <option ng-if="dsHuongvi.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
                                  <option ng-repeat="hv in dsHuongvi" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
@@ -335,7 +335,7 @@
                                                                 <th>Quản lý</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tdody>
                                                             <tr ng-repeat="item in uploader.queue" class="text-center">
                                                                 <td><strong>@{{ item.file.name }}</strong></td>
                                                                 <td ng-show="uploader.isHTML5" nowrap>@{{ item.file.size/1024/1024|number:2 }} MB</td>
@@ -361,7 +361,7 @@
                                                                     </button>
                                                                 </td>
                                                             </tr>
-                                                        </tbody>
+                                                        </tdody>
                                                     </table>
                                                 </div>
                                                 <div class="col-sm-12">
@@ -389,7 +389,66 @@
                               </div>
  
                               <div class="tab-pane" id="QUNTITY">
-                                    G4
+                                <table class="table" id="tableSoLuong">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tùy chọn</th>
+                                            <th>N.Sản Xuất</th>
+                                            <th>H.Sử dụng</th>
+                                            <th>Số lượng</th>
+                                            <th><button type="button" class="btn btn-xs btn-flat bg-olive" ng-click="CreateEditSoLuong_show('create', -1)"><i class="fa fa-plus"></i></button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr ng-repeat="sl in dsSoLuongNhap">
+                                            <script ="text/javascript" >
+                                                app.filter("asDate", function () {
+                                                    return function (input) {
+                                                        return new Date(input);
+                                                    }
+                                                });
+                                            </script>
+                                            <td>@{{ $index+1 }}</td>
+                                            <td>@{{ sl.hv_ten }}</td>
+                                            <td>@{{ sl.n_ngaySX | asDate | date:'dd-MM-yyyy' }}</td>
+                                            <td>@{{ sl.n_hanSD | asDate | date:'dd-MM-yyyy' }}</td>
+                                            <td>@{{ sl.n_soLuong }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-xs btn-flat bg-orange" ng-click="CreateEditSoLuong_show('edit', sl.n_ma)"><i class="fa fa-edit"></i></button>
+                                                 <button type="button" class="btn btn-xs btn-flat bg-maroon" ng-click="CreateEditSoLuong_show('delete', sl.n_ma)"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>         
+                                </table>
+                                <div class="hidden" id="frmSoluong">
+                                    <a ng-click="CreateEditSoLuong_show('list', -1)" href=""><i class="fa fa-undo" aria-hidden="true"></i> Danh sánh</a>
+                                    <br/><br/>
+                                    <form name="frmaddproduct" id="frmaddproduct">
+                                        <div class="form-group">
+                                            <label for="thongTin" class=""><b>Hương vị:</b></label>
+                                            <select name="maHuong" id="maHuong" class="form-control" ng-model="nhap.maHuong"  style="width: 100%;">
+                                                 <option ng-if="dsChitiethuong.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
+                                                 <option ng-repeat="hv in dsChitiethuong" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ dsHuongvi.dbFind("hv_ma", hv.hv_ma).hv_ten }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="soluong" class=""><b>Số lượng:</b></label>
+                                            <input type="number" id="soluong" name="soluong" ng-model="nhap.soluong" class="form-control"  min="1" max="999999" value="10" required="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ngaysanxuat" class=""><b>Ngày sản xuất:</b></label>
+                                            <input type="date" id="ngaysanxuat" name="ngaysanxuat" ng-model="nhap.ngaysanxuat" class="form-control " required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="hansudung" class=""><b>Hạn sử dụng:</b></label>
+                                            <input type="date" id="hansudung" name="hansudung" ng-model="nhap.hansudung" class="form-control " required="">
+                                        </div>
+                                        <div class="form-group"> 
+                                            <button type="submit" class="btn btn-danger btn-block" >@{{dialogButton}}</button>
+                                        </div>
+                                    </form>
+                                </div>
                               </div>
 
                           </div>
@@ -451,59 +510,6 @@
             </div>
         </div>
 
-   <!--      <div class="modal fade" id="myModal4">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
-                            <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                             <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="modal-body">
-                    <form name="createHuongVi" id="createHuongVi" >
-                        <div class="row">
-                            {{csrf_field()}}
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-8">
-                                <div class="form-group">
-                                    <input type="text" id="hv_ten" name="hv_ten" ng-model="huongvi.hv_ten" class="form-control" placeholder="Nhập tên hương vị hoặc màu sắc" ng-required="true" autocomplete="off">
-                                    <span class="text-danger hidden" id="dlgExistNameHV">Sản phẩm này đã có thông tin bạn vừa nhập</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <button type="submit" class="btn btn-flat btn-success">Thêm</button>
-                            </div>
-
-                        </div>
-                    </form>
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive border border-danger border-img-upload">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th>STT</th>
-                                        <th>Hương vị/Màu sắc</th>
-                                        <th>Xóa</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="hv in dsChitiethuong">
-                                        <td>@{{ $index+1 }}</td>
-                                        <td>@{{ hv.hv_ten }}</td>
-                                        <td>
-                                            <button class="btn bg-maroon btn-sm btn-flat" ng-click="dsChitiethuong_Delete(hv.hv_ma)"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 
     </section>
