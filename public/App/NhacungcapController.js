@@ -280,7 +280,11 @@ app.controller('nhacungcapController', function($scope, $http, $filter, MainURL,
 
     		        			// Hiển thị bg dữ liệu
     		        			$scope.newMember_Data = response.data.message.nhacungcap.ncc_ma;
-    		        			setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+    		        			setTimeout(function(){ 
+                                    $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                    $scope.newMember_Data = ""; 
+
+                                }, 3000);
 
     		        			$('#myModal').modal('hide');
     		        			toastr.success("Thêm nhà cung cấp thành công");
@@ -323,7 +327,11 @@ app.controller('nhacungcapController', function($scope, $http, $filter, MainURL,
     	    							$scope.dsNhacungcap[i] = data;
 
     	    							$scope.newMember_Data = response.data.message.nhacungcap.ncc_ma;
-    	    							setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+    	    							setTimeout(function(){ 
+                                            $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                            $scope.newMember_Data = ""; 
+
+                                        }, 3000);
 
     	    							$('#myModal').modal('hide');
     	    							toastr.success("Sửa nhà cung cấp thành công!");

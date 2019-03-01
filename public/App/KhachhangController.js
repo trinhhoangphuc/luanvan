@@ -275,7 +275,11 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
 		    					$scope.status = 'edit';
 
 		    					$scope.newMember_Data = response.data.message.khachhang.kh_ma;
-		    					setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+		    					setTimeout(function(){ 
+		    						$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+		    						$scope.newMember_Data = ""; 
+
+		    					}, 3000);
 		    					
 		    					$('#myModal').modal('hide');
 		    					toastr.success("Thêm khách hàng thành công!");
@@ -325,7 +329,11 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
 	    								$scope.dsKhachhang[i] = data;
 
 	    								$scope.newMember_Data = response.data.message.khachhang.kh_ma;
-	    								setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+	    								setTimeout(function(){ 
+	    									$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+	    									$scope.newMember_Data = ""; 
+
+	    								}, 3000);
 
 	    								$('#myModal').modal('hide');
 	    								toastr.success("Sửa khách hàng thành công!");
@@ -452,7 +460,11 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
                 			$scope.dsKhachhang[i] = data;
 
                 			$scope.newMember_Data = response.data.message.khachhang.kh_ma;
-                			setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+                			setTimeout(function(){ 
+                                $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                $scope.newMember_Data = ""; 
+
+                            }, 3000);
 
                 			$('#myModal2').modal('hide');
                 			toastr.success("Cấp lại mật khẩu khách hàng thành công!");

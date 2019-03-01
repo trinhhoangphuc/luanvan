@@ -1,16 +1,17 @@
-app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
+app.controller('bannerController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
 	
-	$scope.dsDanhgia = [];
-	$scope.dataTitle = "đánh giá";
+	$scope.dsBanner = [];
+	$scope.dataTitle = "ảnh quảng cáo";
 	$scope.status = "edit";
 	$scope.frm_details_oldTr = null;
 	$scope.newMember_Data = null;
+
     $scope.isLoading = true;
 
-	$scope.refresh = function(){ // Lấy danh sách đánh giá
-		var requestURL = MainURL + "danhgia/danhsach";
+	$scope.refresh = function(){ // Lấy danh sách ảnh quảng cáo
+		var requestURL = MainURL + "banner/danhsach";
 		$http.get(requestURL).then(function(response){
-			$scope.dsDanhgia = response.data.message.danhgia;
+			$scope.dsBanner = response.data.message.banner;
             $scope.isLoading = false;
 		});
 	}
@@ -46,20 +47,24 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
 		'<table align="center" class="table table-bordered" style="margin:0px"><tbody>'+
 		'<tr>'+
-		'<td class="text-left bg-info" width="20%"><b>Mã đánh giá:</b></td>'+
-		'<td style="text-align: left !important;">'+member.dg_ma+'</td>'+
+		'<td class="text-left bg-info" width="20%"><b>Mã banner:</b></td>'+
+		'<td style="text-align: left !important;">'+member.bn_ma+'</td>'+
 		'</tr>'+
-        '<tr>'+
-        '<td class="text-left bg-info" width="20%"><b>Bình luận:</b></td>'+
-        '<td style="text-align: left !important;">'+member.dg_noiDung+'</td>'+
-        '</tr>'+
+		'<tr>'+
+		'<td class="text-left bg-info" width="20%"><b>Tên banner:</b></td>'+
+		'<td style="text-align: left !important;">'+member.bn_hinh+'</td>'+
+		'</tr>'+
+		// '<tr>'+
+		// '<td class="text-left bg-info" width="20%"><b>Khuyến mãi:</b></td>'+
+		// '<td style="text-align: left !important;">'+member.bn_km+'</td>'+
+		// '</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày tạo:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dg_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.bn_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>'+
 		'<tr>'+
 		'<td class="text-left bg-info" width="20%"><b>Ngày cập nhật:</b></td>'+
-		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dg_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
+		'<td style="text-align: left !important;">'+$filter('date')(new Date(member.bn_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
 		'</tr>';
 
 
@@ -69,15 +74,15 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 	}
 
 	function indexOfMember(id){ // lấy vị trí theo id
-		for(i=0; i < $scope.dsDanhgia.length; i++){
-			if (id == $scope.dsDanhgia[i].dg_ma)
+		for(i=0; i < $scope.dsBanner.length; i++){
+			if (id == $scope.dsBanner[i].bn_ma)
 				return i;
 		}
 		return -1;
 	}
 
 
-	function isMemberDiff(db, frm){ return db.dg_ten != frm.ten || db.dg_trangThai != frm.trangThai; }
+	function isMemberDiff(db, frm){ return db.bn_hinh != frm.ten || db.bn_trangThai != frm.trangThai; }
 
 
 	$scope.checkInput = function(){ // lấy tất cả dòng dữ liệu
@@ -96,7 +101,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		i = indexOfMember(id);
         		if(i != -1){
 
-        			item = $scope.dsDanhgia[i];
+        			item = $scope.dsBanner[i];
         			tr = $("#tr_"+id);
         			icon = $(tr).find(".btn-detail i"); 
 
@@ -133,38 +138,46 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		$scope.dialogTiTle = "Thêm " + $scope.dataTitle + " mới";
         		$scope.dialogButton = "Thêm";
         		$scope.status = status;
-        		$scope.danhgia = {ten: null, trangThai: 1};
-        		
+        		$("#bannerFile").val(null);
+        		$("#trangthaiKhaDung").prop("checked", true);
+        		var output = document.getElementById('output');
+				output.src = "";
+
         		$("#myModal").modal("show");
 
     		break;
 
     		case "edit":
 
-    			member = $scope.dsDanhgia[indexOfMember(id)];
+
+    			member = $scope.dsBanner[indexOfMember(id)];
         		$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
         		$scope.dialogButton = "Sửa";
         		$scope.status = status;
-        		$scope.id_member = member.dg_ma;
-        		$scope.danhgia = {
-        			ten: member.dg_ten, 
-        			trangThai: member.dg_trangThai
-        		};
-        		$scope.frm_ten           = member.dg_ten;
-                $scope.la_ten_moi        = true;
-                $scope.isNewMember       = true;
+        		$scope.id_member = member.bn_ma;
+
+                var requestURL = MainURL + "../public/images/banner/" + member.bn_hinh;
+                var output = document.getElementById('output');
+                output.src = requestURL;
+
+                if(member.bn_trangThai == 1)
+                    $("#trangthaiKhaDung").prop("checked", true);
+                else
+                    $("#trangthaiKhoa").prop("checked", true);
+
+
         		$("#myModal").modal("show");
 
     		break;
 
     		case "delete":
 
-    			member = $scope.dsDanhgia[indexOfMember(id)];
+    			member = $scope.dsBanner[indexOfMember(id)];
     			$scope.dialogTiTle = "Xóa " + $scope.dataTitle;
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.dg_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.bn_hinh+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -182,67 +195,106 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
     	}
     }
 
-    $("#frmCreatEdit").validate({ // thêm sửa bằng jquery validate
-        rules: {
-            ten: {   
-                required: true,
-            }
-        }, 
-        messages: {
-            ten: {
-                required: "Xin vui lòng nhập tên loại!",
-            }
-        },
-        submitHandler: function(form) {
-            switch($scope.status){
+    
 
-                case "edit": //sửa
+	$("#frmCreatEdit").on("submit", function(event){
+		event.preventDefault();
 
-                    i = indexOfMember($scope.id_member);
-                    if(i == -1){
-                        $('#myModal').modal('hide');
-                        toastr.warning("Mã đánh giá không chính xác!");
-                    }else{
-                        member = $scope.dsDanhgia[i];
-                        var diff = isMemberDiff(member, $scope.danhgia);
-                        if(diff){
+		 switch($scope.status){
 
-                            var requestURL = MainURL + "danhgia/update/" + $scope.id_member;
-                            var requestData = $.param($scope.danhgia);
+            case "create":
 
-                            $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
-                            .then(function(response){
-                                
-                                if(response.data.message.danhgia != null){
-                                    data = response.data.message.danhgia;
-                                    $scope.dsDanhgia[i] = data;
+            	if($("#bannerFile").val() == ""){
+            		$("#error").text("Vui lòng chọn ảnh!").show().fadeOut( 4000 );
+            	}else{
+            		var requestURL = MainURL + "banner/store";
 
-                                    $scope.newMember_Data = response.data.message.danhgia.dg_ma;
-                                    setTimeout(function(){ 
+		            $.ajax({
+		                url: requestURL,
+		                method: "POST",
+		                data:new FormData(this),
+		                dataType: 'JSON',
+		                contentType: false,
+		                cache: false,
+		                processData: false,
+		                success: function(data)
+		                {
+		                	if(data.error == true){
+		                		if(data.message.bannerFile != undefined)
+		                			$('#error').text(data.message.bannerFile[0]).show().fadeOut( 4000 );
+		                	}else{
+		                		if(data.message.banner != null){
+
+		                			$scope.refresh();
+	                                // Hiển thị bg dữ liệu
+	                                $scope.newMember_Data = data.message.banner.bn_ma;
+	                                setTimeout(function(){ 
                                         $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
                                         $scope.newMember_Data = ""; 
 
                                     }, 3000);
 
-                                    $('#myModal').modal('hide');
-                                    toastr.success("Sửa đánh giá thành công!");
+	                                $('#myModal').modal('hide');
+	                                toastr.success("thành công");
+	                            }
+	                            else{
+	                            	toastr.error("Không thành công!");
+	                            }
+	                        }
+		                },
+		                error: function(data)
+		                {
+		                    console.log(data);
+		                }
 
-                                }
+		            });
+            	}
+	            
+            break;
 
-                            }).catch(function(reason){
-                                if(reason.status == 500){
-                                    $('#myModal').modal('hide');
-                                    toastr.error("Sửa đánh giá không thành công!");
-                                }
-                            });
+            case "edit":
+                var requestURL = MainURL + "banner/update/" + $scope.id_member;
+                console.log(requestURL);
+                $.ajax({
+                    url: requestURL,
+                    method: "POST",
+                    data:new FormData(this),
+                    dataType: 'JSON',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data)
+                    {
+                        
+                        if(data.message.banner != null){
+
+                            $scope.refresh();
+                            // Hiển thị bg dữ liệu
+                            $scope.newMember_Data = data.message.banner.bn_ma;
+                            setTimeout(function(){ 
+                                $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                $scope.newMember_Data = ""; 
+
+                            }, 3000);
+
+                            $('#myModal').modal('hide');
+                            toastr.success("thành công");
                         }
-
+                        else{
+                            toastr.error("Không thành công!");
+                        }
+                        
+                    },
+                    error: function(data)
+                    {
+                        console.log(data);
                     }
 
-                break;
-            }
+                });
+            break;
         }
     });
+
 
     $("#delte").on("submit", function(event){ // xóa dữ liệu
         switch($scope.status){
@@ -252,27 +304,27 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                 i = indexOfMember($scope.id_member);
                 if(i == -1){
                     $('#myModal2').modal('hide');
-                    toastr.warning("Mã đánh giá không chính xác!");
+                    toastr.warning("Mã ảnh quảng cáo không chính xác!");
                 }else{
 
-                    var requestURL = MainURL + "danhgia/delete/" + $scope.id_member;
+                    var requestURL = MainURL + "banner/delete/" + $scope.id_member;
 
                     $http.delete(requestURL)
                     .then(function(response){
 
                         if(response.data.message){
-                            $scope.dsDanhgia.splice(i, 1);
+                            $scope.dsBanner.splice(i, 1);
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa đánh giá thành công!");
+                            toastr.success("Xóa ảnh quảng cáo thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa đánh giá không thành công!");
+                            toastr.error("Xóa ảnh quảng cáo không thành công!");
                         }
 
                     }).catch(function(reason){
                         if(reason.status == 500){
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa đánh giá không thành công!");
+                            toastr.error("Xóa ảnh quảng cáo không thành công!");
                         }
                     });
 
@@ -282,14 +334,14 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
             case "deleteAll":
 
                 dsCheckbox = [];
-                for(i=1; i<= $scope.dsDanhgia.length; i++){
+                for(i=1; i<= $scope.dsBanner.length; i++){
                     if($('#chk'+i).prop("checked"))
                         dsCheckbox.push($('#chk'+i).val());
                 }
 
                 if(dsCheckbox.length > 0){
 
-                    var requestURL = MainURL + 'danhgia/deleteAll';
+                    var requestURL = MainURL + 'banner/deleteAll';
                     var requestData = $.param({items: dsCheckbox});
 
                     $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
@@ -300,20 +352,21 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
                                 memberKey = dsCheckbox[i];
                                 dbMember = indexOfMember(memberKey);
                                 if(dbMember != -1){
-                                    $scope.dsDanhgia.splice(dbMember, 1);
+                                    $scope.dsBanner.splice(dbMember, 1);
                                 } 
                             }
                             $('#myModal2').modal('hide');
-                            toastr.success("Xóa các đánh giá thành công!");
+                            toastr.success("Xóa các ảnh quảng cáo thành công!");
                         }else{
                             $('#myModal2').modal('hide');
-                            toastr.error("Xóa các đánh giá không thành công!");
+                            toastr.error("Xóa các ảnh quảng cáo không thành công!");
                         }
 
                     }).catch(function(reason){
                         if(reason.status == 500){
                             $('#myModal2').modal('hide');
                             toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
+                            console.log(reason);
                         }
                     });
 

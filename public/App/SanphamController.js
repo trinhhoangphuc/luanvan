@@ -470,7 +470,11 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 		    					$scope.status = 'edit';
 
 		    					$scope.newMember_Data = response.data.message.sanpham.sp_ma;
-		    					setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+		    					setTimeout(function(){ 
+		    						$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+		    						$scope.newMember_Data = ""; 
+
+		    					}, 3000);
 
 		    					$('#myModal').modal('hide');
 		    					toastr.success("Thêm sản phẩm thành công!");
@@ -522,7 +526,11 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 	    								$scope.dsSanpham[i] = data;
 
 	    								$scope.newMember_Data = response.data.message.sanpham.sp_ma;
-	    								setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+	    								setTimeout(function(){ 
+	    									$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+	    									$scope.newMember_Data = ""; 
+
+	    								}, 3000);
 
 	    								$('#myModal').modal('hide');
 	    								toastr.success("Sửa sản phẩm thành công!");

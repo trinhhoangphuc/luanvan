@@ -226,7 +226,11 @@ app.controller('vanchuyenController', function($scope, $http, $filter, MainURL, 
 
 			        			// Hiển thị bg dữ liệu
 			        			$scope.newMember_Data = response.data.message.vanchuyen.vc_ma;
-			        			setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+			        			setTimeout(function(){ 
+			        				$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+			        				$scope.newMember_Data = ""; 
+
+			        			}, 3000);
 
 			        			$('#myModal').modal('hide');
 			        			toastr.success("Thêm vận chuyển thành công!");
@@ -269,7 +273,11 @@ app.controller('vanchuyenController', function($scope, $http, $filter, MainURL, 
 	    								$scope.dsVanchuyen[i] = data;
 
 	    								$scope.newMember_Data = response.data.message.vanchuyen.vc_ma;
-	    								setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+	    								setTimeout(function(){ 
+	    									$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+	    									$scope.newMember_Data = ""; 
+
+	    								}, 3000);
 
 	    								$('#myModal').modal('hide');
 	    								toastr.success("Sửa vận chuyển thành công!");

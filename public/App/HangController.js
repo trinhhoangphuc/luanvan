@@ -223,7 +223,11 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
 
                                 // Hiển thị bg dữ liệu
                                 $scope.newMember_Data = response.data.message.hang.h_ma;
-                                setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+                                setTimeout(function(){ 
+                                    $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                    $scope.newMember_Data = ""; 
+
+                                }, 3000);
 
                                 $('#myModal').modal('hide');
                                 toastr.success("Thêm nhà sản xuất thành công!");
@@ -266,7 +270,11 @@ app.controller('hangController', function($scope, $http, $filter, MainURL, DTOpt
                                         $scope.dsHang[i] = data;
 
                                         $scope.newMember_Data = response.data.message.hang.h_ma;
-                                        setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+                                        setTimeout(function(){ 
+                                            $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                            $scope.newMember_Data = ""; 
+
+                                        }, 3000);
 
                                         $('#myModal').modal('hide');
                                         toastr.success("Sửa nhà sản xuất thành công!");

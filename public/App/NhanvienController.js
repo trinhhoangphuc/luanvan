@@ -285,7 +285,11 @@ app.controller('nhanvienController', function($scope, $http, MainURL, DTOptionsB
 		    					$scope.status = 'edit';
 
 		    					$scope.newMember_Data = response.data.message.nhanvien.nv_ma;
-		    					setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+		    					setTimeout(function(){ 
+		    						$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+		    						$scope.newMember_Data = ""; 
+
+		    					}, 3000);
 
 		    					$('#myModal').modal('hide');
 		    					toastr.success("Thêm nhân viên thành công!");
@@ -335,7 +339,11 @@ app.controller('nhanvienController', function($scope, $http, MainURL, DTOptionsB
 	    								$scope.dsNhanvien[i] = data;
 
 	    								$scope.newMember_Data = response.data.message.nhanvien.nv_ma;
-	    								setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+	    								setTimeout(function(){ 
+	    									$('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+	    									$scope.newMember_Data = ""; 
+
+	    								}, 3000);
 
 	    								$('#myModal').modal('hide');
 	    								toastr.success("Sửa nhân viên thành công!");

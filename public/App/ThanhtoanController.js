@@ -258,7 +258,11 @@ app.controller('thanhtoanController', function($scope, $http, $filter, MainURL, 
 
     		        			// Hiển thị bg dữ liệu
     		        			$scope.newMember_Data = response.data.message.thanhtoan.tt_ma;
-    		        			setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+    		        			setTimeout(function(){ 
+                                    $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                    $scope.newMember_Data = ""; 
+
+                                }, 3000);
 
     		        			$('#myModal').modal('hide');
     		        			toastr.success("Thêm thanh toán thành công");
@@ -301,7 +305,11 @@ app.controller('thanhtoanController', function($scope, $http, $filter, MainURL, 
     	    							$scope.dsThanhtoan[i] = data;
 
     	    							$scope.newMember_Data = response.data.message.thanhtoan.tt_ma;
-    	    							setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+    	    							setTimeout(function(){ 
+                                            $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                            $scope.newMember_Data = ""; 
+
+                                        }, 3000);
 
     	    							$('#myModal').modal('hide');
     	    							toastr.success("Sửa thanh toán thành công!");

@@ -230,7 +230,11 @@ app.controller('loaiController', function($scope, $http, $filter, MainURL, DTOpt
 
                                     // Hiển thị bg dữ liệu
                                     $scope.newMember_Data = response.data.message.loai.l_ma;
-                                    setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+                                    setTimeout(function(){ 
+                                        $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                        $scope.newMember_Data = ""; 
+
+                                    }, 3000);
 
                                     $('#myModal').modal('hide');     
                                     toastr.success("Thêm loại sản phẩm thành công!");
@@ -272,7 +276,11 @@ app.controller('loaiController', function($scope, $http, $filter, MainURL, DTOpt
                                         $scope.dsLoai[i] = data;
 
                                         $scope.newMember_Data = response.data.message.loai.l_ma;
-                                        setTimeout(function(){ $('#tr_'+$scope.newMember_Data).removeClass('bg-default'); }, 3000);
+                                        setTimeout(function(){ 
+                                            $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                            $scope.newMember_Data = ""; 
+
+                                        }, 3000);
 
                                         $('#myModal').modal('hide');
                                         toastr.success("Sửa loại sản phẩm thành công!");

@@ -347,6 +347,25 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
+	// Quản lý  Banner
+	Route::get('banner', function () {
+		return view('admin.banner');
+	})->name("QLbanner");
+
+	Route::group(["prefix" =>"banner"], function(){
+
+		Route::get('danhsach',  'bannerController@index'); // load dánh sách
+
+		Route::post('store', "bannerController@store")->name("postStoreBanner");
+
+		Route::post('update/{id}', "bannerController@update"); 
+
+		Route::delete('delete/{id}', "bannerController@destroy");
+
+		Route::post('deleteAll', "bannerController@destroyAll");
+	});
+	// kết thúc
+
 });
 // kết thúc quản trị
 

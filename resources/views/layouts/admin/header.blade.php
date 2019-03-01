@@ -83,7 +83,7 @@
           </a>
         </li>
 
-        <li class="treeview">
+        <li class="treeview @yield('ttch')">
           <a href="#">
             <i class="glyphicon glyphicon-tower"></i> 
             <span>Thông tin cửa hàng</span>
@@ -92,8 +92,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href=""><i class="fa fa-circle-o"></i> Giới Thiệu</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Ảnh Quảng cáo</a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Giới Thiệu</a></li>
+            <li class="@yield('banner')"><a href=""><i class="fa fa-circle-o"></i> Ảnh Quảng cáo</a></li>
           </ul>
         </li>
 

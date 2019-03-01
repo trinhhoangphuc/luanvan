@@ -80,7 +80,7 @@ class NhapController extends Controller
             $nhap = Nhap::where("n_ma", $id)->first();
             if($nhap)
             {
-                $nhap = Nhap::where("sp_ma", $nhap->sp_ma)->where("n_ngaySX", $request->get("ngaysanxuat"))->where("n_hanSD", $request->get("hansudung"))->where("hv_ma", $request->get("maHuong"))->where("n_soLuong", ">", 0)->first();
+                $nhap = Nhap::where("sp_ma", $nhap->sp_ma)->where("n_ngaySX", $request->get("ngaysanxuat"))->where("n_hanSD", $request->get("hansudung"))->where("hv_ma", $request->get("maHuong"))->where("n_soLuong",  $request->get('soluong'))->first();
                 if(!$nhap){
                     $nhap = Nhap::where("n_ma", $id)->first();
                     $nhap->sp_ma = $nhap->sp_ma;
