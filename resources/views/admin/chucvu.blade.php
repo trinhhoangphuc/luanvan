@@ -75,7 +75,7 @@
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.cv_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
                                             <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.cv_ma)"><i class="fa fa-pencil"></i></button>
-                                            <button class="btn  btn-sm bg-purple btn-role" ng-click="CreateEdit_show('role', item.cv_ma)"><i
+                                            <button class="btn btn-flat  btn-sm bg-purple btn-role" ng-click="CreateEdit_show('role', item.cv_ma)"><i
                                                         class="fa fa-address-card"></i></button>
                                             <button class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.cv_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>

@@ -45,7 +45,7 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsLoai.length != 0">
+                        <div class="" ng-show="!isLoading && dsNhanvien.length != 0">
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
@@ -88,7 +88,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="" ng-show="!isLoading && dsLoai.length == 0 ">
+                        <div class="" ng-show="!isLoading && dsNhanvien.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
                                     <tr >
@@ -97,7 +97,9 @@
                                             <button id="btn-deleteall" class="btn btn-default btn-sm" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                         </th>
 
-                                        <th>Loại</th>
+                                        <th>Họ tên</th>
+                                        <th>Giới tính</th>
+                                        <th width="20%">Chức vụ</th>
                                         <th>Trạng Thái</th>
                                         <th>
                                             <button class="btn btn-sm btn-flat btn-primary btn-refresh" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
@@ -107,7 +109,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="4" style="width: 10% !important; text-align: center;">
+                                        <td colspan="6" style="width: 10% !important; text-align: center;">
                                             Chưa có dữ liệu
                                         </td>
                                     </tr>

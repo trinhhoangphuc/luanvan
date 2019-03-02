@@ -375,9 +375,7 @@ Route::get('/', function () {
 		return redirect(route('homepage'));	
 });
 
-Route::get('/index', function () {
-		return view('customer.index');	
-})->name("homepage");
+Route::get('/index', "HomepageController@index")->name("homepage");
 
 Route::get('/chi-tiet-san-pham', function () {
 		return view('customer.chitiet');	

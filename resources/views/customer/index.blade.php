@@ -6,30 +6,28 @@
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
-					<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="3"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="4"></li>
+					@foreach($bannerList as $banner)
+						@if($loop->index == 0)
+						<li data-target="#carousel-example-generic" data-slide-to="{{ $loop->index }}" class="active"></li>
+						@else
+						<li data-target="#carousel-example-generic" data-slide-to="{{ $loop->index }}"></li>
+						@endif
+					@endforeach
 				</ol>
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-						<img src="{{asset('public/images/layouts/banner2.jpg')}}" alt="">
-					</div>
-					<div class="item">
-						<img src="{{asset('public/images/layouts/banner3.jpg')}}" alt="">
-					</div>
-					<div class="item">
-						<img src="{{asset('public/images/layouts/banner4.jpg')}}" alt="">
-					</div>
-					<div class="item">
-						<img src="{{asset('public/images/layouts/banner5.jpg')}}" alt="">
-					</div>
-					<div class="item">
-						<img src="{{asset('public/images/layouts/banner7.jpg')}}" alt="">
-					</div>
+					@foreach($bannerList as $banner)
+						@if($loop->index == 0)
+						<div class="item active">
+							<img src="{{asset('public/images/banner/'.$banner->bn_hinh )}}" alt="">
+						</div>
+						@else
+						<div class="item">
+							<img src="{{asset('public/images/banner/'.$banner->bn_hinh )}}" alt="">
+						</div>
+						@endif
+					@endforeach
 				</div>
 
 				<!-- Controls -->
@@ -308,173 +306,25 @@
 				<div class="recommended_items"><!--recommended_items-->
 					<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
+
 							<div class="item active">
-
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="sale_count">
-											<span class="bf_">Mới</span>
-										</span>
-										<span class="label_news top_">
-											<span class="bf_">Mới</span>
-										</span>
-										<img src="{{asset('public/images/products/img1.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="sale_count">
-											<span class="bf_">-10%</span>
-										</span>
-										<img src="{{asset('public/images/products/img2.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="label_news">
-											<span class="bf_">Mới</span>
-										</span>
-										<img src="{{asset('public/images/products/img3.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="sale_count">
-											<span class="bf_">Mới</span>
-										</span>
-										<span class="label_news top_">
-											<span class="bf_">Mới</span>
-										</span>
-										<img src="{{asset('public/images/products/img4.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
-										</div>
-									</div>
-								</div>
-
-							</div>               
-							<div class="item">
-
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="sale_count">
-											<span class="bf_">-10%</span>
-										</span>
-										<img src="{{asset('public/images/products/img5.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="label_news">
-											<span class="bf_">Mới</span>
-										</span>
-										<img src="{{asset('public/images/products/img6.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<a>
+								@foreach($sanphammoiList as $sanphammoi)
+									@if($loop->index < 4)
+									<div class="col-xs-6 col-md-3 col-sm-4">
 										<div class="product">
-											<span class="label_news">
+											@if($sanphammoi->sp_tinhTrang == 1)
+											<span class="label_news <?php if($sanphammoi->sp_giamGia > 0) echo 'top_'; ?> ">
 												<span class="bf_">Mới</span>
 											</span>
-											<img src="{{asset('public/images/products/img7.jpg')}}" alt="Avatar" class="image">
+											@endif
+											@if($sanphammoi->sp_giamGia > 0)
+											<span class="sale_count">
+												<span class="bf_">
+													-{{ round( 100 - ($sanphammoi->sp_giamGia * 100)/$sanphammoi->sp_giaBan) }}%
+												</span>
+											</span>
+											@endif
+											<img src="{{asset('public/images/products/'.$sanphammoi->sp_hinh)}}" alt="{{$sanphammoi->sp_ten}}" class="image">
 											<div class="overlay">
 												<div class="box">
 													<div class="btn-detail">
@@ -485,40 +335,68 @@
 												</div>
 											</div>
 											<div class="detail">
-												<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
+												<div class="title">{{$sanphammoi->sp_ten}}</div>
 												<p class="price">
-													<span class="discount">1,000,000 đ</span>&nbsp;
-													<span>500,000 đ</span>
+													@if($sanphammoi->sp_giamGia > 0)
+														<span class="discount">{{number_format($sanphammoi->sp_giaBan, 0, ".", ",")}} <sup>đ</sup></span>&nbsp;
+														<span>{{number_format($sanphammoi->sp_giamGia, 0, ".", ",")}} <sup>đ</sup></span>
+													@else
+														<span>{{number_format($sanphammoi->sp_giaBan, 0, ".", ",")}} <sup>đ</sup></span>
+													@endif
 												</p>
 											</div>
 										</div>
-									</a>
-								</div>
-								<div class="col-xs-6 col-md-3 col-sm-4">
-									<div class="product">
-										<span class="label_news">
-											<span class="bf_">Mới</span>
-										</span>
-										<img src="{{asset('public/images/products/img8.jpg')}}" alt="Avatar" class="image">
-										<div class="overlay">
-											<div class="box">
-												<div class="btn-detail">
-													<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-													<div style="margin: 5px 0px 5px 0px;"></div>
-													<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+									</div>
+									@endif
+								@endforeach
+
+							</div> 
+
+							@if(count($sanphammoiList) > 4)
+							<div class="item">
+								@foreach($sanphammoiList as $sanphammoi)
+									@if($loop->index >= 4)
+									<div class="col-xs-6 col-md-3 col-sm-4">
+										<div class="product">
+											@if($sanphammoi->sp_tinhTrang == 1)
+											<span class="label_news <?php if($sanphammoi->sp_giamGia > 0) echo 'top_'; ?> ">
+												<span class="bf_">Mới</span>
+											</span>
+											@endif
+											@if($sanphammoi->sp_giamGia > 0)
+											<span class="sale_count">
+												<span class="bf_">
+													-{{ round( 100 - ($sanphammoi->sp_giamGia * 100)/$sanphammoi->sp_giaBan) }}%
+												</span>
+											</span>
+											@endif
+											<img src="{{asset('public/images/products/'.$sanphammoi->sp_hinh)}}" alt="{{$sanphammoi->sp_ten}}" class="image">
+											<div class="overlay">
+												<div class="box">
+													<div class="btn-detail">
+														<a href="" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
+														<div style="margin: 5px 0px 5px 0px;"></div>
+														<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="detail">
-											<div class="title">Máy Câu Cá Ngang Màu Vàng Đồng Yumoshi LV200</div>
-											<p class="price">
-												<span class="discount">1,000,000 đ</span>&nbsp;
-												<span>500,000 đ</span>
-											</p>
+											<div class="detail">
+												<div class="title">{{$sanphammoi->sp_ten}}</div>
+												<p class="price">
+													@if($sanphammoi->sp_giamGia > 0)
+														<span class="discount">{{number_format($sanphammoi->sp_giaBan, 0, ".", ",")}} <sup>đ</sup></span>&nbsp;
+														<span>{{number_format($sanphammoi->sp_giamGia, 0, ".", ",")}} <sup>đ</sup></span>
+													@else
+														<span>{{number_format($sanphammoi->sp_giaBan, 0, ".", ",")}} <sup>đ</sup></span>
+													@endif
+												</p>
+											</div>
 										</div>
 									</div>
-								</div>
+									@endif
+								@endforeach
 							</div>
+							@endif
 						</div>
 						<a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 							<i class="fas fa-angle-left"></i>

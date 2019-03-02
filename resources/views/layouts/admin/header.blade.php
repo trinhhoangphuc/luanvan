@@ -93,7 +93,7 @@
           </a>
           <ul class="treeview-menu">
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Giới Thiệu</a></li>
-            <li class="@yield('banner')"><a href=""><i class="fa fa-circle-o"></i> Ảnh Quảng cáo</a></li>
+            <li class="@yield('banner')"><a href="{{route('QLbanner')}}"><i class="fa fa-circle-o"></i> Ảnh Quảng cáo</a></li>
           </ul>
         </li>
 

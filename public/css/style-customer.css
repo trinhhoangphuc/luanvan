@@ -475,12 +475,17 @@ header{background-image: url('../images/layouts/background_header.png');}
 
 	}*/
 
+	.product .detail .title{
+		text-transform: uppercase;
+	}
+
 	@media only screen and (min-width: 768px) {
 
 		.product .detail .title{
 			padding: 5px 5px;
 			height: 50px;
 			color: #666;
+			text-transform: uppercase;
 		}
 	}
 
