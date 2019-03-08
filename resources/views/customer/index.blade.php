@@ -86,7 +86,7 @@
 		<br/>
 
 		<div class="row">
-			@foreach($sanphambanchayList as $sanphambanchay)
+			@foreach($sanphammoiList as $sanphambanchay)
 			<div class="col-xs-6 col-md-3 col-sm-4 box-hidden">
 				<div class="product">
 					@if($sanphambanchay->sp_tinhTrang == 1)

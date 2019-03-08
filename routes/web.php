@@ -387,6 +387,8 @@ Route::get('/dang-xuat',"HomepageController@getLogout");
 
 Route::post('/dang-ky',"HomepageController@postRegister");
 
+Route::post('/danh-gia/{id}',"HomepageController@postRate")->name("rate");
+
 
 Route::get('/404', function () {
 		return view("error.404");	

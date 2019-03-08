@@ -49,6 +49,7 @@ class KhachhangController extends Controller
             	$khachhang               = new Khachhang();
             	$khachhang->kh_matKhau   = md5($matkhau);
             	$khachhang->kh_hoTen     = $request->ten;
+                $khachhang->kh_hinh      = "user.png";
             	$khachhang->kh_gioiTinh  = $request->gioitinh;
             	$khachhang->kh_email     = $request->email;
             	$khachhang->kh_diaChi    = $request->diachi;

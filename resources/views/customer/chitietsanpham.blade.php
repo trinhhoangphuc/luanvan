@@ -101,48 +101,53 @@
 				</div>
 				<div role="tabpanel" class="tab-pane" id="profile">
 					<div class="comments">
-						<div class="comment-wrap">
-							@if(Session::has("customer_id"))
-							<div class="photo">
-								<div class="avatar" style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg')"></div>
-							</div>
-							<div class="comment-block">
-								<form action="">
-								<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; ">
-									
-									<input type="hidden" id="rate" class="rating"/>
-									<textarea name="" id="" cols="30" rows="3" placeholder="Add comment..."></textarea>
-									<div style="margin-top:10px; float: right; margin-right: 12px;">
-										<button type="submit" class="btn btn-hotel-2">Gửi đánh giá</button>
-									</div>
-									
-								</p>
-								</form>
-							</div>
-							@else
-							<div class="photo"><div class="avatar"></div></div>
-							<div class="comment-block">
-								<p class="product-information" style="padding: 0px 10px; text-align: left !important; border: none; ">
-									<p style="text-align: left !important;">
-										<b>Vui lòng đăng nhập trước khi đánh giá!</b> 
-										<a href="">Đăng nhập </a>
+						<div class="col-sm-12">
+							<div class="comment-wrap">
+								@if(Session::has("customer_id"))
+								<div class="photo">
+									<div class="avatar" style="background-image: url('{{asset('public/images/avatar/customer/' .Session::get('customer_img'))}}')"></div>
+								</div>
+								<div class="comment-block">
+									<form action="{{route('rate', $sanpham->sp_ma)}}" method="POST">
+										<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; ">
+											<input type="hidden" name="_token" value="{{csrf_token()}}">
+											<input type="hidden" name="rate" class="rating" value="0" />
+											<textarea name="noiDung" id="noiDung" cols="30" rows="3" placeholder="Bình luận" required></textarea>
+											<div style="margin-top:10px; float: right; margin-right: 12px;">
+												<button type="submit" class="btn btn-hotel-2">Gửi đánh giá</button>
+											</div>
+										</p>
+									</form>
+								</div>
+								@else
+								<div class="photo"><div class="avatar"></div></div>
+								<div class="comment-block">
+									<p class="product-information" style="padding: 0px 10px; text-align: left !important; border: none; ">
+										<p style="text-align: left !important;">
+											<b>Vui lòng đăng nhập trước khi đánh giá!</b> 
+											<a href="">Đăng nhập </a>
+										</p>
 									</p>
-								</p>
+								</div>
+								@endif
 							</div>
-							@endif
 						</div>
 
 						@foreach($danhgiaList as $danhgia)
-						<div id="load-comment" class="comment-wrap box-hidden">
-							<div class="photo">
-								<div class="avatar" style="background-image: url('{{asset('public/images/avatar/customer/' . $danhgia->kh_hinh)}}')"></div>
-							</div>
-							<div class="comment-block">
-								<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; font-size: 15px;">
-									<input type="hidden"  class="rating" value="{{ $sanpham->sp_danhGia }}" data-readonly "/><br/>
-									{{$danhgia->dg_noiDung}}
-								</p>
-								
+						<div class="col-sm-12 box-hidden">
+							<div id="load-comment" class="comment-wrap ">
+								<div class="photo">
+									<div class="avatar" style="background-image: url('{{asset('public/images/avatar/customer/' . $danhgia->kh_hinh)}}')"></div>
+								</div>
+								<div class="comment-block">
+									<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; font-size: 15px;">
+										@if($danhgia->dg_sao > 0)
+										<input type="hidden"  class="rating" value="{{ $danhgia->dg_sao }}" data-readonly "/><br/>
+										@endif
+										{{$danhgia->dg_noiDung}}
+									</p>
+
+								</div>
 							</div>
 						</div>
 						@endforeach

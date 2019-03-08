@@ -92,6 +92,7 @@ class HomepageController extends Controller
     		if($khachhang){
     			Session::put("customer_id", $khachhang->kh_ma);
     			Session::put("customer_name", $khachhang->kh_hoTen);
+    			Session::put("customer_img", $khachhang->kh_hinh);
 	    		return response(["error"=>false, "message"=>true], 200);
 	    	}else return response(["error"=>false, "message"=>false], 200);
 
@@ -108,6 +109,7 @@ class HomepageController extends Controller
     		if(Session::has("customer_id")){
     			Session::forget("customer_id");
     			Session::forget("customer_name");
+    			Session::forget("customer_img");
 	    		return response(["error"=>false, "message"=>true], 200);
 	    	}else return;
     	}catch(QueryException $ex){
@@ -136,6 +138,7 @@ class HomepageController extends Controller
             	$khachhang               = new Khachhang();
             	$khachhang->kh_matKhau   = md5($request->get('pass'));
             	$khachhang->kh_hoTen     = $request->get('name');
+            	$khachhang->kh_hinh   = "user.png";
             	$khachhang->kh_gioiTinh  = $request->get('gender');
             	$khachhang->kh_email     = $request->get('email');
             	$khachhang->kh_diaChi    = $request->get('address');
@@ -153,6 +156,34 @@ class HomepageController extends Controller
         } catch (PDOException $ex) {
             return response(["error"=>true, "message"=>$ex->getMessage()], 200);
         }
+    }
+
+    public function postRate(Request $request, $id)
+    {
+    	if(Session::has("customer_id")){
+    		$danhgia = new Danhgia();
+    		$danhgia->dg_sao = $request->get('rate');
+    		$danhgia->dg_noiDung = $request->get('noiDung');
+    		$danhgia->sp_ma = $id;
+    		$danhgia->kh_ma = Session::get("customer_id");
+    		if($danhgia->save()){   
+    			$sanpham = Sanpham::where("sp_ma", $danhgia->sp_ma)->first();
+    			$star = Danhgia::where("sp_ma", $danhgia->sp_ma)->where("dg_sao", ">", 0)->where("dg_trangThai", 1)->avg("dg_sao");
+    			
+    			if($star){
+    				$star = round($star);
+    				$sanpham->sp_danhGia = $star;
+    			}else $sanpham->sp_danhGia = 0;
+
+    			$sanpham->save();
+    			return redirect()->back();
+    		}else{
+    			return redirect()->back();
+    		}
+    	}else{
+    		return redirect()->back();
+    	}
+
     }
 
 }
