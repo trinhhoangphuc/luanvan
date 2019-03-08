@@ -385,6 +385,9 @@ Route::post('/dang-nhap',"HomepageController@postLogin");
 
 Route::get('/dang-xuat',"HomepageController@getLogout");
 
+Route::post('/dang-ky',"HomepageController@postRegister");
+
+
 Route::get('/404', function () {
 		return view("error.404");	
 })->name("error404");

@@ -79,7 +79,9 @@
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 
-							<li><a href="index.html"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label bg-danger-2">1</span></a></li>
+							<li>
+								<a href="" data-toggle="modal" ng-click="showLoginRegister('success')"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label bg-danger-2">1</span></a>
+							</li>
 
 
 							@if(!Session::has("customer_id"))
@@ -108,7 +110,7 @@
 
 	<div id="loginRegiter" class="modal modal-2 fade" role="dialog">
 		<div class="modal-dialog">				
-			<div class="modal-content" style="width: 80%;">
+			<div class="modal-content hidden" style="width: 80%;" id="submitLoginRegister">
 				<div class="imgcontainer">
 					<span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
 					<div class="logo-login-register"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive"></div>
@@ -150,10 +152,12 @@
 						</div>
 							<label for="email">Email:</label>
 							<input id="email" type="text" class="form-control border-radis-none" name="email" placeholder="Email" ng-model="register.email" />
+							<span id="errorEmail" class="error"></span>
 						</div>
 						<div class="form-group">
 							<label for="phone">Điện Thoại:</label>
 							<input id="phone" type="text" class="form-control border-radis-none" name="phone" placeholder="0123456" ng-model="register.phone" />
+							<span id="errorPhone" class="error"></span>
 						</div>
 						<div class="form-group">
 							<label for="address">Địa chỉ:</label>
@@ -174,8 +178,21 @@
 				</div>
 
 			</div>
+
+			<div class="modal-content hidden" style="width: 80%;" id="frmSuccessEror">
+				<div class="imgcontainer">
+					<span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+				</div>
+				<div class="modal-body text-center" id="frmSuccess" >
+					<div style="width: 40%; height: 100%; margin: auto;">
+						<img src="{{ asset('public/images/layouts/success.gif') }}" class="img-responsive" />
+					</div>
+					<h4 class="text-danger">Chúc mừng! Bạn đã đăng ký tài khoản thành công</h4>
+					<h4><a href="" data-toggle="modal" ng-click="showLoginRegister('login')">Đăng nhập</a></h4>
+					
+				</div>
+
+			</div>
 		</div>
 	</div>
-
-</header>
 </header>

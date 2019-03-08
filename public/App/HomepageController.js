@@ -22,14 +22,32 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
 		switch(status){
 
 			case "login":
+				$("#submitLoginRegister").removeClass("hidden");
+				$("#frmSuccessEror").addClass("hidden");
+
 				$("#frmLogin").removeClass("hidden");
 				$("#frmRegiter").addClass("hidden");
+
 				$("#loginRegiter").modal("show");
 			break;
 
 			case "register":
+				$("#submitLoginRegister").removeClass("hidden");
+				$("#frmSuccessEror").addClass("hidden");
+
 				$("#frmLogin").addClass("hidden");
 				$("#frmRegiter").removeClass("hidden");
+
+				$scope.register = {gender: 1}
+
+				$("#loginRegiter").modal("show");
+			break;
+
+			case "success":
+
+				$("#submitLoginRegister").addClass("hidden");
+				$("#frmSuccessEror").removeClass("hidden");
+
 				$("#loginRegiter").modal("show");
 			break;
 		}
@@ -71,30 +89,38 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
 
     $("#frmPostRegister").validate({ 
         rules: {
-            emailLogin: {   
-                required: true,
-                email: true
-            },
-            passLogin:{
-            	required: true,
-            }
+            name: 		{ required: true, },
+            email: 		{ required: true, email: true },
+            phone: 		{ required: true, number: true },
+            address: 	{  required: true },
+            password: 		{ required: true, minlength: 6, maxlength: 32 },
+            repassword: { equalTo: "#password" }
         }, 
         messages: {
-            emailLogin: {
-                required: "Xin vui lòng nhập email!",
-                email: "Email không đúng định dạng!",
-            },
-            passLogin:{
-            	required: "Xin vui lòng nhập mật khẩu!",
-            }
+            name: 		{ required: "Xin vui lòng nhập họ tên.", },
+            email: 		{ required: 'Xin vui lòng nhập email.', email: "Email không đúng định dạng." },
+            phone: 		{ required: "Xin vui lòng nhập số điện thoại.", number: "Số điện thoại không đúng định dạng." },
+            address: 	{ required: "Xin vui lòng nhập địa chỉ.", },
+            password: 		{ required: "Xin vui lòng nhập mật khẩu.", minlength: "Mật khẩu phải lớn hơn 6 ký tự", maxlength: "Mật khẩu phải nhỏ hơn 32 ký tự" },
+            repassword: { equalTo: "Nhập lại mật khẩu không chính xác." }
         },
         submitHandler: function(form) {
-            var requestData = $.param($scope.login);
-            var requestURL  = MainURL + "dang-nhap";
+            var requestData = $.param($scope.register);
+            var requestURL  = MainURL + "dang-ky";
             $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
             .then(function(response){
-            	if(response.data.message) window.location.reload();
-            	else $("#errorLogin").text("Email hoặc mật khẩu không chính xác!").show();
+            	if(response.data.error){
+            		if(response.data.message.email != undefined)
+            			$('#errorEmail').text(response.data.message.email[0]).show();
+            		if(response.data.message.phone != undefined)
+            			$('#errorPhone').text(response.data.message.phone[0]).show();
+            	}else{
+            		if(response.data.message_2){
+            			$("#submitLoginRegister").addClass("hidden");
+						$("#frmSuccessEror").removeClass("hidden");
+            		}
+
+            	} 
             }).catch(function(reason){
             	console.log(reason);
             });

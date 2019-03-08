@@ -117,4 +117,42 @@ class HomepageController extends Controller
     	}
    }
 
+   public function postRegister(Request $request)
+    {
+        try {
+            $rule = [
+                "email" => "unique:khachhang,kh_email",
+                "phone" => "unique:khachhang,kh_dienThoai",
+            ];
+            $message = [
+                "email.unique" => "Email đã được sử dụng!",
+                "phone.unique" => "Số điện thoại đã được sử dụng",   
+            ];
+            $validator = Validator::make($request->all(), $rule, $message);
+            if($validator->fails()){
+                return response()->json(['error'=>true, 'message'=>$validator->errors()]);
+            }else{
+            	
+            	$khachhang               = new Khachhang();
+            	$khachhang->kh_matKhau   = md5($request->get('pass'));
+            	$khachhang->kh_hoTen     = $request->get('name');
+            	$khachhang->kh_gioiTinh  = $request->get('gender');
+            	$khachhang->kh_email     = $request->get('email');
+            	$khachhang->kh_diaChi    = $request->get('address');
+            	$khachhang->kh_dienThoai = $request->get('phone');
+            	$khachhang->kh_trangThai = 1;
+            	
+            	if($khachhang->save())
+            	{
+                    return response(['error'=>false, 'message_2'=>true], 200);
+            	}
+            }
+
+        } catch (QueryException $ex) {
+            return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+        } catch (PDOException $ex) {
+            return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+        }
+    }
+
 }

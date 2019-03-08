@@ -204,6 +204,10 @@ app.controller('khachhangController', function($scope, $http, MainURL, DTOptions
         		$("#myModal2").modal("show");
 
     		break;
+
+    		case "success":
+    			$("#frmSuccessEror").modal("show");
+    		break;
 		}
 	}
 
