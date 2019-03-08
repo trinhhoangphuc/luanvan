@@ -38,7 +38,7 @@ class DanhgiaController extends Controller
                 if($danhgia->save())
                 {   
                     $sanpham = Sanpham::where("sp_ma", $danhgia->sp_ma)->first();
-                    $star = Danhgia::where("sp_ma", $danhgia->sp_ma)->where("dg_trangThai", 1)->avg("dg_sao");
+                   $star = Danhgia::where("sp_ma", $danhgia->sp_ma)->where("dg_sao", ">", 0)->where("dg_trangThai", 1)->avg("dg_sao");
 
                     if($star){
                         $star = round($star);

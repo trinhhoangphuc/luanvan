@@ -93,7 +93,7 @@
 								</li>
 							@else
 								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Xin chào! {{ Session::get("customer_name") }}<span class="caret"></span></a>
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{asset('public/images/avatar/customer/'.Session::get('customer_img'))}}" width="20px" height="20px" class="img-circle" /> {{ Session::get("customer_name") }}<span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li><a href="">Thông tin</a></li>
 										<li><a href="">Đơn hàng</a></li>

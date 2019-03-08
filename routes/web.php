@@ -389,6 +389,9 @@ Route::post('/dang-ky',"HomepageController@postRegister");
 
 Route::post('/danh-gia/{id}',"HomepageController@postRate")->name("rate");
 
+Route::get('/thong-tin-ca-nha', function () {
+		return view("customer.thongtincanha");	
+})->name("profile");
 
 Route::get('/404', function () {
 		return view("error.404");	
