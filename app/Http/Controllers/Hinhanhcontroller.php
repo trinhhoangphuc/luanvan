@@ -42,7 +42,7 @@ class Hinhanhcontroller extends Controller
 
                 $src= ImageWorkshop::initFromPath($file->getRealPath());
                 $wm = ImageWorkshop::initFromPath($pathWM);
-                $src->resizeInPixel(400, 400, false);
+                $src->resizeInPixel(500, 500, false);
                 $src->addLayerOnTop($wm, 10, 10, "RB");
 
                 $createFolders = true;

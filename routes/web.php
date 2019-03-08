@@ -280,33 +280,6 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
-	// Quản lý nhà cung cấp 
-	Route::get('phieunhap', function () {
-		return view('admin.phieunhap');
-	})->name("QLphieunhap");
-
-	Route::group(["prefix" =>"phieunhap"], function(){
-
-		Route::get('danhsach',  'PhieunhapController@index'); // load dánh sách
-
-		Route::get('sanphamByIdpn/{id}',  'PhieunhapController@getProductsById'); // load dánh sách
-
-		Route::post('store', "PhieunhapController@store");
-
-		Route::post('update/{id}', "PhieunhapController@update"); 
-
-		Route::delete('delete/{id}', "PhieunhapController@destroy");
-
-		Route::delete('deleteProduct/{id}', "PhieunhapController@deleteProduct");
-
-		Route::post('deleteAll', "PhieunhapController@destroyAll");
-
-		Route::post('storeProduct/{id}', "PhieunhapController@storeProduct");
-
-		Route::post('updateProduct/{id}', "PhieunhapController@updateProduct");
-	});
-	// kết thúc
-
 	// Quản lý nhà khách hàng
 	Route::get('khachhang', function () {
 		return view('admin.khachhang');
@@ -366,6 +339,27 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
+	// Quản lý  Banner
+	Route::get('donhang', function () {
+		return view('admin.donhang');
+	})->name("QLdonhang");
+
+	Route::group(["prefix" =>"donhang"], function(){
+
+		Route::get('danhsach',  'DonhangController@index'); // load dánh 
+
+		Route::get('danhsachchitiet/{id}',  'DonhangController@getCTDHbyId');
+
+		// Route::post('store', "DonhangController@store");
+
+		Route::post('update/{id}', "DonhangController@update"); 
+
+		Route::delete('delete/{id}', "DonhangController@destroy");
+
+		Route::post('deleteAll', "DonhangController@destroyAll");
+	});
+	// kết thúc
+
 });
 // kết thúc quản trị
 
@@ -377,7 +371,17 @@ Route::get('/', function () {
 
 Route::get('/index', "HomepageController@index")->name("homepage");
 
-Route::get('/chi-tiet-san-pham', function () {
-		return view('customer.chitiet');	
-})->name("detail");
+Route::get('/tat-ca-san-pham', "HomepageController@getAllProducts")->name("getAllProducts");
+
+Route::get('/chi-tiet-san-pham/{id}',"HomepageController@getProductDetail")->name("detail");
+
+Route::get('/danh-muc/{id}',"HomepageController@getProductsByIdLoai")->name("Category");
+
+Route::get('/nha-san-xuat/{id}',"HomepageController@getProductsByIdNSX")->name("Brand");
+
+Route::get('/loc-du-lieu/{maLoai}/{maChude}/{giaTu}/{giaDen}',"HomepageController@getFilterProducts");
+
+Route::get('/404', function () {
+		return view("error.404");	
+})->name("error404");
 // kết thúc khách hàng

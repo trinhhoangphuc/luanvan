@@ -128,7 +128,7 @@
             <li class="@yield('nsx')"><a href="{{route('QLnhasanxuat')}}"><i class="fa fa-circle-o"></i> Nhà sản xuất</a></li>
             <li class="@yield('vc')"><a href="{{route('QLvanchuyen')}}"><i class="fa fa-circle-o"></i> Vận chuyển</a></li>
             <li class="@yield('tt')"><a href="{{route('QLthanhtoan')}}"><i class="fa fa-circle-o"></i> Thanh toán</a></li>
-            <li class="@yield('ncc')"><a href="{{route('QLnhacungcap')}}"><i class="fa fa-circle-o"></i> Nhà cung cấp</a></li>
+
           </ul>
         </li>
 
@@ -142,7 +142,6 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield('donhang')"><a href=""><i class="fa fa-circle-o"></i> Đơn hàng</a></li>
-            <li class="@yield('phieunhap')"><a href="{{route('QLphieunhap')}}"><i class="fa fa-circle-o"></i> Phiếu nhập hàng</a></li>
           </ul>
         </li>
 

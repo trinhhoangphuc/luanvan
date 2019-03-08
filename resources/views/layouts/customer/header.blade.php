@@ -5,7 +5,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo text-center">
-							<a href=""><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
+							<a href="{{route('homepage')}}"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 
-		<div class="header-bottom" data-spy="affix" data-offset-top="100">  <!-- data-spy="affix" data-offset-top="100" -->
+		<div class="header-bottom" id="header-bottom">  <!-- data-spy="affix" data-offset-top="100" -->
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
@@ -57,24 +57,22 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li class=''><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
-							<li class=''><a href="products.html"><i class="fas fa-box-open"></i> Sản phẩm</a></li>
-							<li class="dropdown ">
+							<li class='@yield("trangchu")'><a href="{{ route('homepage') }}"><i class="fas fa-home"></i> Trang chủ</a></li>
+							<li class='@yield("tatcasp")'><a href="{{ route('getAllProducts') }}"><i class="fas fa-box-open"></i> Sản phẩm</a></li>
+							<li class="dropdown @yield('danhmuc')">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Danh mục<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li class=''><a href=""> Máy câu</a></li>
-									<li class=''><a href=""> Cần câu</a></li>
-									<li class=''><a href=""> Đồ câu</a></li>
-									<li class=''><a href=""> Phụ kiện</a></li>
+									@foreach($loaiList as $loai)
+									<li class=''><a href="{{route('Category', $loai->l_ma)}}"> {{ $loai->l_ten }}</a></li>
+									@endforeach
 								</ul>
 							</li>
-							<li class="dropdown ">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hãng sản xuất<span class="caret"></span></a>
+							<li class="dropdown @yield('nsx')">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nhà sản xuất<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li class=''><a href=""> Máy câu</a></li>
-									<li class=''><a href=""> Cần câu</a></li>
-									<li class=''><a href=""> Đồ câu</a></li>
-									<li class=''><a href=""> Phụ kiện</a></li>
+									@foreach($nhasanxuatList as $nhasanxuat)
+									<li class=''><a href="{{route('Brand', $nhasanxuat->h_ma)}}"> {{ $nhasanxuat->h_ten }}</a></li>
+									@endforeach
 								</ul>
 							</li>
 							
@@ -92,8 +90,8 @@
 								</ul>
 							</li>
 
-							<li><a href="" data-toggle="modal" data-target="#modalTest"><i class="fas fa-sign-in-alt" aria-hidden="true" ></i> Đăng nhập</a></li>
-							<li><a href="" data-toggle="modal" data-target="#register"><i class="fas fa-user" aria-hidden="true"></i> Đăng ký</a></li>
+							<li><a href="" data-toggle="modal" ng-click="showLoginRegister('login')"><i class="fas fa-sign-in-alt" aria-hidden="true" ></i> Đăng nhập</a></li>
+							<li><a href="" data-toggle="modal" ng-click="showLoginRegister('register')"><i class="fas fa-user" aria-hidden="true"></i> Đăng ký</a></li>
 
 						</ul>
 					</div>
@@ -102,14 +100,14 @@
 		</div>
 	</div>
 
-	<div id="login" class="modal modal-2 fade" role="dialog">
+	<div id="loginRegiter" class="modal modal-2 fade" role="dialog">
 		<div class="modal-dialog">				
 			<div class="modal-content" style="width: 80%;">
 				<div class="imgcontainer">
 					<span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
 					<div class="logo-login-register"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive"></div>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body hidden" id="frmLogin">
 					<form action="">
 						<div class="form-group">
 							<label for="email">Email:</label>
@@ -123,20 +121,9 @@
 					</form> 
 					<hr/>
 					<p>Quên mật khẩu? <a href="">Khôi Phục.</a></p>
-					<p>Chưa có tài khoản? <a href="">Đăng Ký</a></p>
+					<p>Chưa có tài khoản? <a href="" ng-click="showLoginRegister('register')">Đăng Ký</a></p>
 				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="register" class="modal  fade" role="dialog">
-		<div class="modal-dialog">				
-			<div class="modal-content">
-				<div class="imgcontainer">
-					<span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-					<div class="logo-login-register"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive"></div>
-				</div>
-				<div class="modal-body">
+				<div class="modal-body hidden" id="frmRegiter">
 					<form action="">
 						<div class="form-group">
 							<label for="name">Họ & Tên:</label>
@@ -161,10 +148,11 @@
 						<button type="submit" class="btn btn-hotel-2 btn-block">Đăng Ký</button>
 					</form> 
 					<hr/>
-					<p>Đã có tài khoản? <a href="">Đăng Nhập</a></p>
+					<p>Đã có tài khoản? <a href="" ng-click="showLoginRegister('login')">Đăng Nhập</a></p>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </header>
 </header>

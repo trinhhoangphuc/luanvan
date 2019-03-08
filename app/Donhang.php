@@ -8,7 +8,7 @@ class Donhang extends Model {
     const     CREATED_AT    = 'dh_taoMoi';
     const     UPDATED_AT    = 'dh_capNhat';
 
-    protected $table        = 'cusc_donhang';
+    protected $table        = 'donhang';
     protected $fillable     = ['kh_ma', 'dh_nguoiNhan', 'dh_diaChi', 'dh_dienThoai', 'dh_daThanhToan', 'nv_xuLy', 'dh_nguoiXuLy', 'dh_ngayXuLy', 'dh_taoMoi', 'dh_capNhat', 'dh_trangThai', 'tt_ma', 'vc_ma', 'vc_gia', 'dh_tongTien'];
     protected $guarded      = ['dh_ma'];
 
