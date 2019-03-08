@@ -81,18 +81,24 @@
 
 							<li><a href="index.html"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label bg-danger-2">1</span></a></li>
 
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Xin chào! Hoàng Phúc<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><a href="">Thông tin</a></li>
-									<li><a href="">Đơn hàng</a></li>
-									<li><a style="cursor: pointer;" id="logout">Đăng xuất</a></li>
-								</ul>
-							</li>
 
-							<li><a href="" data-toggle="modal" ng-click="showLoginRegister('login')"><i class="fas fa-sign-in-alt" aria-hidden="true" ></i> Đăng nhập</a></li>
-							<li><a href="" data-toggle="modal" ng-click="showLoginRegister('register')"><i class="fas fa-user" aria-hidden="true"></i> Đăng ký</a></li>
-
+							@if(!Session::has("customer_id"))
+								<li>
+									<a href="" data-toggle="modal" ng-click="showLoginRegister('login')"><i class="fas fa-sign-in-alt" aria-hidden="true" ></i> Đăng nhập</a>
+								</li>
+								<li>
+									<a href="" data-toggle="modal" ng-click="showLoginRegister('register')"><i class="fas fa-user" aria-hidden="true"></i> Đăng ký</a>
+								</li>
+							@else
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Xin chào! {{ Session::get("customer_name") }}<span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="">Thông tin</a></li>
+										<li><a href="">Đơn hàng</a></li>
+										<li><a style="cursor: pointer;" id="logout" ng-click="logout()">Đăng xuất</a></li>
+									</ul>
+								</li>
+							@endif
 						</ul>
 					</div>
 				</div>
@@ -107,15 +113,20 @@
 					<span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
 					<div class="logo-login-register"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive"></div>
 				</div>
-				<div class="modal-body hidden" id="frmLogin">
-					<form action="">
+
+				<div class="modal-body hidden" id="frmLogin"> <!--form login-->
+					<form method="POST" name="frmPostLoin" id="frmPostLoin">
+						<input type="hidden" name="_token" value="{{csrf_token()}}">
 						<div class="form-group">
 							<label for="email">Email:</label>
-							<input id="email" type="text" class="form-control border-radis-none" name="email" placeholder="Email">
+							<input type="text" class="form-control border-radis-none" id="emailLogin" name="emailLogin" placeholder="Email" ng-model="login.emailLogin" />
 						</div>
 						<div class="form-group">
 							<label for="pwd">Mật Khẩu:</label>
-							<input id="password" type="password" class="form-control border-radis-none" name="password" placeholder="Mật Khẩu">
+							<input type="password" class="form-control border-radis-none" id="passLogin" name="passLogin" placeholder="Mật Khẩu" ng-model="login.passLogin" />
+						</div>
+						<div class="form-group">
+							<span id="errorLogin" class="error"></span>
 						</div>
 						<button type="submit" class="btn btn-hotel-2 btn-block">Đăng Nhập</button>
 					</form> 
@@ -123,23 +134,34 @@
 					<p>Quên mật khẩu? <a href="">Khôi Phục.</a></p>
 					<p>Chưa có tài khoản? <a href="" ng-click="showLoginRegister('register')">Đăng Ký</a></p>
 				</div>
+
 				<div class="modal-body hidden" id="frmRegiter">
-					<form action="">
+					<form method="POST" name="frmPostRegister" id="frmPostRegister">
+						<input type="hidden" name="_token" value="{{csrf_token()}}">
 						<div class="form-group">
 							<label for="name">Họ & Tên:</label>
-							<input id="name" type="text" class="form-control border-radis-none" name="name" placeholder="Họ & Tên">
+							<input id="name" type="text" class="form-control border-radis-none" name="name" placeholder="Họ & Tên" ng-model="register.name" />
 						</div>
 						<div class="form-group">
+							<label for="name">Giới tính:</label>&nbsp;&nbsp;
+							<label class="radio-inline"><input type="radio" id="man" name="gender" checked ng-model="register.gender" ng-value="1" />Nam</label>
+							<label class="radio-inline"><input type="radio" id="woman" name="gender" ng-model="register.gender" ng-value="0" />Nữ</label>
+						<div class="form-group">
+						</div>
 							<label for="email">Email:</label>
-							<input id="email" type="text" class="form-control border-radis-none" name="email" placeholder="Email">
+							<input id="email" type="text" class="form-control border-radis-none" name="email" placeholder="Email" ng-model="register.email" />
 						</div>
 						<div class="form-group">
 							<label for="phone">Điện Thoại:</label>
-							<input id="phone" type="text" class="form-control border-radis-none" name="phone" placeholder="0123456">
+							<input id="phone" type="text" class="form-control border-radis-none" name="phone" placeholder="0123456" ng-model="register.phone" />
+						</div>
+						<div class="form-group">
+							<label for="address">Địa chỉ:</label>
+							<input id="address" type="text" class="form-control border-radis-none" name="address" placeholder="Họ & Tên" ng-model="register.address" />
 						</div>
 						<div class="form-group">
 							<label for="pwd">Mật Khẩu:</label>
-							<input id="password" type="password" class="form-control border-radis-none" name="password" placeholder="Mật Khẩu">
+							<input id="password" type="password" class="form-control border-radis-none" name="password" placeholder="Mật Khẩu" ng-model="register.pass" />
 						</div>
 						<div class="form-group">
 							<label for="pwd">Nhập Lại MK:</label>
@@ -150,6 +172,7 @@
 					<hr/>
 					<p>Đã có tài khoản? <a href="" ng-click="showLoginRegister('login')">Đăng Nhập</a></p>
 				</div>
+
 			</div>
 		</div>
 	</div>

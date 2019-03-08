@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;
-use App\Banner;
-use App\Sanpham;
-use App\Hinhanh;
-use App\Huongvi;
-use App\Chitiethuong;
-use App\Danhgia;
-use App\Loai;
-use App\Hang;
-use DB;
+use Illuminate\Database\QueryException;
+use App\Banner, App\Sanpham, App\Hinhanh, App\Huongvi, App\Chitiethuong, App\Danhgia, App\Loai, App\Hang, App\Khachhang, DB, Session;
+
 class HomepageController extends Controller
 {
     public function index()
@@ -59,13 +55,9 @@ class HomepageController extends Controller
     	$sanpham = Sanpham::select("sanpham.*", "loai.l_ten", "hang.h_ten")->join("loai", "loai.l_ma", "sanpham.l_ma")->join("hang", "hang.h_ma", "sanpham.h_ma")->where("sp_trangThai", 1)->where("sp_ma", $id)->first();
 
     	if($sanpham){
-
     		$chitiethuongList = Chitiethuong::select("chitiethuong.*", "huongvi.hv_ten")->where("sp_ma", $sanpham->sp_ma)->join("huongvi", "huongvi.hv_ma", "chitiethuong.hv_ma")->get();
-
     		$hinhanh = Hinhanh::where("sp_ma", $sanpham->sp_ma)->get();
-
     		$sanphamcungloaiList = Sanpham::where("l_ma", $sanpham->l_ma)->where("sp_ma", "<>" ,$sanpham->sp_ma)->where("sp_trangThai", 1)->orderBy("sp_capNhat", "desc")->limit(8)->get();
-
     		$danhgiaList = Danhgia::select("danhgia.*", "khachhang.kh_hinh")->join("khachhang", "khachhang.kh_ma", "danhgia.kh_ma")->where("danhgia.dg_trangThai", 1)->orderBy("dg_taoMoi", "desc")->where("sp_ma", $sanpham->sp_ma)->get();
 
     		return view("customer.chitietsanpham", compact("sanpham", "hinhanh", "chitiethuongList", "sanphamcungloaiList", "danhgiaList"));
@@ -90,6 +82,39 @@ class HomepageController extends Controller
         return view('customer.locsanpham', compact("sanphamList"));
       else
         return redirect(route('error404'));
-
    }
+
+   public function postLogin(Request $request)
+   {
+   		try{
+
+    		$khachhang = Khachhang::where("kh_email", $request->get('emailLogin'))->where("kh_matKhau", md5($request->get('passLogin')))->where("kh_trangThai", 1)->first();
+    		if($khachhang){
+    			Session::put("customer_id", $khachhang->kh_ma);
+    			Session::put("customer_name", $khachhang->kh_hoTen);
+	    		return response(["error"=>false, "message"=>true], 200);
+	    	}else return response(["error"=>false, "message"=>false], 200);
+
+    	}catch(QueryException $ex){
+    		return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+    	}catch(PDOException $ex){
+    		return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+    	}
+   }
+
+   public function getLogout()
+   {
+   		try{
+    		if(Session::has("customer_id")){
+    			Session::forget("customer_id");
+    			Session::forget("customer_name");
+	    		return response(["error"=>false, "message"=>true], 200);
+	    	}else return;
+    	}catch(QueryException $ex){
+    		return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+    	}catch(PDOException $ex){
+    		return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+    	}
+   }
+
 }

@@ -381,6 +381,10 @@ Route::get('/nha-san-xuat/{id}',"HomepageController@getProductsByIdNSX")->name("
 
 Route::get('/loc-du-lieu/{maLoai}/{maChude}/{giaTu}/{giaDen}',"HomepageController@getFilterProducts");
 
+Route::post('/dang-nhap',"HomepageController@postLogin");
+
+Route::get('/dang-xuat',"HomepageController@getLogout");
+
 Route::get('/404', function () {
 		return view("error.404");	
 })->name("error404");
