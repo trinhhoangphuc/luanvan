@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="csrf-token" content="{{ csrf_token()}}"/>
 
 	<link rel="icon" type="images/jpg" sizes="16x16" href="{{asset('public/images/layouts/logo2.png')}}">
@@ -65,6 +65,7 @@
 	@include("layouts.customer.header")
 
 	<section>
+		@yield('banner')
 		<br/>
 		<div class="container ">
 			@yield('content')

@@ -49,8 +49,8 @@
 			</p>
 
 			<p><b>Mã Sản Phẩm:</b> {{$sanpham->sp_ma}}</p>
-			<p><b>Loại:</b> <a>{{$sanpham->l_ten}}</a></p>
-			<p><b>Hãng sản xuất:</b> <a>{{$sanpham->h_ten}}</a></p>
+			<p><b>Loại:</b> <a href="{{ route('Category', $sanpham->l_ma) }}">{{$sanpham->l_ten}}</a></p>
+			<p><b>Hãng sản xuất:</b> <a href="{{ route('Brand', $sanpham->h_ma) }}">{{$sanpham->h_ten}}</a></p>
 			<div class="price-discount">
 				@if($sanpham->sp_giamGia > 0)
 				<span class="discount">{{number_format($sanpham->sp_giaBan, 0, ".", ",")}} <sup>đ</sup></span>&nbsp;
@@ -68,19 +68,25 @@
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<span>
 					<label>Số lượng:</label>
-					<input type="number" value="1" max="100" min="1" id="" name="qty" />
+					<input type="number" value="1" max="100" min="1" id="qty_{{$sanpham->sp_ma}}" name="qty" required />
 				</span>&nbsp;&nbsp;&nbsp;
 				<span>
-					<select  name="" required>
+					<select  name="mahuong" id="mahuong_{{$sanpham->sp_ma}}" required>
 						@foreach($chitiethuongList as $cth)
-						<option value="{{ $cth->hv_ma }}">{{ $cth->hv_ten }}</option>
+						<option value="{{ $cth->hv_ma }}" >{{ $cth->hv_ten }}</option>
 						@endforeach
 					</select>
 				</span>&nbsp;&nbsp;&nbsp;<br/><br/>
-				<button type="submit" class="btn btn-hotel-2">
+				@if($sanpham->sp_soLuong > 0)
+				<button type="button" class="btn btn-hotel-2" ng-click="addToCart({{ $sanpham->sp_ma }}, 'multi')">
 					<i class="fa fa-shopping-basket"></i>
 					Thêm vào giỏ
 				</button>
+				@else
+				<div class="price-discount">
+					<span class="price">Hết hàng</span>
+				</div>
+				@endif
 			</form>
 		</div>
 	</div>
@@ -125,7 +131,7 @@
 									<p class="product-information" style="padding: 0px 10px; text-align: left !important; border: none; ">
 										<p style="text-align: left !important;">
 											<b>Vui lòng đăng nhập trước khi đánh giá!</b> 
-											<a href="">Đăng nhập </a>
+											<a href="" ng-click="showLoginRegister('login')">Đăng nhập </a>
 										</p>
 									</p>
 								</div>
@@ -202,7 +208,9 @@
 														<div style="margin: 5px 0px 5px 0px;"></div>
 														<a href="{{route('detail', $sanphammoi->sp_ma)}}"" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 														<div style="margin: 5px 0px 5px 0px;"></div>
-														<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+														@if($sanphammoi->sp_soLuong > 0)
+														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $sanphammoi->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+														@endif
 													</div>
 												</div>
 											</div>
@@ -250,7 +258,9 @@
 														<div style="margin: 5px 0px 5px 0px;"></div>
 														<a href="{{route('detail', $sanphammoi->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 														<div style="margin: 5px 0px 5px 0px;"></div>
-														<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+														@if($item->sp_soLuong > 0)
+														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $item->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+														@endif
 													</div>
 												</div>
 											</div>

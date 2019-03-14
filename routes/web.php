@@ -387,11 +387,39 @@ Route::get('/dang-xuat',"HomepageController@getLogout");
 
 Route::post('/dang-ky',"HomepageController@postRegister");
 
-Route::post('/danh-gia/{id}',"HomepageController@postRate")->name("rate");
+Route::post('/dang-ky-2',"HomepageController@postRegister_2");
 
-Route::get('/thong-tin-ca-nha', function () {
-		return view("customer.thongtincanha");	
-})->name("profile");
+Route::post('/danh-gia/{id}', "HomepageController@postRate")->name("rate");
+
+Route::get('/thong-tin-ca-nhan', "HomepageController@getProfile")->name("profile");
+
+Route::post('/postProfile', "HomepageController@postProfile")->name("postProfile");
+
+Route::post('/doi-mat-khau', "HomepageController@postPass")->name("postPass");
+
+Route::get('/them-gio-hang/{id}', "HomepageController@addToCart");
+
+Route::get('/them-gio-hang-2/{id}/{qty}/{mahuong}', "HomepageController@addToCart_2");
+
+Route::get('/so-luong-gio-hang', "HomepageController@getQualityCart");
+
+Route::get('/gio-hang', "HomepageController@getCart")->name("getCart");
+
+Route::get('/detroyCart', "HomepageController@detroyCart")->name("detroyCart");
+
+Route::post('/updateCart/{id}', "HomepageController@updateCart")->name("updateCart");
+
+Route::get('/deleteCart/{id}', 'HomepageController@deleteCart')->name("deleteCart");
+
+Route::get('/dang-nhap', 'HomepageController@loginToPay')->name("loginToPay");
+
+Route::get('/thanh-toan', 'HomepageController@payment')->name("payment");
+
+Route::post('/post-thanh-toan', 'HomepageController@postpayment')->name("postPayment");
+
+Route::get('/hoan-thanh-thanh-toan/{id}', function () {
+		return view("customer.thanhtoanthanhcong");	
+})->name("paymentSuccess");
 
 Route::get('/404', function () {
 		return view("error.404");	

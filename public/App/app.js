@@ -1,6 +1,6 @@
 var app = angular.module("redshop", ['ngMaterial','ckeditor', 'datatables', 'angularFileUpload']).constant('MainURL', "http://localhost/luanvan/admin/");
 var app2 = angular.module("homepageredshop", ['ngMaterial']).constant('MainURL', "http://localhost/luanvan/");
-
+var URL = "http://localhost/luanvan/";
 function En2Vn(alias, isURL = false) {
     var str = alias;
     str= str.toLowerCase(); 

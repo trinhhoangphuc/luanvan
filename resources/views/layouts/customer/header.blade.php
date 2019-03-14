@@ -5,7 +5,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo text-center">
-							<a href="{{route('homepage')}}"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
+							<a href="{{route('detroyCart')}}"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -80,7 +80,7 @@
 						<ul class="nav navbar-nav navbar-right">
 
 							<li>
-								<a href="" data-toggle="modal" ng-click="showLoginRegister('success')"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label bg-danger-2">1</span></a>
+								<a href="{{route('getCart')}}" data-toggle="modal"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label " style="background-color: #333">@{{cart}}</span></a>
 							</li>
 
 
@@ -95,7 +95,7 @@
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{asset('public/images/avatar/customer/'.Session::get('customer_img'))}}" width="20px" height="20px" class="img-circle" /> {{ Session::get("customer_name") }}<span class="caret"></span></a>
 									<ul class="dropdown-menu">
-										<li><a href="">Thông tin</a></li>
+										<li><a href="{{ route('profile') }}">Thông tin</a></li>
 										<li><a href="">Đơn hàng</a></li>
 										<li><a style="cursor: pointer;" id="logout" ng-click="logout()">Đăng xuất</a></li>
 									</ul>

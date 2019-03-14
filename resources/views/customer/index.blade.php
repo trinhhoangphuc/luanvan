@@ -5,9 +5,9 @@
 @section("trangchu")
 	active
 @endsection
-@section('content')
-<div class="row">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+@section("banner")
+	
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0px;">
 		<div class="banner" style="min-height: 50px;">
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 				<!-- Indicators -->
@@ -48,7 +48,10 @@
 			</div>  
 		</div>
 	</div>
-</div>
+
+@endsection
+@section('content')
+
 
 <div class="row" >
 	<div class="col-md-6">
@@ -86,7 +89,7 @@
 		<br/>
 
 		<div class="row">
-			@foreach($sanphammoiList as $sanphambanchay)
+			@foreach($sanphambanchayList as $sanphambanchay)
 			<div class="col-xs-6 col-md-3 col-sm-4 box-hidden">
 				<div class="product">
 					@if($sanphambanchay->sp_tinhTrang == 1)
@@ -109,7 +112,9 @@
 								<div style="margin: 5px 0px 5px 0px;"></div>
 								<a href="{{route('detail', $sanphambanchay->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 								<div style="margin: 5px 0px 5px 0px;"></div>
-								<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+								@if($sanphambanchay->sp_soLuong > 0)
+								<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $sanphambanchay->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+								@endif
 							</div>
 						</div>
 					</div>
@@ -174,7 +179,9 @@
 														<div style="margin: 5px 0px 5px 0px;"></div>
 														<a href="{{route('detail', $sanphammoi->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 														<div style="margin: 5px 0px 5px 0px;"></div>
-														<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+														@if($sanphammoi->sp_soLuong > 0)
+														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $sanphammoi->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+														@endif
 													</div>
 												</div>
 											</div>
@@ -222,7 +229,9 @@
 														<div style="margin: 5px 0px 5px 0px;"></div>
 														<a href="{{route('detail', $sanphammoi->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 														<div style="margin: 5px 0px 5px 0px;"></div>
-														<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+														@if($sanphammoi->sp_soLuong > 0)
+														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $sanphammoi->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+														@endif
 													</div>
 												</div>
 											</div>

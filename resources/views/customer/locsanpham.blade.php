@@ -39,7 +39,9 @@
 								<div style="margin: 5px 0px 5px 0px;"></div>
 								<a href="{{route('detail', $item->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 								<div style="margin: 5px 0px 5px 0px;"></div>
-								<a href="" class="btn btn-detail-2"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+								@if($item->sp_soLuong > 0)
+								<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $item->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+								@endif
 							</div>
 						</div>
 					</div>

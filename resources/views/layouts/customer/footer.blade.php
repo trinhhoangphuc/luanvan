@@ -7,7 +7,7 @@
 				<div class="col-md-3 col-sm-6">
 					<div class="footer-about-us">
 						<h2>R<span>edshop.vn</span></h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<p>Redshop được thành lập như là một địa chỉ bán hàng online đã được đăng ký với bộ công thương, đi kèm theo đó là 1 Showroom trưng bày sản phẩm để phục vụ và tạo niềm tin cho khách hàng khi mua sản phẩm.</p>
 						<div class="footer-social">
 							<a href="#" target="_blank"><i class="fab fa-facebook-square"></i></a>
 							<a href="#" target="_blank"><i class="fab fa-twitter-square"></i></a>
