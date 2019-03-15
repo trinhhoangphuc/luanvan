@@ -233,7 +233,7 @@ class HomepageController extends Controller
     {
         if(Session::has("customer_id")){
             $khachhang = Khachhang::find(Session::get("customer_id"));
-            $donhangList = Donhang::where("kh_ma", $khachhang->kh_ma)->paginate(10);
+            $donhangList = Donhang::where("kh_ma", $khachhang->kh_ma)->orderBy("dh_taoMoi", "desc")->paginate(10);
             return view("customer.thongtincanhan", compact("khachhang", "donhangList"));
         }else{
             return redirect(route('homepage'));
@@ -444,11 +444,68 @@ class HomepageController extends Controller
                         if($request->payment == 1)
                             return response(['error'=>false, "message"=>$donhang->dh_ma], 200);
                         else
-                            return redirect(route('paymentSuccess', $donhang->dh_ma));
                     } 
                 }
             
             }
         }
+    }
+
+    public function orderDetail($id){
+
+        if(Session::has("customer_id")){
+
+            $donhang = Donhang::select("donhang.*", "vanchuyen.vc_ten", "thanhtoan.tt_ten")
+            ->join("vanchuyen", "vanchuyen.vc_ma", "donhang.vc_ma")
+            ->join("thanhtoan", "thanhtoan.tt_ma", "donhang.tt_ma")
+            ->where("dh_ma", $id)
+            ->first();
+
+            if($donhang){
+
+                $khachhang = Khachhang::find(Session::get('customer_id'));
+
+                $chitiethoadon = DB::table("chitiethoadon")
+                ->select("chitiethoadon.*", "sanpham.sp_ten as sp_ten", "sanpham.sp_hinh as sp_hinh", "huongvi.hv_ten")
+                ->join("sanpham", "sanpham.sp_ma", "chitiethoadon.sp_ma")
+                ->join("nhap", "nhap.n_ma", "chitiethoadon.n_ma")
+                ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
+                ->where("chitiethoadon.dh_ma", $id)->get();
+
+                return view("customer.chitietdonhang", compact("donhang", "chitiethoadon", "khachhang"));
+            }else return redirect(route('error404'));
+            
+            
+        }else return redirect(route('homepage'));
+            
+    }
+
+    public function paymentSuccess($id){
+
+        if(Session::has("customer_id")){
+
+            $donhang = Donhang::select("donhang.*", "vanchuyen.vc_ten", "thanhtoan.tt_ten")
+            ->join("vanchuyen", "vanchuyen.vc_ma", "donhang.vc_ma")
+            ->join("thanhtoan", "thanhtoan.tt_ma", "donhang.tt_ma")
+            ->where("dh_ma", $id)
+            ->first();
+
+            if($donhang){
+
+                $khachhang = Khachhang::find(Session::get('customer_id'));
+
+                $chitiethoadon = DB::table("chitiethoadon")
+                ->select("chitiethoadon.*", "sanpham.sp_ten as sp_ten", "sanpham.sp_hinh as sp_hinh", "huongvi.hv_ten")
+                ->join("sanpham", "sanpham.sp_ma", "chitiethoadon.sp_ma")
+                ->join("nhap", "nhap.n_ma", "chitiethoadon.n_ma")
+                ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
+                ->where("chitiethoadon.dh_ma", $id)->get();
+
+                return view("customer.thanhtoanthanhcong", compact("donhang", "chitiethoadon", "khachhang"));
+            }else return redirect(route('error404'));
+
+            
+        }else return redirect(route('homepage'));
+            
     }
 }

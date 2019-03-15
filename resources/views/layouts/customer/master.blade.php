@@ -62,7 +62,8 @@
 
 </head>
 <body ng-app="homepageredshop" ng-controller="HomepageController">
-	@include("layouts.customer.header")
+	
+	@yield('header')
 
 	<section>
 		@yield('banner')
@@ -73,7 +74,8 @@
 
 	</section>
 
-	@include("layouts.customer.footer")
+	@yield('footer')
+	
 </body>
 </html>
 <script type="text/javascript">

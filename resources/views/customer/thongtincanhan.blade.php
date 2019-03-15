@@ -2,10 +2,17 @@
 @section('tieude')
 	Thông tin cá nhân
 @endsection
-@section("danhmuc")
 
+@section("header")
+	@include("layouts.customer.header")
 @endsection
+
+@section("footer")
+	@include("layouts.customer.footer")
+@endsection
+
 @section('content')
+
 <div class="row">
 	<div class="col-sm-12 col-xs-12 col-md-12">
 		<div class="titleProducts"><a href="{{ route('homepage') }}"><i class="fas fa-home"></i> Trang chủ <i class="fa fa-angle-right" aria-hidden="true"></i></a> Đơn hàng & thông tin cá nhân</div>
@@ -15,7 +22,7 @@
 <div class="row">
 	<div class="col-sm-8">
 		<table class="table table-bordered table-hover table-responsive">
-			<thead style="background: #DDDDDD; border-color: #f5f5f5">
+			<thead style="background: #F9FAFB; border-color: #f5f5f5">
 				<tr>
 					<th>Mã</th>
 					<th>Ngày</th>
@@ -27,7 +34,7 @@
 			<tbody>
 				@foreach($donhangList as $donhang)
 				<tr>
-					<td><a href="">#{{ $donhang->dh_ma }}</a></td>
+					<td><a href="{{route('reviewOrder', $donhang->dh_ma)}}">#{{ $donhang->dh_ma }}</a></td>
 					<td>{{ $donhang->dh_taoMoi }}</td>
 					<td>{{ number_format($donhang->dh_tongTien, 0, ",", ".") }}đ</td>
 					<td>
@@ -39,7 +46,17 @@
 						<span >Hủy đơn</span>
 						@endif
 					</td>
-					<td><span >Hoàn tất</span></td>
+					<td>
+						@if($donhang->dh_trangThai == 0) 
+						<span>Chờ xác nhận</span>
+						@elseif($donhang->dh_trangThai == 1)
+						<span>Đã xác nhận</span>
+						@elseif($donhang->dh_trangThai == 2)
+						<span>Đang vận chuyển</span>
+						@elseif($donhang->dh_trangThai == 0)
+						<span>Hoàn tất</span>
+						@endif
+					</td>
 				</tr>
 				@endforeach
 			</tbody>

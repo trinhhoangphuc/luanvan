@@ -417,9 +417,9 @@ Route::get('/thanh-toan', 'HomepageController@payment')->name("payment");
 
 Route::post('/post-thanh-toan', 'HomepageController@postpayment')->name("postPayment");
 
-Route::get('/hoan-thanh-thanh-toan/{id}', function () {
-		return view("customer.thanhtoanthanhcong");	
-})->name("paymentSuccess");
+Route::get('/chi-tiet-don-hang/{id}', 'HomepageController@orderDetail')->name("reviewOrder");
+
+Route::get('/thanh-toan-thanh-cong/{id}', 'HomepageController@paymentSuccess')->name("paymentSucess");
 
 Route::get('/404', function () {
 		return view("error.404");	

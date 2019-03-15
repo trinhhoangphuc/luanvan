@@ -2,6 +2,9 @@
 @section('tieude')
 Thanh toán
 @endsection
+@section("header")
+	@include("layouts.customer.header")
+@endsection
 @section('content')
 
 <div class="row">
@@ -114,19 +117,20 @@ Thanh toán
 			<div class="login-cart">
 				<div class="order">
 					<span  class="title">Đơn hàng ( {{count($cart)}} sản phẩm)</span>
-					<a class="btn pull-right btn-default" href="">Sửa</a>
+					<a class="btn pull-right btn-hotel-2" href="{{route('getCart')}}">Sửa</a>
 				</div>
 				@foreach($cart as $item)
 				<div class="item">
 					<p class="title">
+						<img src="{{asset('public/images/products/'. $item->options->img )}}" alt="{{ $item->name }}" width="20%;">
 						<strong>{{ $item->qty }} x </strong>
 						<a href="{{ route('detail', $item->id) }}">{{ $item->name }}</a>
 					</p>
 					@if($item->options->discount > 0)			
-					<p class="price"><span>{{number_format($item->options->discount * $item->qty,0,",",".")}} đ</span></p>
+					<p class="price"><br/><span>{{number_format($item->options->discount * $item->qty,0,",",".")}} đ</span></p>
 					<div class="clear"></div>
 					@else
-					<p class="price"><span>{{number_format($item->options->price_2 * $item->qty,0,",",".")}} đ</span></p>
+					<p class="price"><br/><span>{{number_format($item->options->price_2 * $item->qty,0,",",".")}} đ</span></p>
 					<div class="clear"></div>
 					@endif
 					<div class="clear"></div>
@@ -320,7 +324,7 @@ Thanh toán
 					{
 						if(data.message != 0){
 
-							location.href = URL + "hoan-thanh-thanh-toan/"+data.message;
+							location.href = URL_2 + "thanh-toan-thanh-cong/"+data.message;
 						}
 					},
 					error: function(data)

@@ -1,11 +1,23 @@
 @extends("layouts.customer.master")
+
 @section('tieude')
 	Redshop.vn
 @endsection
+
+@section("header")
+	@include("layouts.customer.header")
+@endsection
+
 @section("trangchu")
 	active
 @endsection
+
+@section("footer")
+	@include("layouts.customer.footer")
+@endsection
+
 @section("banner")
+
 	
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0px;">
 		<div class="banner" style="min-height: 50px;">

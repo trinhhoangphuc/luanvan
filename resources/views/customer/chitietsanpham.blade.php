@@ -2,10 +2,21 @@
 @section('tieude')
 	{{$sanpham->sp_ten}}
 @endsection
+
+@section("header")
+	@include("layouts.customer.header")
+@endsection
+
 @section("chitiet")
 	active
 @endsection
+
+@section("footer")
+	@include("layouts.customer.footer")
+@endsection
+
 @section('content')
+
 <div class="row">
 	<div class="col-sm-12 col-xs-12 col-md-12">
 		<div class="titleProducts">
@@ -43,7 +54,7 @@
 		<div class="product-information" style="font-size: 16px;">
 			<h2>{{$sanpham->sp_ten}}</h2><br/>
 			<p class="star">
-				<input type="hidden" id="rate" class="rating" value="{{ $sanpham->sp_danhGia }}" data-readonly "/>
+				<input type="hidden" id="rate" class="rating" value="{{ $sanpham->sp_danhGia }}" data-readonly />
 				<span>({{ $sanpham->sp_danhGia }}/5)</span>
 				<!-- data-filled="symbol symbol-filled" data-empty="symbol symbol-empty -->
 			</p>
@@ -148,7 +159,7 @@
 								<div class="comment-block">
 									<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; font-size: 15px;">
 										@if($danhgia->dg_sao > 0)
-										<input type="hidden"  class="rating" value="{{ $danhgia->dg_sao }}" data-readonly "/><br/>
+										<input type="hidden"  class="rating" value="{{ $danhgia->dg_sao }}" data-readonly /><br/>
 										@endif
 										{{$danhgia->dg_noiDung}}
 									</p>
@@ -206,7 +217,7 @@
 													<div class="btn-detail">
 														
 														<div style="margin: 5px 0px 5px 0px;"></div>
-														<a href="{{route('detail', $sanphammoi->sp_ma)}}"" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
+														<a href="{{route('detail', $sanphammoi->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 														<div style="margin: 5px 0px 5px 0px;"></div>
 														@if($sanphammoi->sp_soLuong > 0)
 														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $sanphammoi->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
@@ -258,8 +269,8 @@
 														<div style="margin: 5px 0px 5px 0px;"></div>
 														<a href="{{route('detail', $sanphammoi->sp_ma)}}" class="btn btn-detail-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
 														<div style="margin: 5px 0px 5px 0px;"></div>
-														@if($item->sp_soLuong > 0)
-														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $item->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
+														@if($sanphammoi->sp_soLuong > 0)
+														<button type="button" class="btn btn-detail-2" ng-click="addToCart({{ $sanphammoi->sp_ma }}, 'single')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
 														@endif
 													</div>
 												</div>
