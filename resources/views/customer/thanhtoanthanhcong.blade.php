@@ -33,7 +33,7 @@
 		<div class="col-sm-6"><br/>
 			<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI MUA</p>
 			<div class="box-info" >
-				<p><b>{{$khachhang->kh_ten}}</b></p>
+				<p><b>{{$khachhang->kh_hoTen}}</b></p>
 				<p>Địa chỉ: {{$khachhang->kh_diaChi}}</p>
 				<p>Điện thoại: {{$khachhang->kh_dienThoai}}</p>
 			</div>
@@ -43,7 +43,7 @@
 			<p style="font-size: 16px;">HÌNH THỨC VẬN CHUYỂN</p>
 			<div class="box-info" >
 				<p>{{$donhang->vc_ten}}</p>
-				<p>Phí vân chuyển: {{$donhang->vc_gia}}</p>
+				<p>Phí vân chuyển: {{number_format($donhang->vc_gia, 0, ",", '.')}} ₫</p>
 			</div>
 		</div>
 		<div class="col-sm-6"><br/>
@@ -87,7 +87,7 @@
 					<p class="title">
 						<span>Tạm tính:	</span>
 					</p>
-					<p class="price"><span>{{number_format($item->ctdh_donGia * $item->ctdh_soluong, 0, ",", '.')}} ₫</span></p>
+					<p class="price"><span>{{number_format($tamtinh, 0, ",", '.')}} ₫</span></p>
 					<p class="title">
 						<span>Vận chuyển: </span>
 					</p>

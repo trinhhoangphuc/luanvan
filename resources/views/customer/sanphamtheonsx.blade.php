@@ -20,15 +20,15 @@
 
 <div class="row">
 	<div class="col-sm-12 col-xs-12 col-md-12">
-		<div class="titleProducts"><a href="{{ route('homepage') }}"><i class="fas fa-home"></i> Trang chủ <i class="fa fa-angle-right" aria-hidden="true"></i></a> {{$nsx->l_ten}}</div>
+		<div class="titleProducts"><a href="{{ route('homepage') }}"><i class="fas fa-home"></i> Trang chủ <i class="fa fa-angle-right" aria-hidden="true"></i></a> {{$nsx->h_ten}}</div>
 	</div>
 </div>
 
 <div class="row">
-	@if( count($sanphamList) > 0)
-
+	
 	@include("layouts.customer.menu-left") <!--Menu bên trái-->
 	<div class="col-sm-9">
+		@if( count($sanphamList) > 0)
 		<div class="row">
 			
 			@foreach($sanphamList as $item)
@@ -79,13 +79,16 @@
 				{{$sanphamList->render()}}
 			</div>
 		</div>
+
+		@else
+		<div class="row">
+			<div class="error_404">
+				<br/><br/>
+				<h2> <span style="color: #666">"{{$nsx->h_ten}}"</span> chưa có sản phẩm!</h2>
+				<br/><br/>
+			</div>
+		</div>
+		@endif
 	</div>
-	@else
-	<div class="error_404">
-		<br/><br/>
-		<h2> <span style="color: #666">"{{$nsx->l_ten}}"</span> chưa có sản phẩm!</h2>
-		<br/><br/>
-	</p>
-	@endif
 </div>
 @endsection

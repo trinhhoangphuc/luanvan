@@ -1,10 +1,17 @@
 @extends("layouts.customer.master")
+
 @section('tieude')
 Thanh toán
 @endsection
+
 @section("header")
 	@include("layouts.customer.header")
 @endsection
+
+@section("footer")
+	@include("layouts.customer.footer")
+@endsection
+
 @section('content')
 
 <div class="row">
@@ -241,12 +248,34 @@ Thanh toán
 		},
 
 		client: {
-			sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-			production: '8e7592e0e9fc3'
+			sandbox: 'AS9FRbEqsg1ex9bmexC1ShHxK6RBVnhPwM6tQYd2H9zyZlzvRu9Yf9BBsqlZlSLuuSQ9blUgi8ocxJWa',
+			production: '9PH06259G4965803L'
 		},
 
 		payment: function(data, actions) {
+
+
+
+			<?php $test = 0; ?>
+			@foreach($cart as $item)
+
+				<?php
+				if($item->options->discount > 0)	
+					$tiendo =  round($item->options->discount/ 23189.96);
+				else
+					$tiendo =  round($item->options->price_2/ 23189.96);
+					$test = $test + ($tiendo * $item->qty);
+				?>			
+			@endforeach
 			
+			for(var i=0; i<vanchuyenList.length; i++){
+				if($("#vc_"+vanchuyenList[i].vc_ma).prop("checked") == true){
+					gia = Math.floor(vanchuyenList[i].vc_gia/ 23189.96);
+					test = <?php  echo $test; ?> + gia;
+					break;
+				}
+			}
+
 			return actions.payment.create({
 				transactions: [{
 					item_list: {
@@ -283,12 +312,12 @@ Thanh toán
 						}
 					},
 					amount: {
-						total: '{{$tongtien}}',
+						<?php $test = $tongtien + 2; ?>
+						total: test,
 						currency: 'USD',
 						details: {
 							subtotal: '{{$tongtien}}',
-
-
+							shipping: gia
 						}
 					},
 

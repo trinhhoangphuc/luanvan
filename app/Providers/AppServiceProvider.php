@@ -20,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
             $view->with(["loaiList"=>$loaiList, "nhasanxuatList"=>$nhasanxuatList]);
         });
 
+        view()->composer("layouts.customer.footer", function($view){
+            $loaiList = DB::table("loai")->where("l_trangThai", 1)->orderBy("l_capNhat", "desc")->get();
+            $nhasanxuatList = DB::table("hang")->where("h_trangThai", 1)->orderBy("h_capNhat", "desc")->get();
+            $view->with(["loaiList"=>$loaiList, "nhasanxuatList"=>$nhasanxuatList]);
+        });
+
         view()->composer("layouts.customer.menu-left", function($view){
 
             $loaiList = DB::table("loai")->where("l_trangThai", 1)->orderBy("l_capNhat", "desc")->get();

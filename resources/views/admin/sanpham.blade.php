@@ -146,19 +146,22 @@
                         <div class="" ng-show="!isLoading && dsLoai.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
-                                    <tr >
-                                        <th>
-                                            <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
-                                            <button id="btn-deleteall" class="btn btn-default btn-sm btn-flat" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
-                                        </th>
+                                    <thead class="text-center">
+                                      
+                                        <tr >
+                                            <th >
+                                                <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
+                                               <button id="btn-deleteall" class="btn btn-default btn-sm btn-flat" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
+                                            </th>
 
-                                        <th>Loại</th>
-                                        <th>Trạng Thái</th>
-                                        <th>
-                                            <button class="btn btn-sm btn-flat btn-flat btn-primary btn-refresh btn-primary" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
-                                            <button class="btn btn-sm btn-flat btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button>
-                                        </th>
-                                    </tr>
+                                            <th>Ảnh</th>
+                                            <th>Thông tin</th>
+                                            <th>
+                                                <button class="btn  btn-sm btn-flat  btn-refresh btn-primary" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
+                                                <button class="btn  btn-sm btn-flat btn-success btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button>
+                                            </th>
+                                        </tr>
+                                    </thead>
                                 </thead>
                                 <tdody>
                                     <tr>
@@ -176,7 +179,7 @@
 
 
         <div class="modal fade" id="myModal">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <form name="frmCreatEdit" id="frmCreatEdit">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -196,7 +199,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="type" class=""><b>Loại sản phẩm:</b></label>
-                                <select name="maLoai" id="type" class="form-control" ng-model="sanpham.maLoai" ng-required="true">
+                                <select name="maLoai" id="type" class="form-control" ng-model="sanpham.maLoai" ng-required="true" >
                                      <option ng-show="dsLoai.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
                                      <option ng-repeat="l in dsLoai" value="@{{ l.l_ma }}" ng-value="l.l_ma">@{{ l.l_ten }}</option>
                                 </select>
@@ -212,9 +215,13 @@
                             <label for="gia" class=""><b>Giá bán:</b></label>
                             <input type="number" id="gia" name="gia" ng-model="sanpham.gia" class="form-control" ng-required="true"  autocomplete="off" min="1" max="9999999999999">
                         </div>
+                         <div class="form-group">
+                            <label for="giamGia" class=""><b>Giảm giá:</b></label>
+                            <input type="number" id="giamGia" name="giamGia" ng-model="sanpham.giamGia" class="form-control" ng-required="true"  autocomplete="off" min="0" max="9999999999999">
+                        </div>
                         <div class="form-group">
                             <label for="thongTin" class=""><b>Hương vị:</b></label>
-                            <select name="maHuong" id="maHuong" class="form-control" ng-model="sanpham.maHuong"  style="width: 100%;" multiple="multiple">
+                            <select name="maHuong" id="maHuong" class="form-control" ng-model="sanpham.maHuong"  style="width: 100%; height: 150px" multiple="multiple">
                                  <option ng-if="dsHuongvi.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
                                  <option ng-repeat="hv in dsHuongvi" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
                             </select>
@@ -222,12 +229,10 @@
                         
                         <div class="form-group">
                             <label for="thongTin" class=""><b>Mô tả:</b></label>
-                            <textarea ckeditor="formData.ckeditorOptions"  ng-model="sanpham.thongTin" name="thongTin" id="thongTin"></textarea>
-                            <!-- <form>
-                                <textarea id="editor1" name="editor1" rows="10" cols="80" ckeditor="formData.ckeditorOptions" ng-model="sanpham.thongTin" name="thongTin">
-                                 
-                                </textarea>
-                            </form> -->
+                            <!-- <textarea ckeditor="formData.ckeditorOptions"  ng-model="sanpham.thongTin" name="thongTin" id="thongTin"></textarea> -->
+                            <textarea id="editor1" name="editor1" rows="10" cols="80" ckeditor="formData.ckeditorOptions" ng-model="sanpham.thongTin" name="thongTin">
+
+                            </textarea>
                         </div>
 
                         <div class="form-group" ng-if=" status=='edit' ">
@@ -403,7 +408,7 @@
                                     <tbody>
                                         
                                         <tr ng-repeat="sl in dsSoLuongNhap">
-                                            <script ="text/javascript" >
+                                            <script type="text/javascript" >
                                                 app.filter("asDate", function () {
                                                     return function (input) {
                                                         return new Date(input);

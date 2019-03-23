@@ -17,7 +17,7 @@ class DanhgiaController extends Controller
     {
     	try{
 
-    		$danhgia = DB::table('danhgia')->select("danhgia.*", "sanpham.sp_ten", "khachhang.kh_hoTen")->join("sanpham", "sanpham.sp_ma", "danhgia.sp_ma")->join("khachhang", "khachhang.kh_ma", "danhgia.kh_ma")->orderBy("danhgia.dg_capNhat", "desc")->get();
+    		$danhgia = DB::table('danhgia')->select("danhgia.*", "sanpham.sp_ten")->join("sanpham", "sanpham.sp_ma", "danhgia.sp_ma")->orderBy("danhgia.dg_capNhat", "desc")->get();
     		$json = json_encode($danhgia);
     		return response(["error"=>false, "message"=>compact("danhgia", "json")], 200);
 

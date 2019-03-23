@@ -59,7 +59,7 @@
                                     </tr>
                                 </thead>
                                 <tbody ng-if="dsDonhang.length > 0">
-                                	<script ="text/javascript" >
+                                	<script type="text/javascript" >
                                 		app.filter("asDate", function () {
                                 			return function (input) {
                                 				return new Date(input);
@@ -82,6 +82,9 @@
                                             <span ng-if="item.dh_trangThai == 4" class="label bg-red">Hủy đơn</span>
                                         </td>
                                         <td >
+                                             <button class="btn btn-sm btn-flat bg-olive btn-print" ng-if="item.dh_trangThai != 0" ng-click="xuatHoaDonLe(item.dh_ma)">
+                                                <i class="fa fa-print" aria-hidden="true"></i>
+                                            </button>
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.dh_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
                                             <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.dh_ma)"><i class="fa fa-pencil"></i></button>
@@ -121,7 +124,7 @@
 
 
         <div class="modal fade" id="myModal">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 
                 <div class="modal-content">
                     <div class="modal-header">
@@ -182,20 +185,22 @@
                         				</tr>
                         				<tr>
                         					<td class="text-left"><b>Giá bán:</b></td>
-                        					<td class="text-right  text-danger">@{{ itemCTDH.ctdh_donGia | number:0 }} đ</td>
+                        					<td class="text-right ">@{{ itemCTDH.ctdh_donGia | number:0 }} đ</td>
                         					<td class="text-left"><b>Số lượng:</b></td>
                         					<td class="text-right">@{{ itemCTDH.ctdh_soluong }}</td>
                         				</tr>
                         				<tr>
-                        					<td colspan="2" class="text-left"><b>Thành tiền:</b></td>
-                        					<td colspan="2" class="text-right text-danger">@{{ itemCTDH.ctdh_donGia * itemCTDH.ctdh_soluong | number:0 }} đ</td>
+                                            <td class="text-left"><b>Loại:</b></td>
+                                            <td class="text-right ">@{{ itemCTDH.hv_ten }}</td>
+                                            <td  class="text-left"><b>Thành tiền:</b></td>
+                                            <td  class="text-right ">@{{ itemCTDH.ctdh_donGia * itemCTDH.ctdh_soluong | number:0 }} đ</td>
                         				</tr>
                         					
                         			</table>
                         		</td>
                         	</tr>
                         	<tr>
-                        		<td colspan="2"><b>Tạm tính:</b> <span class="text-danger">@{{ itemDH.dh_tongTien - itemDH.vc_gia | number:0 }} đ</span></td>
+                        		<td colspan="2"><b>Tạm tính:</b> <span class="text-danger">@{{ (itemDH.dh_tongTien-itemDH.vc_gia) | number:0 }} đ</span></td>
                         	</tr>
                         	<tr>
                         		<td colspan="2"><b>Vận chuyển:</b> <span class="text-danger">@{{ itemDH.vc_gia | number:0 }} đ</span></td>

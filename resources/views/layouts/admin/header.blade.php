@@ -135,13 +135,14 @@
         <li class="treeview @yield('dontu')">
           <a href="#">
             <i class="glyphicon glyphicon-file"></i>
-            <span>Đơn hàng - phiếu nhập</span>
+            <span>Đơn hàng - Khuyến mãi</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="@yield('donhang')"><a href=""><i class="fa fa-circle-o"></i> Đơn hàng</a></li>
+            <li class="@yield('donhang')"><a href="{{ route('QLdonhang') }}"><i class="fa fa-circle-o"></i> Đơn hàng</a></li>
+            <li class="@yield('khuyemai')"><a href="{{ route('QLkhuyenmai') }}"><i class="fa fa-circle-o"></i> Khuyến mãi</a></li>
           </ul>
         </li>
 

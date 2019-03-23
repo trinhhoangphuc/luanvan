@@ -67,7 +67,7 @@
                                     <tr  ng-repeat="item in dsDanhgia" id="tr_@{{item.dg_ma}}" ng-class="item.dg_ma == newMember_Data? 'bg-default':''">
                                         <td><input type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.dg_ma }}" /></td>
                                         <td class="text-dark">@{{item.sp_ten}}</td>
-                                        <td class="text-dark">@{{item.kh_hoTen}}</td>
+                                        <td class="text-dark">@{{item.kh_ten}}</td>
                                         <td class="text-dark">
                                             <i class="fa chech-star" ng-class="item.dg_sao >= 1 ? 'fa-star':'fa-star-o'"></i>
                                             <i class="fa chech-star" ng-class="item.dg_sao >= 2 ? 'fa-star':'fa-star-o'"></i>

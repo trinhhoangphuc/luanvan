@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
+   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,7 +77,7 @@
 	<!-- FastClick -->
 	<script src="{{asset('public/libs2/bower_components/fastclick/lib/fastclick.js')}}"></script>
 
-	<script src="{{asset('public/libs2/bower_components/ckeditor/ckeditor.js')}}"></script>
+<!-- 	<script src="{{asset('public/libs2/bower_components/ckeditor/ckeditor.js')}}"></script> -->
 	<!-- AdminLTE App -->
 	<script src="{{asset('public/libs2/dist/js/adminlte.min.js')}}"></script>
 	<!-- AdminLTE for demo purposes -->
@@ -105,7 +105,7 @@
 	<script src="{{asset('public/libs/angular-file-upload/console-sham.min.js')}}"></script>
 
 	<script src="{{asset('public/libs/angular-file-upload/angular-file-upload.min.js')}}"></script>
-	<!-- <script src="{{asset('public/libs/ckeditor/ckeditor.js')}}"></script> -->
+	<script src="{{asset('public/libs/ckeditor/ckeditor.js')}}"></script>
 	<script src="{{asset('public/libs/angular-ckeditor-master/angular-ckeditor.min.js')}}"></script>
 
 
@@ -128,87 +128,143 @@
 	<!-- <script src="{{asset('public/js/custom.min.js')}}"></script> -->
 	<link rel="stylesheet" href="{{asset('public/css/styleAdmin.css')}}">
 	<script src="{{asset('public/App/app.js')}}"></script>
-	
-
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini" ng-app="redshop">
+<style type="text/css" media="screen">
+	body, html{
+		background: #CED5DB;
+	}
+</style>
+<body  ng-app="redshop"  style="color: #333;">
 
-
-
-	<div class="wrapper">
-		@include('layouts.admin.header')
-		
-		@yield('noidung')
-
-
-		@include('layouts.admin.footer')
-
-	</div>
+    <!-- Main wrapper  -->
+    <div class="container" ng-controller="donhangController">
+    	<div class="row">
+    		<div class="col-sm-12 text-center">
+    			<div class="card">
+    				<div class="card-body">
+    					<div style="text-align: center; margin: 20px auto;" class="no-print">
+    						<button class="btn btn-danger" onclick="window.print()">
+    							<i class="fa fa-print"></i> In hóa đơn
+    						</button>
+    					</div>
+    					
+						<div class="hoadon" >
+							<di class="logo-alpha">
+								<img  src="{{asset('public/images/layouts/logo-alpha.png')}}" width="100%" height="100%" />
+							</di>
+							<div class="hoadon-page ">
+								<br/>
+								<h4 class="text-warning">CỬA HÀNG THỰC PHẨM DINH DƯỠNG REDSHOP</h4>
+								<h5 style="color: #C41336 !important">Chuyên cung cấp các loại thực phẩm bổ sung dinh dưỡng thể hinh</h5>
+								<b>Khu II, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ</b>
+								<br/>
+								<i>(0292)3.123.123 # 01.234.567.8910</i>
+								<br/><br/>
+								<img src="{{asset('public/images/layouts/logo.png')}}" alt="homepage" class="dark-logo" width="35%" />
+								<br/><br/>
+								<b><span>www.redshop.com.vn # webredshop@gmail.com</span></b>
+								<br/>
 	
-
-
+								<h2 style="color: #C41336 !important">HÓA ĐƠN BÁN LẺ</h2>
+								<b>Số hóa đơn:</b> <span class="hoadon-trong">&nbsp;#@{{ data.soHoaDon }}&nbsp;</span>
+								<br/>
+								<b>Ngày</b> <span class="hoadon-trong">&nbsp;@{{ ngayLap_ngay }}&nbsp;</span> 
+								<b>tháng</b> <span class="hoadon-trong">&nbsp;@{{ ngayLap_thang }}&nbsp;</span> 
+								<b>năm</b> <span class="hoadon-trong">&nbsp;@{{ ngayLap_nam }}&nbsp;</span>
+								<br/><br/>
+								<table style="border: none; margin: auto;" >
+									<tr>
+										<td class="text-right" width="30%" valign="top"><b>Tên khách hàng:</b></td>
+										<td class="hoadon-trong text-left">&nbsp;@{{ data.khachHang }}&nbsp;</td>
+										<td class="text-right" valign="top"><b>Điện thoại:</b></td>
+										<td class="hoadon-trong text-left">&nbsp;@{{ data.dienThoai }}&nbsp;</td>
+									</tr>
+									<tr>
+										
+										<td class="text-right" valign="top"><b>Địa chỉ:</b></td>
+										<td colspan="3" class="hoadon-trong text-left">&nbsp;@{{ data.diaChi }}&nbsp;</td>
+									</tr>
+								</table>
+								<br/>
+								<table border="1" style="margin: auto">
+									<thead>
+										<tr>
+											<th>STT</th>
+											<th>Sản phẩm</th>
+											<th>Số lượng</th>
+											<th>Đơn giá</th>
+											<th>Thành tiền</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="mb in data.ctdh">
+											<td>@{{ $index+1 }}</td>
+											<td class="ten-san-pham">@{{ mb.ten }}</td>
+											<td>@{{ mb.soluong }}</td>
+											<td class="text-right">@{{ mb.dongia | number:0 }} ₫</td>
+											<td class="text-right">@{{ (mb.dongia*mb.soluong) | number:0 }} ₫</td>
+										</tr>
+							    	</tbody>
+								    <tfoot>
+								    	<tr>
+								    		<td colspan="2">Phí vận chuyển</td>
+								    		<td class="text-right" colspan="3">@{{ data.phiVC | number:0 }} ₫</td>
+								    	</tr>
+								    	<tr>
+								    		<th colspan="2" style="font-size: 18px">Tổng cộng</th>
+								    		<td class="text-right" colspan="3" style="font-size: 18px; color: #C41336 !important">@{{ data.tongTT | number:0 }} ₫</td>
+								    	</tr>
+								    </tfoot>
+								</table>
+								<br/>
+								<table style="border: none; margin: auto">
+									<tr>
+										<td class="text-right" width="30%" valign="top">Thành tiền (bằng chữ) :</td>
+										<td class="hoadon-trong text-left">&nbsp;@{{ data.tongTTChu }} đồng.</td>
+									</tr>
+								</table>
+								<table style="border: none; margin: auto">
+									<tr>
+										<td class="text-center" width="50%"><b>Khách hàng</b></td>
+										<td class="text-center"><b>TM Cửa hàng</b></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><br/><br/><br/></td>
+									</tr>
+									<tr>
+										<td class="text-center hoadon-trong">
+											&nbsp;@{{ data.khachHang }}&nbsp;</td>
+										<td class="text-center hoadon-trong">&nbsp;@{{ data.lapHoaDon }}&nbsp;</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- End Wrapper -->
+    <!-- All Jquery -->
 </body>
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
 
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
-
-    //Date range picker
-    $('#reservation').daterangepicker()
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
-    //Date range as a button
-    
-
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true,
-      dateFormat: "dd-mm-yyyy"
-    })
-
-    //iCheck for checkbox and radio inputs
-    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-      checkboxClass: 'icheckbox_minimal-blue',
-      radioClass   : 'iradio_minimal-blue'
-    })
-    //Red color scheme for iCheck
-    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-      checkboxClass: 'icheckbox_minimal-red',
-      radioClass   : 'iradio_minimal-red'
-    })
-    //Flat red color scheme for iCheck
-    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-      checkboxClass: 'icheckbox_flat-green',
-      radioClass   : 'iradio_flat-green'
-    })
-
-    //Colorpicker
-    $('.my-colorpicker1').colorpicker()
-    //color picker with addon
-    $('.my-colorpicker2').colorpicker()
-
-    //Timepicker
-    $('.timepicker').timepicker({
-      showInputs: false
-    })
-  })
-</script>
-<script>
-  $(function () {
-    // Replace the <textarea id="editor1"> with a `CKEditor`
-    // instance, using default configuration.
-    CKEDITOR.replace('editor1')
-    //bootstrap WYSIHTML5 - text editor
-    // $('.textarea').wysihtml5()
-  })
-</script>
 </html>
+<script type="text/javascript">
+	app.controller('donhangController', function ($scope,$window) {
+
+	  $scope.data = JSON.parse($window.opener.reportData);
+
+	  // console.log($window.opener.reportData);
+	  
+	  dt = new Date($scope.data.ngayLap.date);
+	  ng = dt.getDate();
+	  th = dt.getMonth() + 1;
+	  $scope.ngayLap_ngay  = ng;
+	  $scope.ngayLap_thang = th>9? th: "0" + th;
+	  $scope.ngayLap_nam   = dt.getFullYear();
+	  
+	});
+</script>

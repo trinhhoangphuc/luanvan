@@ -5,7 +5,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo text-center">
-							<a href="{{route('homepage')}}"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
+							<a href="{{route('detroyCart')}}"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -23,15 +23,26 @@
 							</div>
 						</div>
 						<div class="col-sm-8 search-header">
-							<form >
+							<form name="searchFrm" id="searchFrm">
 								<input type="hidden" name="_token" value="{{csrf_token()}}">
 								<div class="input-group" >
-									<input type="text" class="form-control border-search" placeholder="Nhập từ khóa..." name="id" id="search" autocomplete="off">
-									<div id="box"></div>
-									<span class="input-group-btn">
-										<button  class="btn btn-default btn-color" type="button" ieyeSearch"><i class="fa fa-search" aria-hidden="true"></i></button>
-									</span>
-
+									<form method="POST">
+										<input type="hidden" name="_token" name="{{ csrf_token() }}">
+										<input type="text" class="form-control border-search" placeholder="Nhập từ khóa..." name="search" id="search" ng-model="search" ng-keyup="compelte(search)" autocomplete="off">
+										<span class="input-group-btn">
+											<button  class="btn btn-default btn-color" type="submit" ><i class="fa fa-search" aria-hidden="true" ng-click="searchProduct()"></i></button>
+										</span>
+									</form>
+								</div>
+								<div id="box-search-item" style=" position: absolute; z-index: 999; width: 95%;  overflow: auto;">
+									<ul class="list-group" >
+										<li class="list-group-item" ng-repeat="searchData in filterSearch">
+											<a href="@{{URL_3}}@{{searchData.sp_ma}}">
+												<img src="{{asset('public/images/products')}}/@{{searchData.sp_hinh}}" alt="@{{searchData.sp_ten}}" width="10%" />
+												@{{searchData.sp_ten}}
+											</a>
+										</li>
+									</ul>
 								</div>
 							</form>
 						</div>
@@ -195,4 +206,6 @@
 			</div>
 		</div>
 	</div>
+
+	
 </header>

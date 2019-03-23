@@ -10,6 +10,10 @@ use App\Donhang;
 use App\Sanpham;
 use App\Chitiethoadon;
 use App\Nhap;
+use App\Nhanvien;
+use DB;
+use Session;
+use Illuminate\PhpVnDataGenerator\VnBigNumber;
 
 class DonhangController extends Controller
 {
@@ -20,7 +24,7 @@ class DonhangController extends Controller
     		$donhang = Donhang::select("donhang.*", "thanhtoan.tt_ten", "vanchuyen.vc_ten")
     					->join("thanhtoan", "thanhtoan.tt_ma", "donhang.tt_ma")
     					->join("vanchuyen", "vanchuyen.vc_ma", "donhang.vc_ma")
-    					->orderBy("dh_taoMoi", "desc")->get();
+    					->orderBy("donhang.dh_ma", "desc")->get();
     		$json = json_encode($donhang);
     		return response(["error"=>false, "message"=>compact("donhang", "json")], 200);
 
@@ -35,9 +39,11 @@ class DonhangController extends Controller
     {
     	try{
 
-    		$chitietdon = Chitiethoadon::select("chitiethoadon.*", "sanpham.sp_ten", "sanpham.sp_hinh")
+    		$chitietdon = Chitiethoadon::select("chitiethoadon.*", "sanpham.sp_ten", "sanpham.sp_hinh", "huongvi.hv_ten")
     					->where("dh_ma", $id)
-    					->join("sanpham", "sanpham.sp_ma", "chitiethoadon.sp_ma")
+                        ->join("nhap", "nhap.n_ma", "chitiethoadon.n_ma")
+                        ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
+    					->join("sanpham", "sanpham.sp_ma", "nhap.sp_ma")
     					->get();
     		$json = json_encode($chitietdon);
     		return response(["error"=>false, "message"=>compact("chitietdon", "json")], 200);
@@ -56,6 +62,9 @@ class DonhangController extends Controller
         try{
             $donhang = Donhang::where('dh_ma', $id)->first();
             if($donhang){
+                $donhang->nv_xuLy = Session::get('admin_id');
+                $donhang->dh_ngayXuLy = date('Y-m-d H:i:s');
+                $donhang->dh_nguoiXuLy = Session::get('admin_name');
                 $donhang->dh_trangThai = $request->get('trangThai');
                 $donhang->dh_daThanhToan = $request->get('thanhToan');
                 $donhang->save();
@@ -92,6 +101,62 @@ class DonhangController extends Controller
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }catch(PDOException $ex){
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
+
+    public function getDonHangById($id) { // get # /donhang/info/{id}
+        try {
+            $donhang = Donhang::where("dh_ma", $id)->first();
+            if ($donhang == null) {
+                return response([
+                    'error'   => true,
+                    'message' => "Không tìm thấy donhang[{$id}]"
+                ], 200);
+            } else {
+
+                $khachHang = $donhang->dh_nguoiNhan;
+                $dienThoai = $donhang->dh_dienThoai;
+                $diaChi    = $donhang->dh_diaChi;
+                $ngayLap   = $donhang->dh_ngayXuLy;
+                $nv = Nhanvien::where("nv_ma", $donhang->nv_xuLy)->first();
+                $lapHoaDon = $nv->nv_hoTen;
+
+                $ctdh = DB::select('SELECT c.sp_ten as ten, a.ctdh_soluong as soluong, a.ctdh_donGia as dongia
+                                    FROM `chitiethoadon` a, `nhap` b, `sanpham` c
+                                    WHERE a.n_ma=b.n_ma AND b.sp_ma=c.sp_ma AND a.dh_ma = '.$donhang->dh_ma.' 
+                                    ORDER BY ten');
+                $tongSL = 0;
+                $tongTT = $donhang->dh_tongTien;
+                $tongTTChu = VnBigNumber::ToString($tongTT."");
+                $duLieuThongKe = [
+                    "soHoaDon"  => $id,
+                    "khachHang" => $khachHang,
+                    "dienThoai" => $dienThoai,
+                    "diaChi"    => $diaChi,
+                    "ngayLap"   => $ngayLap,
+                    "lapHoaDon" => $lapHoaDon,
+                    "ctdh"      => $ctdh,
+                    "tongSL"    => $tongSL,
+                    "phiVC"     => $donhang->vc_gia,
+                    "tongTT"    => $tongTT,
+                    "tongTTChu" => $tongTTChu
+                ];
+                $json          = json_encode($duLieuThongKe);
+                return response([
+                    'error'   => false,
+                    'message' => compact("duLieuThongKe", "json")
+                ], 200);
+            }
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
         }
     }
 

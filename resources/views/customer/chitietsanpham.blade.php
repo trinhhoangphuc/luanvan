@@ -17,6 +17,16 @@
 
 @section('content')
 
+@if(session('success'))
+<script >
+	toastr.info("Cám ơn bạn đã đánh giá sản phẩm!");
+</script>
+@endif
+@if(session('error'))
+<script >
+	toastr.warning("Không thể đánh giá sản phẩm!");
+</script>
+@endif
 <div class="row">
 	<div class="col-sm-12 col-xs-12 col-md-12">
 		<div class="titleProducts">
@@ -88,6 +98,7 @@
 						@endforeach
 					</select>
 				</span>&nbsp;&nbsp;&nbsp;<br/><br/>
+
 				@if($sanpham->sp_soLuong > 0)
 				<button type="button" class="btn btn-hotel-2" ng-click="addToCart({{ $sanpham->sp_ma }}, 'multi')">
 					<i class="fa fa-shopping-basket"></i>
@@ -118,46 +129,27 @@
 				</div>
 				<div role="tabpanel" class="tab-pane" id="profile">
 					<div class="comments">
-						<div class="col-sm-12">
-							<div class="comment-wrap">
-								@if(Session::has("customer_id"))
-								<div class="photo">
-									<div class="avatar" style="background-image: url('{{asset('public/images/avatar/customer/' .Session::get('customer_img'))}}')"></div>
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 style="text-align: left !important; color: #478524;">Nhận xét, đánh giá ({{count($danhgiaList)}} lượt)</h3>
+								<div class="alert-order" style="text-align: left !important; background: #D5F1E1; color: #444; border-radius: 0px; margin-bottom: 10px;">
+									Nếu bạn có bất cứ thắc mắc gì về sản phẩm này hoặc bạn muốn đặt hàng hãy Viết Comment dưới đây, mỗi đóng góp của bạn đều rất ý nghĩa với Redshop.
 								</div>
-								<div class="comment-block">
-									<form action="{{route('rate', $sanpham->sp_ma)}}" method="POST">
-										<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; ">
-											<input type="hidden" name="_token" value="{{csrf_token()}}">
-											<input type="hidden" name="rate" class="rating" value="0" />
-											<textarea name="noiDung" id="noiDung" cols="30" rows="3" placeholder="Bình luận" required></textarea>
-											<div style="margin-top:10px; float: right; margin-right: 12px;">
-												<button type="submit" class="btn btn-hotel-2">Gửi đánh giá</button>
-											</div>
-										</p>
-									</form>
-								</div>
-								@else
-								<div class="photo"><div class="avatar"></div></div>
-								<div class="comment-block">
-									<p class="product-information" style="padding: 0px 10px; text-align: left !important; border: none; ">
-										<p style="text-align: left !important;">
-											<b>Vui lòng đăng nhập trước khi đánh giá!</b> 
-											<a href="" ng-click="showLoginRegister('login')">Đăng nhập </a>
-										</p>
-									</p>
-								</div>
-								@endif
+								<button class="btn btn-block btn-hotel-3" style="text-align: left !important;" data-toggle="modal" data-target="#postRate">
+									Đánh giá và viết coment của bạn tại đây
+								</button>
 							</div>
 						</div>
-
+						<br/>
 						@foreach($danhgiaList as $danhgia)
 						<div class="col-sm-12 box-hidden">
 							<div id="load-comment" class="comment-wrap ">
 								<div class="photo">
-									<div class="avatar" style="background-image: url('{{asset('public/images/avatar/customer/' . $danhgia->kh_hinh)}}')"></div>
+									<div class="avatar" style="background-image: url('{{asset('public/images/avatar/customer/user.png')}}')"></div>
 								</div>
 								<div class="comment-block">
 									<p class="product-information" style="padding: 0px 10px; text-align: left; border: none; font-size: 15px;">
+										<b>{{ $danhgia->kh_ten }}</b> - <span style="font-size: 13px !important;">{{ $danhgia->dg_taoMoi->format('d/m/Y H:m:s') }}</span><br/>
 										@if($danhgia->dg_sao > 0)
 										<input type="hidden"  class="rating" value="{{ $danhgia->dg_sao }}" data-readonly /><br/>
 										@endif
@@ -306,4 +298,63 @@
 	</div>
 </div>
 @endif
+
+<div id="postRate" class="modal modal-2 fade" role="dialog">
+	<div class="modal-dialog">				
+		<div class="modal-content" style="width: 100%;">
+			<div class="imgcontainer" style="width: 100%; padding: 5px 10px;">
+				<span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+				<h3 class="text-left">Đánh giá sản phẩm này</h3>
+			</div>
+
+			<div class="modal-body">
+				<form method="POST" name="frmpostRate" id="frmpostRate" action="{{route('rate', $sanpham->sp_ma)}}">
+					<input type="hidden" name="_token" value="{{csrf_token()}}">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<input id="name" type="text" class="form-control" name="name" placeholder="Họ tên của bạn" value="<?php  if(Session::has('customer_id')) echo Session::get('customer_name'); ?>" <?php  if(Session::has('customer_id')) echo "readonly"; ?> required/>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<input id="phone" type="text" class="form-control" name="phone" placeholder="Số điện thoại" value="<?php  if(Session::has('customer_id')) echo Session::get('customer_phone'); ?>" <?php  if(Session::has('customer_id')) echo "readonly"; ?> required/>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<p>Bạn hãy nhập <span style="color: #E71640">số điện thoại</span> bạn đang dùng để Redshop tiện theo dõi. Số điện thoại của bạn sẽ được chúng tôi bảo mật, cam kết không để lộ thông tin.</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<textarea class="form-control" name="noiDung" id="noiDung" rows="5" placeholder="Nội dụng" required></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<p>Mời bạn đánh giá (1 - 5 sao) sản phẩm này giúp chúng tôi</p>
+								<p class="product-information" style="padding: 0px; font-size: 15px; text-align: left; border: none; ">
+									<input type="hidden" name="rate" class="rating" value="0" />
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-hotel-2" style="border-radius: 4px;">Gửi ngay</button>
+				</form> 
+				<hr/>
+				<p>Xin chân thành cảm ơn!</p>
+			</div>
+
+		</div>
+	</div>
+</div>
 @endsection

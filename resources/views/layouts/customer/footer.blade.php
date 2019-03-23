@@ -22,10 +22,9 @@
 						<h2 class="footer-wid-title">Danh Mục </h2>
 						<ul>
 
-							<li class=''><a href=""> Máy câu</a></li>
-							<li class=''><a href=""> Cần câu</a></li>
-							<li class=''><a href=""> Đồ câu</a></li>
-							<li class=''><a href=""> Phụ kiện</a></li>
+							@foreach($loaiList as $loai)
+							<li class=''><a href="{{route('Category', $loai->l_ma)}}"> {{ $loai->l_ten }}</a></li>
+							@endforeach
 
 						</ul>                        
 					</div>
@@ -36,10 +35,9 @@
 						<h2 class="footer-wid-title">Hãng Sãn Xuất</h2>
 						<ul>
 
-							<li class=''><a href=""> Shimano</a></li>
-							<li class=''><a href=""> Daiwa</a></li>
-							<li class=''><a href=""> Yolo</a></li>
-							<li class=''><a href=""> Không hãng</a></li>
+							@foreach($nhasanxuatList as $nhasanxuat)
+							<li class=''><a href="{{route('Brand', $nhasanxuat->h_ma)}}"> {{ $nhasanxuat->h_ten }}</a></li>
+							@endforeach
 						</ul>                        
 					</div>
 				</div>

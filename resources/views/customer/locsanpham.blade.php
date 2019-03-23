@@ -1,7 +1,7 @@
 @extends("layouts.customer.master")
 
 @section('tieude')
-	Lọc dứ liệu sản phâm
+	Lọc dữ liệu sản phâm
 @endsection
 
 @section("header")
@@ -21,10 +21,11 @@
 </div>
 
 <div class="row">
-	@if( count($sanphamList) > 0)
+	
 
 	@include("layouts.customer.menu-left") <!--Menu bên trái-->
 	<div class="col-sm-9">
+		@if( count($sanphamList) > 0)
 		<div class="row">
 			
 			@foreach($sanphamList as $item)
@@ -75,13 +76,16 @@
 				{{$sanphamList->render()}}
 			</div>
 		</div>
+		@else
+		<div class="row">
+			<div class="error_404">
+				<br/><br/>
+				<h2> Không có kết quả lọc dữ liệu</h2>
+				<br/><br/>
+			</div>
+		</div>
+		@endif
 	</div>
-	@else
-	<div class="error_404">
-		<br/><br/>
-		<h2> Không có kết quả lọc dữ liệu!</h2>
-		<br/><br/>
-	</p>
-	@endif
+	
 </div>
 @endsection

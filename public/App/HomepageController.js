@@ -20,17 +20,24 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
 
 	$scope.status = "";
     $scope.cart = "";
+    $scope.URL_3 = MainURL + "chi-tiet-san-pham/";
+    
     $scope.isLoading = true;
+
     $scope.refreshCart = function(){
         var requestURL = MainURL + "so-luong-gio-hang";
         $http.get(requestURL).then(function(response){
             $scope.cart = response.data.message.cart;
         });
         $scope.register2 = { gender:1};
+
+        
     }
 
     $scope.refreshCart();
+    console.log($scope.products);
 
+   
 	//Lọc dữ liệu
 	$scope.filterSP = function(){
 		var loai   = $("#loai :selected").val();
@@ -45,6 +52,18 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
 		}
 		location.href = MainURL + "loc-du-lieu/" + loai + "/" + chude + "/" + giaTu + "/" + giaDen ;
 	}
+
+
+    $("#searchFrm").on("submit", function(event){ // thêm quyên cho chức vụ
+
+        var name = $("#search").val();
+        if(name.length > 0){
+            location.href = MainURL + "searchProduct/" + name;
+        }else{
+            return;
+        }
+        
+    });
 
 	//Hiển thị form đăng ký & đăng nhập
 	$scope.showLoginRegister = function(status){
@@ -250,6 +269,17 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
                 });
             break;
 
+            case "view":
+                var requestURL = MainURL + "them-gio-hang/" + id;
+                $http.get(requestURL).then(function(response){
+                    if(response.data.message){
+                        location.reload();
+                    }
+                    else
+                        toastr.warning("Không đủ số lượng!");
+                });
+            break;
+
             case "multi": 
                 var soluong = $("#qty_"+id).val();
                 var mahuong = $("#mahuong_"+id).val();
@@ -282,5 +312,41 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
     });
    
     
+     $scope.compelte = function(string){
+        $scope.products = [];
+        if(string.length > 0){
+            var requestURL = MainURL + "getAllProductsToSearch/" + string;
+            $http.get(requestURL).then(function(response){
+                $scope.products = response.data.message.products;
+                if($scope.products.length > 0){
+                    $scope.hidethis = false;
+                    $scope.filterSearch = $scope.products;
+                    $("#box-search-item").css({'height':'300px'});
+                }else{
+                    $scope.hidethis = true;
+                    $scope.products = [];
+                    $scope.filterSearch = $scope.products;
+                    $("#box-search-item").css({'height':'0px'});
+                }
+            });
+        }else{
+            $scope.products = [];
+            $scope.filterSearch = $scope.products;
+            $("#box-search-item").css({'height':'0px'});
+        }
+        
+        // angular.forEach($scope.products, function(search){
+        //     if(search.toLowerCase().indexOf(string.toLowerCase()) >= 1){
+        //         output.push(search);
+        //         $scope.hidethis = false;
+        //     }
+            
+        // });
+    };
+
+    // $scope.fillTextBox = function(string){
+    //     $scope.search = string.sp_ten;
+    //     $scope.hidethis = true;
+    // };
 
 });

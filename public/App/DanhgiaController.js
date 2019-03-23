@@ -50,6 +50,10 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 		'<td style="text-align: left !important;">'+member.dg_ma+'</td>'+
 		'</tr>'+
         '<tr>'+
+        '<td class="text-left bg-info" width="20%"><b>Số điện thoại:</b></td>'+
+        '<td style="text-align: left !important;">'+member.kh_dienThoai+'</td>'+
+        '</tr>'+
+        '<tr>'+
         '<td class="text-left bg-info" width="20%"><b>Bình luận:</b></td>'+
         '<td style="text-align: left !important;">'+member.dg_noiDung+'</td>'+
         '</tr>'+

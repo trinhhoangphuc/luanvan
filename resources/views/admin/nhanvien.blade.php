@@ -65,7 +65,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr  ng-repeat="item in dsNhanvien" id="tr_@{{item.nv_ma}}" ng-class="item.nv_ma == newMember_Data? 'bg-default':''" ng-if="item.nv_hoTen != 'Admin'">
+                                    <tr  ng-repeat="item in dsNhanvien" id="tr_@{{item.nv_ma}}" ng-class="item.nv_ma == newMember_Data? 'bg-default':''" ng-if="item.nv_email != 'webredshop@gmail.com'">
                                         <td><input ng-if="{{Session::get('admin_id')}} != item.nv_ma" type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.nv_ma }}" /></td>
 
                                         <td class="text-dark"><b>@{{ item.nv_hoTen }}</b></td>

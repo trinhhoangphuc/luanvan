@@ -1,4 +1,4 @@
-app.controller('donhangController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder){
+app.controller('donhangController', function($scope, $http, $filter, MainURL, DTOptionsBuilder ,DTColumnBuilder, $window){
 	
 	$scope.dsDonhang = [];
     $scope.dsNhanvien = [];
@@ -18,19 +18,9 @@ app.controller('donhangController', function($scope, $http, $filter, MainURL, DT
             
 		});
 
-        var requestURL_2 = MainURL + "nhanvien/danhsach";
-        $http.get(requestURL_2).then(function(response){
-            $scope.dsNhanvien = response.data.message.nhanvien;
-        });
-
         var requestURL_3 = MainURL + "khachhang/danhsach";
         $http.get(requestURL_3).then(function(response){
             $scope.dsKhachhang = response.data.message.khachhang;
-        });
-
-        var requestURL_4 = MainURL + "sanpham/danhsach";
-        $http.get(requestURL_3).then(function(response){
-            $scope.dsSanpham = response.data.message.sanpham;
             $scope.isLoading = false;
         });
 	}
@@ -64,32 +54,6 @@ app.controller('donhangController', function($scope, $http, $filter, MainURL, DT
 	.withOption("lengthMenu",[[10,15,20,25,50,100,-1],[10,15,20,25,50,100,"Tất cả"]])
 	.withLanguage(language);
 
-	// function ShowDetail(member){
-	// 	var result = '<tr><td colspan="8" style="padding:5px">'+
-
-	// 	'<table align="center" class="table table-bordered" style="margin:0px"><tbody>'+
-	// 	'<tr>'+
-	// 	'<td class="text-left bg-info" width="20%"><b>Mã nhà sản xuât:</b></td>'+
-	// 	'<td style="text-align: left !important;">'+member.dh_ma+'</td>'+
-	// 	'</tr>'+
-	// 	'<tr>'+
-	// 	'<td class="text-left bg-info" width="20%"><b>Tên nhà sản xuât:</b></td>'+
-	// 	'<td style="text-align: left !important;">'+member.dh_ten+'</td>'+
-	// 	'</tr>'+
-	// 	'<tr>'+
-	// 	'<td class="text-left bg-info" width="20%"><b>Ngày tạo:</b></td>'+
-	// 	'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dh_taoMoi),'dd-MM-yyyy HH:mm:ss')+'</td>'+
-	// 	'</tr>'+
-	// 	'<tr>'+
-	// 	'<td class="text-left bg-info" width="20%"><b>Ngày cập nhật:</b></td>'+
-	// 	'<td style="text-align: left !important;">'+$filter('date')(new Date(member.dh_capNhat),'dd-MM-yyyy HH:mm:ss')+'</td>'+
-	// 	'</tr>';
-
-
-	// 	result += '</tbody></table></td></tr>';
-
-	// 	return result;
-	// }
 
 	function indexOfMember(id){ // lấy vị trí theo id
 		for(i=0; i < $scope.dsDonhang.length; i++){
@@ -330,4 +294,12 @@ app.controller('donhangController', function($scope, $http, $filter, MainURL, DT
             break;
         } 
     });
+
+    $scope.xuatHoaDonLe = function(dh_ma) {
+      $http.get(MainURL + 'donhang/hoadon/' + dh_ma).then(function (response) {
+        
+        $window.reportData =  angular.toJson(response.data.message.duLieuThongKe);
+        $window.open(MainURL + 'donhang/inhoadon', '_blank');
+      });
+    }
 });

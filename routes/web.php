@@ -357,6 +357,36 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::delete('delete/{id}', "DonhangController@destroy");
 
 		Route::post('deleteAll', "DonhangController@destroyAll");
+
+		Route::get('hoadon/{id}',  'DonhangController@getDonHangById');
+
+		Route::get('inhoadon',  function () {
+			return view('admin.hoadon');
+		}); // load dánh 
+	});
+	// kết thúc
+
+	// Quản lý  khuyến mãi
+	Route::get('khuyenmai', function () {
+		return view('admin.khuyenmai');
+	})->name("QLkhuyenmai");
+
+	Route::group(["prefix" =>"khuyenmai"], function(){
+
+		Route::get('danhsach',  'KhuyenmaiController@index'); // load dánh 
+
+		Route::post('store', "KhuyenmaiController@store");
+
+		Route::post('update/{id}', "KhuyenmaiController@update"); 
+
+		Route::get('danhsachSPbyIdLoai/{id}',  'KhuyenmaiController@danhsachSPbyIdLoai'); 
+
+		Route::get('chitietkhuyenmai/{id}',  'KhuyenmaiController@chitietkhuyenmai');
+
+		Route::post('storeChitietkhuyenmai/{id}', "KhuyenmaiController@storeChitietkhuyenmai"); 
+		// Route::delete('delete/{id}', "bannerController@destroy");
+
+		// Route::post('deleteAll', "bannerController@destroyAll");
 	});
 	// kết thúc
 
@@ -420,6 +450,11 @@ Route::post('/post-thanh-toan', 'HomepageController@postpayment')->name("postPay
 Route::get('/chi-tiet-don-hang/{id}', 'HomepageController@orderDetail')->name("reviewOrder");
 
 Route::get('/thanh-toan-thanh-cong/{id}', 'HomepageController@paymentSuccess')->name("paymentSucess");
+
+Route::get("/getAllProductsToSearch/{name}", "HomepageController@getAllProductsToSearch");
+
+Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
+
 
 Route::get('/404', function () {
 		return view("error.404");	

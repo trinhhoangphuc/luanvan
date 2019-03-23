@@ -159,6 +159,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     	|| db.h_ma != frm.maHang 
     	|| db.l_ma != frm.maLoai
     	|| db.sp_giaBan != frm.gia
+    	|| db.sp_giamGia != frm.giamGia
     	|| db.sp_soLuong != frm.soluong
     	|| db.sp_thongTin != frm.thongTin
     	|| db.sp_tinhTrang != frm.tinhTrang
@@ -237,6 +238,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 					trangThai: 1, 
 					gia: 100000,
 					soluong: 20,
+					giamGia: 0,
 					maLoai: ma_loai,
 					maHang: ma_hang,
 					thongTin: "",
@@ -266,6 +268,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 						trangThai: member.sp_trangThai, 
 						tinhTrang: member.sp_tinhTrang,
 						gia: member.sp_giaBan,
+						giamGia: member.sp_giamGia,
 						soluong: member.sp_soLuong,
 						maLoai: member.l_ma,
 						maHang: member.h_ma,
