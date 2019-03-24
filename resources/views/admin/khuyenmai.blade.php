@@ -80,7 +80,7 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.km_ma)"><i class="fa fa-eye-slash"></i></button>
-                                            <button  class="btn  btn-sm btn-flat bg-purple" ng-click="CreateEdit_show('addProduct', item.km_ma)"><i class="fa fa-sliders"></i></button>
+                                            <button  class="btn  btn-sm btn-flat bg-purple" ng-if="item.km_trangThai == 1" ng-click="CreateEdit_show('addProduct', item.km_ma)"><i class="fa fa-sliders"></i></button>
                                             <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.km_ma)"><i class="fa fa-pencil"></i></button>
                                             <button class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.km_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
@@ -197,6 +197,7 @@
                             </ul>
                             <div class="tab-content" style="padding: 0px !important;">
                                 <div class="tab-pane active" id="IMAGES">
+                                    <form method="POST" name="frmUpdateDiscount" id="frmUpdateDiscount">
                                    <table class="table" id="tableSoLuong" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                     <thead>
                                         <tr>
@@ -205,7 +206,7 @@
                                             <th>Giá gốc</th>
                                             <th>Giảm giá</th>
                                             <th>
-                                                <button type="button" class="btn btn-xs btn-flat bg-olive">Cập nhật</button>
+                                                <button type="submit" class="btn btn-xs btn-flat bg-olive">Cập nhật</button>
                                             </th>
                                         </tr>
                                     </thead>
@@ -222,13 +223,17 @@
                                             <td width="10%"><img src="{{asset('public/images/products')}}/@{{ item.sp_hinh }}" alt="@{{ item.sp_ten }}" width="100%"></td>
                                             <td>@{{ item.sp_ten }}</td>
                                             <td>@{{ item.sp_giaBan | number: 0 }} ₫</td>
-                                            <td width="20%"><input type="number" min="0" max="99999999999" value="@{{ item.kmsp_giaTri }}" class="form-control" id="discount_@{{ item.sp_ma }}" /></td>
+                                            <td width="20%">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                <input type="number" min="0" max="99999999999" value="@{{ item.kmsp_giaTri }}" class="form-control" name="discount_@{{ item.sp_ma }}" id="discount_@{{ item.sp_ma }}" />
+                                            </td>
                                             <td>
                                                 
-                                                <button type="button" class="btn btn-xs btn-flat btn-danger" ng-click="CreateEditSoLuong_show('delete', sl.n_ma)"><i class="fa fa-trash"></i></button>
+                                                <button type="button" class="btn btn-xs btn-flat btn-danger" ng-click="Product_Delete( item.ctkm_ma)"><i class="fa fa-trash"></i></button>
                                             </td>
                                         </tr>         
                                     </table>
+                                </form>
                                 </div>
 
                                 <div class="tab-pane" id="QUNTITY" >

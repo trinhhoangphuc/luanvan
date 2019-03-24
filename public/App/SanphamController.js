@@ -728,24 +728,24 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
         } 
     });
 
-    $scope.dsChitiethuong_Delete = function(cthv_ma){
-    	for (i = 0; i < $scope.dsChitiethuong.length ; i++) {
-    		if(cthv_ma == $scope.dsChitiethuong[i].cthv_ma){
-    			vitri = i;
-    			break;
-    		}
-    	}
-    	if(confirm("Bạn có chắc muốn xóa?"))
-    	{
-    		var required = MainURL + "chitiethuongvi/delete/" + cthv_ma;
-			$http.delete(required).then(function(response){
-				if(response.data.message){
-					$scope.dsChitiethuong.splice(vitri, 1);
-				}
-			});
-    	}else{ return; }
+ //    $scope.dsChitiethuong_Delete = function(cthv_ma){
+ //    	for (i = 0; i < $scope.dsChitiethuong.length ; i++) {
+ //    		if(cthv_ma == $scope.dsChitiethuong[i].cthv_ma){
+ //    			vitri = i;
+ //    			break;
+ //    		}
+ //    	}
+ //    	if(confirm("Bạn có chắc muốn xóa?"))
+ //    	{
+ //    		var required = MainURL + "chitiethuongvi/delete/" + cthv_ma;
+	// 		$http.delete(required).then(function(response){
+	// 			if(response.data.message){
+	// 				$scope.dsChitiethuong.splice(vitri, 1);
+	// 			}
+	// 		});
+ //    	}else{ return; }
 		
-	}
+	// }
 
 	$scope.ClickShowImg = function(sp_ma){
 		i = indexOfMember(sp_ma);

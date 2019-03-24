@@ -383,8 +383,13 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 		Route::get('chitietkhuyenmai/{id}',  'KhuyenmaiController@chitietkhuyenmai');
 
+		Route::get('deleteChitietkhuyenmai/{id}',  'KhuyenmaiController@deleteChitietkhuyenmai');
+
 		Route::post('storeChitietkhuyenmai/{id}', "KhuyenmaiController@storeChitietkhuyenmai"); 
-		// Route::delete('delete/{id}', "bannerController@destroy");
+
+		Route::post('updateChitietkhuyenmai/{id}', "KhuyenmaiController@updateChitietkhuyenmai");
+		
+		Route::delete('delete/{id}', "KhuyenmaiController@destroy");
 
 		// Route::post('deleteAll', "bannerController@destroyAll");
 	});

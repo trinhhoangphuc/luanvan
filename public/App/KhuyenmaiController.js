@@ -224,17 +224,7 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
         		$scope.status = status;
         		$scope.id_member = id;
         		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.km_ten+"</b>\" ?");
-        		$("#myModal2").modal("show");
-
-    		break;
-
-    		case "deleteAll":
-
-    			$scope.dialogTiTle = "Xóa " + $scope.dataTitle;
-        		$scope.dialogButton = "Xóa";
-        		$scope.status = status;
-        		$("#message").html("Bạn có muốn xóa các dòng dữ liệu đã chọn?");
-        		$("#myModal2").modal("show");
+        		$("#myModal3").modal("show");
 
     		break;
 
@@ -327,8 +317,11 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
                             var d1 = Date.parse($scope.khuyenmai.ngayBD);
                             var d2 = Date.parse($scope.khuyenmai.ngayKT);
 
+
                             if( d1 >= d2){
                                 alert('Ngày bắt đầu không được lớn hoặc bằng ngày kết thúc!');
+                            }else if(d2 < $scope.today){
+                                alert('Ngày kết thúc không hợp lệ');
                             }else{
                                 var requestURL = MainURL + "khuyenmai/update/" + $scope.id_member;
                                 var requestData = $.param($scope.khuyenmai);
@@ -379,7 +372,7 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
 
                 i = indexOfMember($scope.id_member);
                 if(i == -1){
-                    $('#myModal2').modal('hide');
+                    $('#myModal3').modal('hide');
                     toastr.warning("Mã khuyến mãi không tồn tại!");
                 }else{
 
@@ -405,51 +398,6 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
                     });
 
                 }
-            break;
-
-            case "deleteAll":
-
-                dsCheckbox = [];
-                for(i=1; i<= $scope.dsKhuyenmai.length; i++){
-                    if($('#chk'+i).prop("checked"))
-                        dsCheckbox.push($('#chk'+i).val());
-                }
-
-                if(dsCheckbox.length > 0){
-
-                    var requestURL = MainURL + 'khuyenmai/deleteAll';
-                    var requestData = $.param({items: dsCheckbox});
-
-                    $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
-                    .then(function(response){
-
-                        if(response.data.message){
-                            for(i in dsCheckbox){
-                                memberKey = dsCheckbox[i];
-                                dbMember = indexOfMember(memberKey);
-                                if(dbMember != -1){
-                                    $scope.dsKhuyenmai.splice(dbMember, 1);
-                                } 
-                            }
-                            $('#myModal2').modal('hide');
-                            toastr.success("Xóa các khuyến mãi sản phẩm thành công!");
-                        }else{
-                            $('#myModal2').modal('hide');
-                            toastr.error("Xóa các khuyến mãi sản phẩm thành công!");
-                        }
-
-                    }).catch(function(reason){
-                        if(reason.status == 500){
-                            $('#myModal2').modal('hide');
-                            toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
-                        }
-                    });
-
-                }else{
-                    $('#myModal2').modal('hide');
-                    toastr.warning("Vui lòng chọn dữ liệu trước khi xóa!");
-                }
-
             break;
         } 
     });
@@ -489,5 +437,51 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
         }
 
     }
+
+    $scope.Product_Delete = function(ctkm){
+
+        if(confirm("Bạn có chắc muốn xóa?"))
+        {
+            var required = MainURL + "khuyenmai/deleteChitietkhuyenmai/" + ctkm;
+            $http.get(required).then(function(response){
+                if(response.data.message){
+                    $scope.CreateEdit_show("addProduct", $scope.id_member);
+                    $("#myModal3").modal("hide");
+                }
+            });
+        }else{ return; }
+        
+    }
+
+    $("#frmUpdateDiscount").on("submit", function(event){
+        event.preventDefault();
+
+        
+        var requestURL = MainURL + "khuyenmai/updateChitietkhuyenmai/" + $scope.id_member;
+
+        $.ajax({
+            url: requestURL,
+            method: "POST",
+            data:new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data)
+            {
+                alert("Cập nhật thành công!");
+                $scope.CreateEdit_show("addProduct", $scope.id_member);
+
+            },
+            error: function(data)
+            {
+                alert("Có lỗi xảy ra vui lòng kiểm tra lại");
+                console.log(data);
+            }
+
+        });
+
+
+    });
 
 });

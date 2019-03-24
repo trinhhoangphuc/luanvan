@@ -9,6 +9,7 @@ use Illuminate\Support\MessageBag;
 use Session;
 use DB;
 
+use App\Sanpham;
 use App\Khuyenmai;
 use App\Chitietkhuyenmai;
 
@@ -94,6 +95,22 @@ class KhuyenmaiController extends Controller
                 $khuyenmai->km_trangThai = $request->trangThai;
                 $khuyenmai->save();
 
+                if($khuyenmai->km_trangThai == 1){
+                    $chitietkhuyenmai = Chitietkhuyenmai::where("km_ma", $khuyenmai->km_ma)->get();
+                    foreach ($chitietkhuyenmai as $key) {
+                        $sanpham = Sanpham::find($key->sp_ma);
+                        $sanpham->sp_giamGia = $key->kmsp_giaTri;
+                        $sanpham->save();
+                    }
+                }else{
+                    $chitietkhuyenmai = Chitietkhuyenmai::where("km_ma", $khuyenmai->km_ma)->get();
+                    foreach ($chitietkhuyenmai as $key) {
+                        $sanpham = Sanpham::find($key->sp_ma);
+                        $sanpham->sp_giamGia = 0;
+                        $sanpham->save();
+                    }
+                }
+
                 $khuyenmai = Khuyenmai::select('khuyenmai.*', "nhanvien.nv_hoTen")
                         ->join("nhanvien", "nhanvien.nv_ma", "khuyenmai.nv_nguoiLap")
                         ->orderBy("khuyenmai.km_capNhat", "desc")->where('km_ma', $khuyenmai->km_ma)->first();
@@ -143,7 +160,7 @@ class KhuyenmaiController extends Controller
 
     public function chitietkhuyenmai($id)
     {
-       try{
+        try{
             
             $chitietkhuyenmai = Chitietkhuyenmai::select("chitietkhuyenmai.*", "sanpham.sp_ten", "sanpham.sp_hinh", "sanpham.sp_giaBan")
                 ->join("sanpham", "sanpham.sp_ma", "chitietkhuyenmai.sp_ma")
@@ -176,34 +193,74 @@ class KhuyenmaiController extends Controller
         }
     }
 
-    // public function destroy($id) // xóa loại sản phẩm
-    // {
-    // 	try{
-    //         $khuyenmai = khuyenmai::where('km_ma', $id)->first();
-    //         if($khuyenmai){
-    //             $sanpham = Sanpham::where('km_ma', $id)->get();
-    //             if($sanpham){
-    //                 foreach ($sanpham as $key => $value) {
-    //                     $hinhanh = Hinhanh::where('sp_ma', $value['sp_ma'])->get();
-    //                     if($hinhanh){
-    //                         foreach ($hinhanh as $key2 => $value2) {
-    //                             if(file_exists(public_path('images/products/'.$value2['ha_ten'])))
-    //                                 unlink(public_path('images/products/'.$value2['ha_ten']));
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //             if($khuyenmai->delete())
-    //             	return response(['error'=>false, 'message'=>true], 200);
-    //             else
-    //             	return response(['error'=>false, 'message'=>false], 200);
-    //         }       
-    //     }catch(QueryException $ex){
-    //         return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
-    //     }catch(PDOException $ex){
-    //         return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
-    //     }
-    // }
+    public function updateChitietkhuyenmai(Request $request, $id)
+    {
+        try{
+            
+            $chitietkhuyenmai = Chitietkhuyenmai::where("km_ma", $id)->get();
+            
+            foreach ($chitietkhuyenmai as $key) {
+                if($key->kmsp_giaTri != $request->get('discount_'.$key->sp_ma) && $request->get('discount_'.$key->sp_ma) != 0){
+                    $key->kmsp_giaTri = $request->get('discount_'.$key->sp_ma);
+                    if($key->save()){
+                        $sanpham = Sanpham::find($key->sp_ma);
+                        $sanpham->sp_giamGia = $key->kmsp_giaTri;
+                        $sanpham->save();
+                    }
+                }
+            }
+
+            return response(['error'=>false, 'message'=>true], 200);
+        }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
+
+    public function deleteChitietkhuyenmai($id)
+    {
+        try{
+            
+            $chitietkhuyenmai = Chitietkhuyenmai::find($id);
+            if($chitietkhuyenmai != null){
+                $sanpham = Sanpham::find($chitietkhuyenmai->sp_ma);
+                $sanpham->sp_giamGia = 0;
+                if($sanpham->save()){
+                    $chitietkhuyenmai->delete();
+                    return response(['error'=>false, 'message'=>true], 200);
+                }
+            }
+            
+        }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
+
+    public function destroy($id) // xóa loại sản phẩm
+    {
+    	try{
+            $khuyenmai = khuyenmai::find($id);
+            if($khuyenmai){
+                $chitietkhuyenmai = Chitietkhuyenmai::where("km_ma", $khuyenmai->km_ma)->get();
+                foreach ($chitietkhuyenmai as $key) {
+                    $sanpham = Sanpham::find($key->sp_ma);
+                    $sanpham->sp_giamGia = 0;
+                    $sanpham->save(); 
+                }
+                if($khuyenmai->delete())
+                	return response(['error'=>false, 'message'=>true], 200);
+                else
+                	return response(['error'=>false, 'message'=>false], 200);
+            }       
+        }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
 
     // public function destroyAll(Request $request)
     // {

@@ -300,7 +300,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="recommended_items"><!--recommended_items-->
-					<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+					<div id="recommended-item-carousel-2" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
 
 							<div class="item active">
@@ -402,10 +402,10 @@
 							</div>
 							@endif
 						</div>
-						<a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+						<a class="left recommended-item-control" href="#recommended-item-carousel-2" data-slide="prev">
 							<i class="fas fa-angle-left"></i>
 						</a>
-						<a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+						<a class="right recommended-item-control" href="#recommended-item-carousel-2" data-slide="next">
 							<i class="fas fa-angle-right"></i>
 						</a>          
 					</div>
