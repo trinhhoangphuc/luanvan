@@ -35,6 +35,25 @@ class DonhangController extends Controller
     	}
     }
 
+    public function totalOrder() //load danh sách
+    {
+        try{
+
+            $ds_donhang = DB::table("donhang")->where('dh_trangThai', '0')->get();
+            return response([
+                  'error'   => false,
+                  'message' => $ds_donhang->count()
+                ], 200);
+
+        }catch(QueryException $ex){
+            return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(["error"=>true, "message"=>$ex->getMessage()], 200);
+        }
+    }
+
+    
+
     public function getCTDHbyId($id) // kiểm tra trùng tên
     {
     	try{
@@ -68,7 +87,11 @@ class DonhangController extends Controller
                 $donhang->dh_trangThai = $request->get('trangThai');
                 $donhang->dh_daThanhToan = $request->get('thanhToan');
                 $donhang->save();
-                $donhang = Donhang::where('dh_ma', $id)->first();
+                $donhang = Donhang::select("donhang.*", "thanhtoan.tt_ten", "vanchuyen.vc_ten")
+                        ->join("thanhtoan", "thanhtoan.tt_ma", "donhang.tt_ma")
+                        ->join("vanchuyen", "vanchuyen.vc_ma", "donhang.vc_ma")
+                        ->where('dh_ma', $id)
+                        ->orderBy("donhang.dh_ma", "desc")->first();
                 $json = json_encode($donhang);
                 return response(['error'=>false, 'message'=>compact('donhang', 'json')], 200);
             }
@@ -160,6 +183,88 @@ class DonhangController extends Controller
         }
     }
 
+    public function donhang_thang() { // get # /donhang/thang
+        try {
+            $duLieuThongKe = DB::select('
+                SELECT YEAR(dh_taoMoi)as nam, month(dh_taoMoi) as thang, count(dh_ma) as soluong, SUM(dh_tongTien) as giatri
+                FROM donhang
+                WHERE dh_trangThai = 3 AND dh_daThanhToan = 1  AND YEAR(dh_taoMoi)=year(now())
+                GROUP by nam asc, thang asc
+            ');
+            $json = json_encode($duLieuThongKe);
+            return response([
+                    'error'   => false,
+                    'message' => compact("duLieuThongKe", "json")
+                ], 200);
+
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
+    }
+
+     public function donhang_nam() { // get # /donhang/thang
+        try {
+            $duLieuThongKe = DB::select('
+                SELECT YEAR(dh_taoMoi)as nam, month(dh_taoMoi) as thang, count(dh_ma) as soluong, SUM(dh_tongTien) as giatri
+                FROM donhang
+                WHERE dh_trangThai = 3 AND dh_daThanhToan = 1
+                GROUP by nam asc, thang asc
+            ');
+            $json = json_encode($duLieuThongKe);
+            return response([
+                    'error'   => false,
+                    'message' => compact("duLieuThongKe", "json")
+                ], 200);
+
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
+    }
+
+    public function thongkeLoai()
+    {
+        try {
+            $duLieuThongKe = DB::select('
+                SELECT l.l_ten, sum(ctdh.ctdh_soluong) as giatri
+                FROM chitiethoadon as ctdh, sanpham as sp, loai as l, nhap as n
+                Where ctdh.n_ma = n.n_ma AND n.sp_ma = sp.sp_ma AND sp.l_ma = l.l_ma
+                GROUP BY l.l_ten
+            ');
+
+            $json = json_encode($duLieuThongKe);
+            return response([
+                    'error'   => false,
+                    'message' => compact("duLieuThongKe", "json")
+                ], 200);
+
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
+    }
     // public function destroyAll(Request $request)
     // {
     //     try {

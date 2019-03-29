@@ -284,11 +284,11 @@ Thanh toán
 						@foreach($cart as $item)
 						{
 							<?php
-							if($item->options->discount > 0)	
-								$tiendo =  round($item->options->discount/ 23189.96);
-							else
-								$tiendo =  round($item->options->price_2/ 23189.96);
-							$tongtien = $tongtien + ($tiendo * $item->qty);
+								if($item->options->discount > 0)	
+									$tiendo =  round($item->options->discount/ 23189.96);
+								else
+									$tiendo =  round($item->options->price_2/ 23189.96);
+								$tongtien = $tongtien + ($tiendo * $item->qty);
 							?>
 							name: '{{$item->name}}',
 							quantity: '{{$item->qty}}',
@@ -312,7 +312,7 @@ Thanh toán
 						}
 					},
 					amount: {
-						<?php $test = $tongtien + 2; ?>
+						
 						total: test,
 						currency: 'USD',
 						details: {

@@ -99,7 +99,7 @@
                                                         <td><b>Tình trạng:</b></td>
                                                         <td class="text-center">
                                                             <span class="badge bg-olive" ng-if="item.sp_soLuong > 10">Còn hàng</span>
-                                                            <span class="badge bg-maroon" ng-if="item.sp_soLuong == 0">Hết hàng</span>
+                                                            <span class="badge btn-danger btn-flat" ng-if="item.sp_soLuong == 0">Hết hàng</span>
                                                             <span class="badge bg-orange" ng-if="item.sp_soLuong <= 10 && item.sp_soLuong > 0">Sắp hết</span>
                                                         </td>
                                                         <td><b>Đánh giá:</b></td>
@@ -137,7 +137,7 @@
                                                 <p><button class="btn  btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.sp_ma)"><i class="fa fa-eye-slash"></i></button></p>
                                                 <p><button class="btn  btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.sp_ma)"><i class="fa fa-pencil"></i></button></p>
                                                 <p><button  class="btn  btn-sm btn-flat bg-purple" ng-click="CreateEdit_show('uploadIMG', item.sp_ma)"><i class="fa fa-sliders"></i></button></p>
-                                                <p><button  class="btn  btn-sm btn-flat bg-maroon  btn-delete" ng-click="CreateEdit_show('delete', item.sp_ma)"><i class="fa fa-trash" ></i></button></p>
+                                                <p><button  class="btn  btn-sm btn-flat btn-danger btn-flat  btn-delete" ng-click="CreateEdit_show('delete', item.sp_ma)"><i class="fa fa-trash" ></i></button></p>
                                             </td>
                                         </tr>
                                     </tdody>
@@ -182,14 +182,10 @@
             <div class="modal-dialog modal-lg">
                 <form name="frmCreatEdit" id="frmCreatEdit">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="imgcontainer">
-                                <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                                <div class="logo-login-register">
-                                     <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                                </div>
-                            </div>
-                         </div>
+                        <div class="imgcontainer">
+                            <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+                            <div class="title">@{{dialogTiTle}}</div>
+                        </div>
                          <div class="modal-body">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
@@ -278,17 +274,11 @@
             <div class="modal-dialog modal-lg">
 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                               <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">
-                                   @{{dialogTiTle}}
-                               </span></h3>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="modal-body">
+                            <div class="title">@{{dialogTiTle}}</div>
+                        </div>
+                   <div class="modal-body" style="background: #fff !important">
 
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
@@ -304,7 +294,7 @@
                                                 <div class="" ng-repeat="hinh in dsHinh" style=" width: 20%; display:inline-table; margin: auto !important;">
                                                     <div class="box-img" style="margin-top: 5px;">
                                                         <img src="{{asset('public/images/products')}}/@{{hinh.ha_ten}}" width="100%" class="img-responsive" />
-                                                        <button class="btn btn-sm btn-flat bg-maroon btn-uload-img left" ng-click="frmUpload_Delete(hinh.sp_ma, hinh.ha_ma)">
+                                                        <button class="btn btn-sm btn-flat btn-danger btn-flat btn-uload-img left" ng-click="frmUpload_Delete(hinh.sp_ma, hinh.ha_ma)">
                                                             <span class="fa fa-trash"></span>
                                                         </button>
                                                         <button class="btn btn-sm btn-flat btn-success btn-uload-img" ng-click="frmUpload_setMainImage(hinh.sp_ma, hinh.ha_ma)">
@@ -355,13 +345,13 @@
                                                                     <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                                                                 </td>
                                                                 <td nowrap>
-                                                                    <button type="button" class="btn btn-success btn-sm btn-flat" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                    <button type="button" class="btn btn-success btn-flat btn-sm btn-flat" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                                                                         <i class="fa fa-upload" aria-hidden="true"></i>
                                                                     </button>
                                                                     <!-- <button type="button" class="btn bg-orange btn-sm btn-flat" ng-click="item.cancel()" ng-disabled="!item.isUploading">
                                                                         <i class="fa fa-ban" aria-hidden="true"></i>
                                                                     </button> -->
-                                                                    <button type="button" class="btn bg-maroon btn-sm btn-flat" ng-click="item.remove()">
+                                                                    <button type="button" class="btn btn-danger btn-flat btn-sm btn-flat" ng-click="item.remove()">
                                                                         <i class="fa fa-remove"></i>
                                                                     </button>
                                                                 </td>
@@ -377,13 +367,13 @@
                                                                 <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
                                                             </div>
                                                         </div>
-                                                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                                        <button type="button" class="btn btn-success btn-flat btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
                                                             <span class="glyphicon glyphicon-upload"></span> Lưu ảnh
                                                         </button>
                                                        <!--  <button type="button" class="btn bg-orange btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
                                                             <span class="glyphicon glyphicon-ban-circle"></span> Hủy bỏ
                                                         </button> -->
-                                                        <button type="button" class="btn bg-maroon btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                                        <button type="button" class="btn btn-danger btn-flat btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
                                                             <span class="glyphicon glyphicon-trash"></span> Xóa 
                                                         </button>
                                                     </div>
@@ -422,7 +412,7 @@
                                             <td>@{{ sl.n_soLuong }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-xs btn-flat bg-orange" ng-click="CreateEditSoLuong_show('edit', sl.n_ma)"><i class="fa fa-edit"></i></button>
-                                                 <button type="button" class="btn btn-xs btn-flat bg-maroon" ng-click="CreateEditSoLuong_show('delete', sl.n_ma)"><i class="fa fa-trash"></i></button>
+                                                 <button type="button" class="btn btn-xs btn-flat btn-danger btn-flat" ng-click="CreateEditSoLuong_show('delete', sl.n_ma)"><i class="fa fa-trash"></i></button>
                                             </td>
                                         </tr>         
                                 </table>
@@ -470,14 +460,10 @@
             <div class="modal-dialog">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                                 <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                            </div>
+                            <div class="title">@{{dialogTiTle}}</div>
                         </div>
-                     </div>
                     <div class="modal-body">
                         <form name="delte" id="delte">
                             <div class="form-group"> 
@@ -486,7 +472,7 @@
                             <Br/>
                             <div class="form-group row"> 
                                 <div class="col-sm-6"> 
-                                    <button type="submit" class="btn bg-maroon btn-block">@{{dialogButton}}</button>
+                                    <button type="submit" class="btn btn-danger btn-flat btn-block">@{{dialogButton}}</button>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <button type="button" class="btn btn-default btn-block" data-dismiss="modal" title="Close Modal">Hủy</button>
@@ -503,11 +489,10 @@
             <div class="modal-dialog">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+                            <div class="title">@{{dialogTiTle}}</div>
                         </div>
-                     </div>
                      <div class="modal-body">
                         <img src="{{asset('public/images/products')}}/@{{showimg}}" width="100%" height="100%" />
                     </div>

@@ -1,6 +1,7 @@
 var app = angular.module("redshop", ['ngMaterial','ckeditor', 'datatables', 'angularFileUpload']).constant('MainURL', "http://localhost/luanvan/admin/");
 var app2 = angular.module("homepageredshop", ['ngMaterial']).constant('MainURL', "http://localhost/luanvan/");
 var URL_2 = "http://localhost/luanvan/";
+
 function En2Vn(alias, isURL = false) {
     var str = alias;
     str= str.toLowerCase(); 
@@ -19,26 +20,6 @@ function En2Vn(alias, isURL = false) {
         //cắt bỏ ký tự - ở đầu và cuối chuỗi            
     }
     return str;
-}
-
-function showAlert(status, icon, message){ // Hiển thị alert thông báo
-    var content = {};
-    var placementFrom = "top";
-    var placementAlign = "right";
-
-    content.message = message;
-    content.title = '<b>Thông báo!</b>';
-    content.icon =  icon;
-    content.target = '_blank';
-
-    $.notify(content,{
-        type: status,
-        placement: {
-            from: placementFrom,
-            align: placementAlign
-        },
-        time: 800,
-    });
 }
 
 if (!String.prototype.getRating) {
@@ -85,4 +66,29 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "show",
     "hideMethod": "hide"
-  }
+}
+
+$(document).ready(function(){
+    var urlAdmin = URL_2 + "admin/donhang/totalOrder";
+    function load(){
+        $.ajax({
+            url: urlAdmin,
+            type: "GET",
+            headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        }).done(function(res){
+            result = res.message;
+            if (result > 0) {
+                str =   '<span  class="label label-rouded label-danger pull-right">'+result+'</span>';
+                $('#totalOrder').html(str);
+            }else{
+                $('#totalOrder').html('');
+            }
+        });
+    }
+
+    load();
+
+    setInterval(function(){
+        load();
+    }, 20000);
+});

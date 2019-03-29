@@ -27,22 +27,6 @@ class LoaiController extends Controller
     	}
     }
 
-    public function checkExistName($name) // kiểm tra trùng tên
-    {
-    	try{
-
-    		$loai = Loai::where("l_ten", $name)->first();
-    		if($loai)
-                return response(['error'=>false, 'message'=>true], 200);
-            else
-                return response(['error'=>false, 'message'=>false], 200);
-
-    	}catch(QueryException $ex){
-    		return response(["error"=>true, "message"=>$ex->getMessage()], 200);
-    	}catch(PDOException $ex){
-    		return response(["error"=>true, "message"=>$ex->getMessage()], 200);
-    	}
-    }
 
     public function store(Request $request)
     {

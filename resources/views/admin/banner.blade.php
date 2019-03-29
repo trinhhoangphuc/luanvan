@@ -120,18 +120,14 @@
                 <form name="frmCreatEdit" id="frmCreatEdit" enctype="multipart/form-data" method="POST">
                 	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="imgcontainer">
-                                <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                                <div class="logo-login-register">
-                                     <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                                </div>
-                            </div>
-                         </div>
+                        <div class="imgcontainer">
+                            <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+                            <div class="title">@{{dialogTiTle}}</div>
+                        </div>
                         <div class="modal-body">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label for="bannerFile" class=""><b>Tên Banner:</b></label>
+                                <label for="bannerFile" class=""><b>file Banner:</b></label>
                                 <input class="form-control" name="bannerFile" id="bannerFile" type="file" accept="image/*" onchange="loadFile(event)">
                                 <span class="error" id="error"></span>
 								<script>
@@ -172,14 +168,10 @@
             <div class="modal-dialog">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
-                            <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                                 <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                            </div>
-                        </div>
-                     </div>
+                    <div class="imgcontainer">
+                        <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+                        <div class="title">@{{dialogTiTle}}</div>
+                    </div>
                     <div class="modal-body">
                         <form name="delte" id="delte">
                             <div class="form-group"> 

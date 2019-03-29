@@ -11,6 +11,7 @@
 @section('noidung')
 
 <script src="{{asset('public/libs/zingchart.min.js')}}"></script>
+<script src="{{asset('public/App/dashboardController.js')}}"></script>
 <div class="content-wrapper">
 
     <section class="content-header">
@@ -91,8 +92,8 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="chart-box">
-                    <p class="title-chart">Thống kê năm 2018</p>
-                    <div id="myChart"></div>
+                    <p class="title-chart">Thống kê năm <?php echo date('Y');?></p>
+                    <div id="chTKT"></div>
                 </div>
             </div>
         </div>
@@ -100,67 +101,4 @@
     </section>
 
 </div>
-
-<script >
- $(document).ready(function(){
-     var myChart = {
-      "type": "bar",
-		// "title": {
-		// 	"text": "Change me please!"
-		// },
-		"plot": {
-			"value-box": {
-				"text": "%v"
-			},
-			"tooltip": {
-				"text": "%v"
-			}
-		},
-		"legend": {
-			"toggle-action": "hide",
-			"header": {
-				"text": "Legend Header"
-			},
-			"item": {
-				"cursor": "pointer"
-			},
-			"draggable": true,
-			"drag-handler": "icon"
-		},
-		"scale-x": {
-			"values": [
-			"Mon",
-			"Wed",
-			"Fri"
-			]
-		},
-		"series": [
-		{
-			"values": [
-			3,
-			6,
-			9
-			],
-			"text": "apples",
-			"palette": 0,
-		},
-		{
-			"values": [
-			1,
-			4,
-			3
-			],
-			"text": "oranges",
-			"palette": 1
-		}
-		]
-	};
-	zingchart.render({
-		id: "myChart",
-		data: myChart,
-		height: "480",
-		width: "100%"
-	});
-});
-</script>
 @endsection

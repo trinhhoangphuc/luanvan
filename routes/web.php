@@ -36,7 +36,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý loại sản phẩm
 	Route::get('loai', function () {
-		return view('admin.loai');
+		if(in_array(2, Session::get("admin_q")))
+			return view('admin.loai');
+		else
+			return(route("login"));
 	})->name("QLloaisanpham");
 
 	Route::group(["prefix" =>"loai"], function(){
@@ -78,7 +81,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý thanh toans
 	Route::get('thanhtoan', function () {
-		return view('admin.thanhtoan');
+		if(in_array(3, Session::get("admin_q")))
+			return view('admin.thanhtoan');
+		else
+			return redirect(route("login"));
 	})->name("QLthanhtoan");
 
 	Route::group(["prefix" =>"thanhtoan"], function(){
@@ -99,7 +105,11 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý vận chuyển
 	Route::get('vanchuyen', function () {
-		return view('admin.vanchuyen');
+		if(in_array(4, Session::get("admin_q")))
+			return view('admin.vanchuyen');
+		else
+			return redirect(route("login"));
+		
 	})->name("QLvanchuyen");
 
 	Route::group(["prefix" =>"vanchuyen"], function(){
@@ -120,7 +130,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý sản phẩm
 	Route::get('sanpham', function () {
-		return view('admin.sanpham');
+		if(in_array(1, Session::get("admin_q")))
+			return view('admin.sanpham');
+		else
+			return redirect(route("login"));
 	})->name("QLsanpham");
 
 	Route::group(["prefix" =>"sanpham"], function(){
@@ -179,7 +192,11 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý hương vị
 	Route::get('huongvi', function () {
-		return view('admin.huongvi');
+		if(in_array(14, Session::get("admin_q")))
+			return view('admin.huongvi');
+		else
+			return redirect(route("login"));
+		
 	})->name("QLhuongvi");
 
 	Route::group(["prefix" =>"huongvi"], function(){
@@ -217,7 +234,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý chức vụ
 	Route::get('chucvu', function () {
-		return view('admin.chucvu');
+		if(in_array(7, Session::get("admin_q")))
+			return view('admin.chucvu');
+		else
+			return redirect(route("login"));
 	})->name("QLchucvu");
 
 	Route::group(["prefix" =>"chucvu"], function(){
@@ -244,7 +264,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý nhân viên
 	Route::get('nhanvien', function () {
-		return view('admin.nhanvien');
+		if(in_array(6, Session::get("admin_q")))
+			return view('admin.nhanvien');
+		else
+			return redirect(route("login"));
 	})->name("QLnhanvien");
 
 	Route::group(["prefix" =>"nhanvien"], function(){
@@ -261,28 +284,34 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 	});
 	// kết thúc
 
-	// Quản lý nhà cung cấp 
-	Route::get('nhacungcap', function () {
-		return view('admin.nhacungcap');
-	})->name("QLnhacungcap");
+	// // Quản lý nhà cung cấp 
+	// Route::get('nhacungcap', function () {
+	// 	if(in_array(6, Session::get("admin_q")))
+	// 		return view('admin.nhacungcap');
+	// 	else
+	// 		return redirect(route("login"));
+	// })->name("QLnhacungcap");
 
-	Route::group(["prefix" =>"nhacungcap"], function(){
+	// Route::group(["prefix" =>"nhacungcap"], function(){
 
-		Route::get('danhsach',  'NhacungcapController@index'); // load dánh sách
+	// 	Route::get('danhsach',  'NhacungcapController@index'); // load dánh sách
 
-		Route::post('store', "NhacungcapController@store");
+	// 	Route::post('store', "NhacungcapController@store");
 
-		Route::post('update/{id}', "NhacungcapController@update"); 
+	// 	Route::post('update/{id}', "NhacungcapController@update"); 
 
-		Route::delete('delete/{id}', "NhacungcapController@destroy");
+	// 	Route::delete('delete/{id}', "NhacungcapController@destroy");
 
-		Route::post('deleteAll', "NhacungcapController@destroyAll");
-	});
-	// kết thúc
+	// 	Route::post('deleteAll', "NhacungcapController@destroyAll");
+	// });
+	// // kết thúc
 
 	// Quản lý nhà khách hàng
 	Route::get('khachhang', function () {
-		return view('admin.khachhang');
+		if(in_array(8, Session::get("admin_q")))
+			return view('admin.khachhang');
+		else
+			return redirect(route("login"));
 	})->name("QLkhachhang");
 
 	Route::group(["prefix" =>"khachhang"], function(){
@@ -303,7 +332,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý  đánh giá
 	Route::get('danhgia', function () {
-		return view('admin.danhgia');
+		if(in_array(12, Session::get("admin_q")))
+			return view('admin.danhgia');
+		else
+			return redirect(route("login"));
 	})->name("QLdanhgia");
 
 	Route::group(["prefix" =>"danhgia"], function(){
@@ -322,7 +354,10 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý  Banner
 	Route::get('banner', function () {
-		return view('admin.banner');
+		if(in_array(13, Session::get("admin_q")))
+			return view('admin.banner');
+		else
+			return redirect(route("login"));	
 	})->name("QLbanner");
 
 	Route::group(["prefix" =>"banner"], function(){
@@ -341,12 +376,18 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý  Banner
 	Route::get('donhang', function () {
-		return view('admin.donhang');
+		if(in_array(9, Session::get("admin_q")))
+			return view('admin.donhang');
+		else
+			return redirect(route("login"));
+		
 	})->name("QLdonhang");
 
 	Route::group(["prefix" =>"donhang"], function(){
 
 		Route::get('danhsach',  'DonhangController@index'); // load dánh 
+
+		Route::get('totalOrder',  'DonhangController@totalOrder'); // load dánh 
 
 		Route::get('danhsachchitiet/{id}',  'DonhangController@getCTDHbyId');
 
@@ -360,6 +401,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 		Route::get('hoadon/{id}',  'DonhangController@getDonHangById');
 
+		Route::get('orderMonth',  'DonhangController@donhang_thang');
+
 		Route::get('inhoadon',  function () {
 			return view('admin.hoadon');
 		}); // load dánh 
@@ -368,7 +411,11 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	// Quản lý  khuyến mãi
 	Route::get('khuyenmai', function () {
-		return view('admin.khuyenmai');
+		
+		if(in_array(11, Session::get("admin_q")))
+			return view('admin.khuyenmai');
+		else
+			return redirect(route("login"));
 	})->name("QLkhuyenmai");
 
 	Route::group(["prefix" =>"khuyenmai"], function(){
@@ -394,6 +441,30 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		// Route::post('deleteAll', "bannerController@destroyAll");
 	});
 	// kết thúc
+
+	Route::group(["prefix" =>"thongke"], function(){
+
+		Route::get('theonam', function () {
+
+			if(in_array(10, Session::get("admin_q")))
+				return view('admin.thongketheonam');
+			else
+				return redirect(route("login"));
+		})->name("TKnam");
+
+		Route::get('orderYeah',  'DonhangController@donhang_nam');
+
+		Route::get('theoloai', function () {
+
+			if(in_array(10, Session::get("admin_q")))
+				return view('admin.thongketheoloai');
+			else
+				return redirect(route("login"));
+		})->name("TKloai");
+
+		Route::get('orderLoai',  'DonhangController@thongkeLoai');
+
+	});
 
 });
 // kết thúc quản trị
@@ -457,6 +528,8 @@ Route::get('/chi-tiet-don-hang/{id}', 'HomepageController@orderDetail')->name("r
 Route::get('/thanh-toan-thanh-cong/{id}', 'HomepageController@paymentSuccess')->name("paymentSucess");
 
 Route::get("/getAllProductsToSearch/{name}", "HomepageController@getAllProductsToSearch");
+
+Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
 
 Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
 

@@ -17,58 +17,53 @@
 @endsection
 
 @section("banner")
-	
+<div class="row" style="padding: 0px; margin:0px;">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0px;">
+		<div class="banner" >
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
+				<ol class="carousel-indicators">
+					@foreach($bannerList as $banner)
+					@if($loop->index == 0)
+					<li data-target="#carousel-example-generic" data-slide-to="{{ $loop->index }}" class="active"></li>
+					@else
+					<li data-target="#carousel-example-generic" data-slide-to="{{ $loop->index }}"></li>
+					@endif
+					@endforeach
+				</ol>
 
-@endsection
-@section('content')
-<div class="row">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	<div class="banner" style="min-height: 50px;">
-		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			<!-- Indicators -->
-			<ol class="carousel-indicators">
-				@foreach($bannerList as $banner)
-				@if($loop->index == 0)
-				<li data-target="#carousel-example-generic" data-slide-to="{{ $loop->index }}" class="active"></li>
-				@else
-				<li data-target="#carousel-example-generic" data-slide-to="{{ $loop->index }}"></li>
-				@endif
-				@endforeach
-			</ol>
-
-			<!-- Wrapper for slides -->
-			<div class="carousel-inner" role="listbox">
-				@foreach($bannerList as $banner)
-				@if($loop->index == 0)
-				<div class="item active">
-					<img src="{{asset('public/images/banner/'.$banner->bn_hinh )}}" alt="">
+				<div class="carousel-inner" role="listbox">
+					@foreach($bannerList as $banner)
+					@if($loop->index == 0)
+					<div class="item active">
+						<img src="{{asset('public/images/banner/'.$banner->bn_hinh )}}" alt="">
+					</div>
+					@else
+					<div class="item">
+						<img src="{{asset('public/images/banner/'.$banner->bn_hinh )}}" alt="">
+					</div>
+					@endif
+					@endforeach
 				</div>
-				@else
-				<div class="item">
-					<img src="{{asset('public/images/banner/'.$banner->bn_hinh )}}" alt="">
-				</div>
-				@endif
-				@endforeach
-			</div>
 
-			<!-- Controls -->
-			<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>  
+				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>  
+		</div>
 	</div>
 </div>
-</div>
+@endsection
+@section('content')
+
 <div class="row" >
 	<div class="col-md-4">
-
-		<div class="asks-first" 	>
+		<div class="asks-first" style="margin-top: 10px !important;" 	>
 			<div class="asks-first-circle" >
 				<img src="{{asset('public/images/layouts/srv_1.png')}}"  alt="">
 			</div>

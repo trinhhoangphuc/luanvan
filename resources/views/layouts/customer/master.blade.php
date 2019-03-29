@@ -18,9 +18,10 @@
 
 	<!-- Jquery -->
 	<script src="{{asset('public/libs/vendor/jquery/jquery-3.3.1.min.js')}}"></script>
+	<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 
-
-	<link rel="stylesheet" href="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/css/main.css')}}">
+	<link rel="stylesheet" href="{{asset('public/libs/vendor/zoom2/src/jquery.exzoom.css')}}">
+<!-- 	<link rel="stylesheet" href="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/css/main.css')}}"> -->
    	<!-- <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css"> -->
 	<!-- Bootstrap 3 js -->
 	<script src="{{asset('public/libs/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
@@ -31,7 +32,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Sawarabi+Gothic" rel="stylesheet"> 
 
 	<!--zoom img -->
-	<script src="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/scripts/zoom-image.js')}}"></script>
+	<script src="{{asset('public/libs/vendor/zoom2/src/jquery.exzoom.js')}}"></script>
+<!-- 	<script src="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/scripts/zoom-image.js')}}"></script> -->
 	
 	<link rel="stylesheet" type="text/css" href="{{asset('public/libs/vendor/bootstrap-rating/bootstrap-rating.css')}}">
 	
@@ -133,4 +135,15 @@
 
 	
 </script>
-<script src="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/scripts/main.js')}}"></script>
+<script type="text/javascript">
+
+    $('.product-information2').imagesLoaded( function() {
+  $("#exzoom").exzoom({
+        autoPlay: false,
+    });
+  $("#exzoom").removeClass('hidden')
+});
+
+</script>
+
+<!-- <script src="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/scripts/main.js')}}"></script> -->

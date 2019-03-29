@@ -9,7 +9,7 @@ class Loai extends Model {
     const     UPDATED_AT    = 'l_capNhat';
 
     protected $table        = 'loai';
-    protected $fillable     = ['l_ten', 'l_taoMoi', 'l_capNhat', 'l_trangThai'];
+    protected $fillable     = ['l_ten', 'l_taoMoi', 'l_capNhat', 'l_moTa','l_trangThai'];
     protected $guarded      = ['l_ma'];
 
     protected $primaryKey   = 'l_ma';

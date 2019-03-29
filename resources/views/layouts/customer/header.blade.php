@@ -1,123 +1,127 @@
-<header>
-	<div class="header">
-		<div class="main-header">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo text-center">
-							<a href="{{route('detroyCart')}}"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
-						</div>
+
+<header id="header">
+	<div class="header_top">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="contactinfo" style="padding: 5px;">
+						<ul class="nav nav-pills">
+							<li><a href="#"><i class="fa fa-phone"></i> Hotline: 090.123.4567</a></li>
+							<li><a href="#"><i class="fa fa-envelope"></i> Redshop.vn - Thực phẩm thể hình</a></li>
+						</ul>
 					</div>
-					<div class="col-sm-8">
-						<div class="col-sm-4 ">
-							<div class="cart hidden-xs">
-								<div class="icon ">
-									<a href=""><img src="{{asset('public/images/layouts/facebook1.png')}}"></a>
-								</div>
-								<div class="icon ">
-									<a href=""><img src="{{asset('public/images/layouts/twitter.png')}}"></a>
-								</div>
-								<div class="icon ">
-									<a href=""><img src="{{asset('public/images/layouts/google-plus.png')}}"></a>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-8 search-header">
-							<form name="searchFrm" id="searchFrm">
-								<input type="hidden" name="_token" value="{{csrf_token()}}">
-								<div class="input-group" >
-									<form method="POST">
-										<input type="hidden" name="_token" name="{{ csrf_token() }}">
-										<input type="text" class="form-control border-search" placeholder="Nhập từ khóa..." name="search" id="search" ng-model="search" ng-keyup="compelte(search)" autocomplete="off">
-										<span class="input-group-btn">
-											<button  class="btn btn-default btn-color" type="submit" ><i class="fa fa-search" aria-hidden="true" ng-click="searchProduct()"></i></button>
-										</span>
-									</form>
-								</div>
-								<div id="box-search-item" style=" position: absolute; z-index: 999; width: 95%;  overflow: auto;">
-									<ul class="list-group" >
-										<li class="list-group-item" ng-repeat="searchData in filterSearch">
-											<a href="@{{URL_3}}@{{searchData.sp_ma}}">
-												<img src="{{asset('public/images/products')}}/@{{searchData.sp_hinh}}" alt="@{{searchData.sp_ten}}" width="10%" />
-												@{{searchData.sp_ten}}
-											</a>
-										</li>
-									</ul>
-								</div>
-							</form>
-						</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="social-icons pull-right">
+						<ul class="nav navbar-nav">
+							<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+							<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+							<li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+							<li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+							<li><a href="#"><i class="fab fa-google-plus"></i></a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="header-bottom" id="header-bottom">  <!-- data-spy="affix" data-offset-top="100" -->
-			<nav class="navbar navbar-default">
-				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="header-middle">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="logo pull-left">
+						<a href=""><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive" /></a>
+					</div>
+				</div>
+				<div class="col-sm-8 ">
+					<div class="col-sm-4"></div>
+					<div class="search-header col-md-8">
+						<form name="searchFrm" id="searchFrm">
+							<input type="hidden" name="_token" value="{{csrf_token()}}">
+
+							<input type="hidden" name="_token" name="{{ csrf_token() }}">
+							<input type="text" class="form-control border-search" placeholder="Nhập từ khóa..." name="search" id="search" ng-model="search" ng-keyup="compelte(search)" autocomplete="off">
+							<p style="margin-top: 2px;">Gợi ý: Bcaa, Mass, whey, my protein, Iso 100, .v.v.</p>
+
+							<div id="box-search-item" style=" position: absolute; z-index: 9999; width: 95%;  overflow: auto;">
+								<ul class="list-group" >
+									<li class="list-group-item" ng-repeat="searchData in filterSearch">
+										<a href="@{{URL_3}}@{{searchData.sp_ma}}">
+											<img src="{{asset('public/images/products')}}/@{{searchData.sp_hinh}}" alt="@{{searchData.sp_ten}}" width="10%" />
+											@{{searchData.sp_ten}}
+										</a>
+									</li>
+								</ul>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<div class="header-bottom" id="header-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
 					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 							<span class="sr-only">Toggle navigation</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href=""></a>
 					</div>
-
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-							<li class='@yield("trangchu")'><a href="{{ route('homepage') }}"><i class="fas fa-home"></i> Trang chủ</a></li>
-							<li class='@yield("tatcasp")'><a href="{{ route('getAllProducts') }}"><i class="fas fa-box-open"></i> Sản phẩm</a></li>
-							<li class="dropdown @yield('danhmuc')">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Danh mục<span class="caret"></span></a>
-								<ul class="dropdown-menu">
+					<div class="mainmenu">
+						<ul class="nav navbar-nav collapse navbar-collapse">
+							<li><a class="@yield('trangchu')" href="{{ route('homepage') }}"> Trang chủ</a></li>
+							<li><a class="@yield('tatcasp')" href="{{ route('getAllProducts') }}">Sản phẩm</a></li>
+							<li class="dropdown"><a class="" href="">Danh mục<i class="fa fa-angle-down"></i></a>
+								<ul role="menu" class="sub-menu">
 									@foreach($loaiList as $loai)
 									<li class=''><a href="{{route('Category', $loai->l_ma)}}"> {{ $loai->l_ten }}</a></li>
 									@endforeach
 								</ul>
-							</li>
-							<li class="dropdown @yield('nsx')">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nhà sản xuất<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									@foreach($nhasanxuatList as $nhasanxuat)
-									<li class=''><a href="{{route('Brand', $nhasanxuat->h_ma)}}"> {{ $nhasanxuat->h_ten }}</a></li>
+							</li> 
+							<li class="dropdown"><a href="">Nhà sản xuất<i class="fa fa-angle-down"></i></a>
+								<ul role="menu" class="sub-menu">
+									@foreach($nhasanxuatList as $nsx)
+									<li class=''><a href="{{route('Brand', $nsx->h_ma)}}"> {{ $nsx->h_ten }}</a></li>
 									@endforeach
 								</ul>
-							</li>
-							
+							</li> 
 						</ul>
-						<ul class="nav navbar-nav navbar-right">
-
+						<ul class="nav navbar-nav collapse navbar-collapse navbar-right">
 							<li>
-								<a href="{{route('getCart')}}" data-toggle="modal"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label " style="background-color: #333">@{{cart}}</span></a>
+								<a class="@yield('giohang')" href="{{route('getCart')}}" data-toggle="modal"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng <span class="label " style="background-color: #333">@{{cart}}</span></a>
 							</li>
 
 
 							@if(!Session::has("customer_id"))
-								<li>
-									<a href="" data-toggle="modal" ng-click="showLoginRegister('login')"><i class="fas fa-sign-in-alt" aria-hidden="true" ></i> Đăng nhập</a>
-								</li>
-								<li>
-									<a href="" data-toggle="modal" ng-click="showLoginRegister('register')"><i class="fas fa-user" aria-hidden="true"></i> Đăng ký</a>
-								</li>
+							<li>
+								<a href="" data-toggle="modal" ng-click="showLoginRegister('login')"><i class="fas fa-sign-in-alt" aria-hidden="true" ></i> Đăng nhập</a>
+							</li>
+							<li>
+								<a href="" data-toggle="modal" ng-click="showLoginRegister('register')"><i class="fas fa-user" aria-hidden="true"></i> Đăng ký</a>
+							</li>
 							@else
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{asset('public/images/avatar/customer/'.Session::get('customer_img'))}}" width="20px" height="20px" class="img-circle" /> {{ Session::get("customer_name") }}<span class="caret"></span></a>
-									<ul class="dropdown-menu">
-										<li><a href="{{ route('profile') }}">Thông tin</a></li>
-										<li><a href="">Đơn hàng</a></li>
-										<li><a style="cursor: pointer;" id="logout" ng-click="logout()">Đăng xuất</a></li>
-									</ul>
-								</li>
+							<li class="dropdown @yield('ttcn')"><a href=""><img src="{{asset('public/images/avatar/customer/'.Session::get('customer_img'))}}" width="20px" height="20px" class="img-circle" /> {{ Session::get("customer_name") }}<i class="fa fa-angle-down"></i></a>
+								<ul role="menu" class="sub-menu">
+									<li><a href="{{ route('profile') }}">Thông tin</a></li>
+									<li><a style="cursor: pointer;" id="logout" ng-click="logout()">Đăng xuất</a></li>
+								</ul>
+							</li> 
 							@endif
 						</ul>
+
 					</div>
 				</div>
-			</nav>
+			</div>
 		</div>
 	</div>
+	</header>
 
 	<div id="loginRegiter" class="modal modal-2 fade" role="dialog">
 		<div class="modal-dialog">				
@@ -127,7 +131,7 @@
 					<div class="logo-login-register"><img src="{{asset('public/images/layouts/logo.png')}}" class="img-responsive"></div>
 				</div>
 
-				<div class="modal-body hidden" id="frmLogin"> <!--form login-->
+				<div class="modal-body hidden" id="frmLogin">
 					<form method="POST" name="frmPostLoin" id="frmPostLoin">
 						<input type="hidden" name="_token" value="{{csrf_token()}}">
 						<div class="form-group">
@@ -206,6 +210,3 @@
 			</div>
 		</div>
 	</div>
-
-	
-</header>

@@ -5,10 +5,6 @@
     Redshop - Quản lý Đơn hàng
 @endsection
 
-@section("dontu")
-    active
-@endsection
-
 @section("donhang")
     active
 @endsection
@@ -49,7 +45,7 @@
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
-                                        <th>Mã đơn</th>
+                                        <th>STT</th>
                                         <th>Ngày đặt</th>
                                         <th>Thanh toán</th>
                                         <th>Trạng Thái</th>
@@ -68,7 +64,7 @@
                                 	</script>
                                     <tr  ng-repeat="item in dsDonhang" id="tr_@{{item.dh_ma}}" ng-class="item.dh_ma == newMember_Data? 'bg-default':''">
                                                                                 
-                                        <td class="text-dark"><b>#@{{item.dh_ma}}</b></td>
+                                        <td class="text-dark"><b>@{{$index+1}}</b></td>
                                         <td class="text-dark">@{{ item.dh_taoMoi | asDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
                                         <td>
                                             <span ng-if="item.dh_daThanhToan == 1" class="label bg-green">Đã thanh toán</span>
@@ -88,7 +84,7 @@
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.dh_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
                                             <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.dh_ma)"><i class="fa fa-pencil"></i></button>
-                                            <button class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.dh_ma)"><i class="fa fa-trash" ></i></button>
+                                            <button class="btn btn-sm btn-flat btn-danger btn-flat btn-delete" ng-click="CreateEdit_show('delete', item.dh_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -99,7 +95,7 @@
                                 <thead class="text-center">
                                     <tr >
 
-                                        <th>Mã đơn</th>
+                                        <th>STT</th>
                                         <th>Ngày đặt</th>
                                         <th>Thanh toán</th>
                                         <th>Trạng Thái</th>
@@ -127,90 +123,101 @@
             <div class="modal-dialog modal-lg">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                                 <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
+                            <div class="title">@{{dialogTiTle}}</div>
+                        </div>
+                    <div class="modal-body">
+                        <div class="order-title">
+                            <p>Chi tiết đơn hàng #@{{ itemDH.dh_ma }}
+                            </p>
+                            <p style="font-size: 15px;">Ngày đặt hàng: @{{ itemDH.dh_taoMoi | asDate | date:'dd-MM-yyyy HH:mm:ss' }}</p>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-6"><br/>
+                                <p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI ĐẶT</p>
+                                <div class="box-info">
+                                    <p><b>@{{ dsKhachhang.dbFind("kh_ma", itemDH.kh_ma).kh_hoTen}}</b></p>
+                                    <p>Địa chỉ: @{{ dsKhachhang.dbFind("kh_ma", itemDH.kh_ma).kh_diaChi}}</p>
+                                    <p>Điện thoại: @{{ dsKhachhang.dbFind("kh_ma", itemDH.kh_ma).kh_dienThoai}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6"><br/>
+                                <p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI NHẬN</p>
+                                <div class="box-info">
+                                    <p><b> @{{ itemDH.dh_nguoiNhan }}</b></p>
+                                    <p>Địa chỉ:  @{{ itemDH.dh_diaChi }}</p>
+                                    <p>Điện thoại:  @{{ itemDH.dh_dienThoai }}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6"><br/>
+                                <p style="font-size: 16px;">HÌNH THỨC GIAO HÀNG</p>
+                                <div class="box-info">
+                                    <p>@{{ itemDH.vc_ten }} </p>
+                                    <p>Phí vận chuyển: @{{ itemDH.vc_gia | number : 0 }} ₫</p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6"><br/>
+                                <p style="font-size: 16px;">HÌNH THỨC THANH TOÁN</p>
+                                <div class="box-info">
+                                    <p>@{{ itemDH.tt_ten }}</p>
+                                    <p>
+                                        <span ng-if="itemDH.dh_daThanhToan == 1" class="label bg-green">Đã thanh toán</span>
+                                        <span ng-if="itemDH.dh_daThanhToan == 0" class="label bg-red">Chưa thanh toán</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="order-product table-responsive">
+                                    <table class="table table-order">
+                                        <thead>
+                                            <tr>
+                                                <th width="8%">Ảnh</th>
+                                                <th class="text-center">Sản phẩm</th>
+                                                <th class="text-center">Hương vị</th>
+                                                <th class="text-center">Giá</th>
+                                                <th class="text-center">Số lượng</th>
+                                                <th class="text-right">Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php  $tamtinh = 0;  ?>
+                                           
+                                            <tr ng-repeat="itemCTDH in dsCTDH">
+                                                <td class="text-center">
+                                                   <img src="{{asset('public/images/products')}}/@{{ itemCTDH.sp_hinh }}" width="100%">
+                                                </td>
+                                                <td class="text-center"><a href="" style="color: #333"><b>@{{ itemCTDH.sp_ten }}</b></a></td>
+                                                <td class="text-center"><b>@{{ itemCTDH.hv_ten }}</b></td>
+                                                <td class="text-center">@{{ itemCTDH.ctdh_donGia | number:0 }} đ</td>
+                                                <td class="text-center">@{{ itemCTDH.ctdh_soluong }}</td>
+                                                <td class="text-right">@{{ itemCTDH.ctdh_donGia * itemCTDH.ctdh_soluong | number:0 }} đ</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="text-right" colspan="6" style="font-size: 18px;">
+                                                    <br/>
+                                                    <p style="font-size: 15px;">Tổng tạm tính <span style="margin-left: 50px">@{{ itemDH.dh_tongTien - itemDH.vc_gia | number:0 }} đ</span></p>
+                                                    <p style="font-size: 15px;">Phí vận chuyển <span style="margin-left: 50px">@{{ itemDH.vc_gia| number:0 }} đ</span></p>
+                                                    <p>Tổng cộng <span style="margin-left: 50px; color: red" >@{{ itemDH.dh_tongTien | number:0 }} đ</span></p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
-                     </div>
-                    <div class="modal-body">
-                    	<p><b>Mã đơn hàng: </b> #@{{ itemDH.dh_ma }}</p>
-                    	<p><b>Ngày đặt: </b> @{{ itemDH.dh_taoMoi | asDate | date:'dd-MM-yyyy HH:mm:ss' }}</p>
-                    	<p><b>Hinh thúc thanh toán: </b> @{{ itemDH.tt_ten }}</p>
-                    	<p><b>Hình thức vận chuyển: </b> @{{ itemDH.vc_ten }}</p>
-                    	<p><b>Thanh toán: </b> 
-                    		<span ng-if="itemDH.dh_daThanhToan == 1" class="label bg-green">Đã thanh toán</span>
-                    		<span ng-if="itemDH.dh_daThanhToan == 0" class="label bg-red">Chưa thanh toán</span>
-                    	</p> 
-                    	<p><b>Tình trạng: </b> 
-                    		<span ng-if="itemDH.dh_trangThai == 0" class="label bg-orange">Chờ xác nhận</span>
-                    		<span ng-if="itemDH.dh_trangThai == 1" class="label label-info">Đã xác nhận</span>
-                    		<span ng-if="itemDH.dh_trangThai == 2" class="label bg-primary">Đang vận chuyển</span>
-                    		<span ng-if="itemDH.dh_trangThai == 3" class="label bg-olive">Hoàn tất</span>
-                    	</p> 
-                    	<hr/>
-
-                        <p><b>Người mua: </b> @{{ dsKhachhang.dbFind("kh_ma", itemDH.kh_ma).kh_hoTen  }}</p>
-                        <p><b>Số điện thoại: </b> @{{ dsKhachhang.dbFind("kh_ma", itemDH.kh_ma).kh_dienThoai  }}</p>
-                        <hr/>
-
-                        <p><b>Người nhận: </b> @{{ itemDH.dh_nguoiNhan }}</p>
-                        <p><b>Số điện thoại: </b> @{{ itemDH.dh_dienThoai }}</p>
-                        <p><b>Địa chỉ: </b> @{{ itemDH.dh_diaChi }}</p>
-                        <hr/>
-
-                        <p><b>Nhân viên xử lý: </b> 
-                        	<span ng-if="itemDH.dh_nguoiXuLy != null">@{{ itemDH.dh_nguoiXuLy }}</span>
-                        	<span ng-if="itemDH.dh_nguoiXuLy == null">Chờ xử lý</span>
-                        </p>
-                        <p><b>Ngày xử lý: </b>  
-	                        <span ng-if="itemDH.dh_ngayXuLy != null">@{{ itemDH.dh_ngayXuLy| asDate | date:'dd-MM-yyyy HH:mm:ss' }}</span>
-	                        <span ng-if="itemDH.dh_ngayXuLy == null">Chờ xử lý</span>
-	                    </p>
-                        <hr/>
-
-                        <table class="table table-bordered table-hover">
-                        	<tr ng-repeat="itemCTDH in dsCTDH">
-                        		<td>
-                        			<img src="{{asset('public/images/products')}}/@{{ itemCTDH.sp_hinh }}" width="60px">
-                        		</td>
-                        		<td>
-                        			<table class="table table-bordered" style="margin-bottom: -2px;">
-                        				<tr>
-                        					<td class="text-center" colspan="4" style="background: #FAFAFA;">
-                        						<div class="product-name">@{{ itemCTDH.sp_ten }} </div>
-                        					</td>
-                        				</tr>
-                        				<tr>
-                        					<td class="text-left"><b>Giá bán:</b></td>
-                        					<td class="text-right ">@{{ itemCTDH.ctdh_donGia | number:0 }} đ</td>
-                        					<td class="text-left"><b>Số lượng:</b></td>
-                        					<td class="text-right">@{{ itemCTDH.ctdh_soluong }}</td>
-                        				</tr>
-                        				<tr>
-                                            <td class="text-left"><b>Loại:</b></td>
-                                            <td class="text-right ">@{{ itemCTDH.hv_ten }}</td>
-                                            <td  class="text-left"><b>Thành tiền:</b></td>
-                                            <td  class="text-right ">@{{ itemCTDH.ctdh_donGia * itemCTDH.ctdh_soluong | number:0 }} đ</td>
-                        				</tr>
-                        					
-                        			</table>
-                        		</td>
-                        	</tr>
-                        	<tr>
-                        		<td colspan="2"><b>Tạm tính:</b> <span class="text-danger">@{{ (itemDH.dh_tongTien-itemDH.vc_gia) | number:0 }} đ</span></td>
-                        	</tr>
-                        	<tr>
-                        		<td colspan="2"><b>Vận chuyển:</b> <span class="text-danger">@{{ itemDH.vc_gia | number:0 }} đ</span></td>
-                        	</tr>
-                        	<tr>
-                        		<td colspan="2">
-                        			<span style="font-size: 18px;"><b>Tổng tiền:</b> <span class="text-danger">@{{ itemDH.dh_tongTien | number:0 }} đ</span></span>
-                        		</td>
-                        	</tr>
-                        </table>
                     </div>
                 </div>
 
@@ -221,14 +228,10 @@
             <div class="modal-dialog">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                                 <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                            </div>
+                            <div class="title">@{{dialogTiTle}}</div>
                         </div>
-                     </div>
                     <div class="modal-body">
                         <form name="delte" id="delte">
                             <div class="form-group"> 
@@ -254,14 +257,10 @@
             <div class="modal-dialog">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                                 <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                            </div>
+                            <div class="title">@{{dialogTiTle}}</div>
                         </div>
-                     </div>
                     <div class="modal-body">
                         <form name="frmCreatEdit" id="frmCreatEdit" method="POST">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -40,22 +40,22 @@
 <div class="row">
 	<div class="col-md-6">
 		<div class="product-information2">
-		
-				<div class="show" href="{{ asset('public/images/products/' . $hinhanh[0]->ha_ten )}}" >
-					<img  src="{{ asset('public/images/products/' . $hinhanh[0]->ha_ten )}}" id="show-img">
-				</div>
-	
-			<div class="small-img">
-				<img src="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/images/online_icon_right@2x.png')}}" class="icon-left" alt="" id="prev-img">
-				<div class="small-container">
-					<div id="small-img-roll">
+
+			<div class="exzoom " id="exzoom">
+				<div class="exzoom_img_box">
+					<ul class='exzoom_img_ul'>
 						@foreach($hinhanh as $hinh)
-						<img src="{{ asset('public/images/products/' . $hinh->ha_ten )}}" class="show-small-img" alt="">
+						<li><img src="{{ asset('public/images/products/' . $hinh->ha_ten )}}" class="show-small-img" alt=""></li>
 						@endforeach
-					</div>
+					</ul>
 				</div>
-				<img src="{{asset('public/libs/vendor/Product-Gallery-Image-Zoom/images/online_icon_right@2x.png')}}" class="icon-right" alt="" id="next-img">
+				<div class="exzoom_nav"></div>
+				<p class="exzoom_btn">
+					<a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+					<a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+				</p>
 			</div>
+
 		</div>
 
 	</div>

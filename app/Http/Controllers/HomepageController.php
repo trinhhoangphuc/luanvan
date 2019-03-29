@@ -222,7 +222,7 @@ class HomepageController extends Controller
            $khachhang               = new Khachhang();
            $khachhang->kh_matKhau   = md5($request->get('pass'));
            $khachhang->kh_hoTen     = $request->get('name');
-           $khachhang->kh_hinh   = "user.png";
+           $khachhang->kh_hinh      = "user.png";
            $khachhang->kh_gioiTinh  = $request->get('gender');
            $khachhang->kh_email     = $request->get('email');
            $khachhang->kh_diaChi    = $request->get('address');
@@ -333,8 +333,9 @@ class HomepageController extends Controller
             $khachhang->kh_dienThoai = $request->get('phone');
 
             if($request->hasFile('avtuser')){
-                if($khachhang->kh_hinh != "user.png" && file_exists(public_path('images/avatar/customer/'.$khachhang->kh_hinh)))
+                if($khachhang->kh_hinh != "user.png" && file_exists(public_path('images/avatar/customer/'.$khachhang->kh_hinh))){
                     unlink(public_path('images/avatar/customer/'.$khachhang->kh_hinh));
+                }
 
                 $file =  $request->file('avtuser');
 
