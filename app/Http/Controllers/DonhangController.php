@@ -14,6 +14,7 @@ use App\Nhanvien;
 use DB;
 use Session;
 use Illuminate\PhpVnDataGenerator\VnBigNumber;
+use Excel;
 
 class DonhangController extends Controller
 {
@@ -244,7 +245,7 @@ class DonhangController extends Controller
                 SELECT l.l_ten, sum(ctdh.ctdh_soluong) as giatri
                 FROM chitiethoadon as ctdh, sanpham as sp, loai as l, nhap as n
                 Where ctdh.n_ma = n.n_ma AND n.sp_ma = sp.sp_ma AND sp.l_ma = l.l_ma
-                GROUP BY l.l_ten
+                GROUP BY l.l_ten ORDER BY giatri DESC
             ');
 
             $json = json_encode($duLieuThongKe);
@@ -265,6 +266,288 @@ class DonhangController extends Controller
                 ], 200);
         }
     }
+
+    public function sanPhamBanChay()
+    {
+        try {
+            $duLieuThongKe = DB::select('
+                SELECT sp.sp_ten, sum(ctdh.ctdh_soluong) as giatri
+                FROM chitiethoadon as ctdh, sanpham as sp, loai as l, nhap as n
+                Where ctdh.n_ma = n.n_ma AND n.sp_ma = sp.sp_ma 
+                GROUP BY sp.sp_ten
+            ');
+
+            $json = json_encode($duLieuThongKe);
+            return response([
+                    'error'   => false,
+                    'message' => compact("duLieuThongKe", "json")
+                ], 200);
+
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
+    }
+
+    public function excelLoai() { 
+        try {
+          $name = time()."-Thong-ke-theo-loai";
+          Excel::create($name, function($excel) {
+            $excel->sheet('Thống kê theo loại', function($sheet) {
+              $danhsach = DB::select('SELECT l.l_ten, sum(ctdh.ctdh_soluong) as giatri
+                FROM chitiethoadon as ctdh, sanpham as sp, loai as l, nhap as n
+                Where ctdh.n_ma = n.n_ma AND n.sp_ma = sp.sp_ma AND sp.l_ma = l.l_ma
+                GROUP BY l.l_ten ORDER BY giatri DESC'
+              ); 
+
+              $data = [
+                'danhsach' => $danhsach,
+            ];
+
+            $header = ['font' => [
+                'name' =>  'Times New Roman',
+                'size' =>  13,
+                'bold' =>  true ]];
+
+
+                $sheet->setCellValue('A1', "THỐNG KÊ THEO LOẠI"); 
+                $sheet->getStyle('A1')->applyFromArray([
+                    'font' => [ 'name' => 'Times New Roman',
+                    'size' => 20,
+                    'bold' => true ]]);
+                $sheet->mergeCells('A1:c1');
+                $sheet->cells('A1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#76933C');
+                    $cells->setValignment('center');
+                });
+
+
+                $sheet->getColumnDimension('A')->setAutoSize(true);
+                $sheet->getColumnDimension('B')->setAutoSize(true);
+                $sheet->getColumnDimension('C')->setAutoSize(true);
+                $sheet->getStyle('A3')->applyFromArray($header);
+                $sheet->getStyle('B3')->applyFromArray($header);
+                $sheet->getStyle('C3')->applyFromArray($header);
+                $sheet->setCellValue('A3', "STT"); 
+                $sheet->setCellValue('B3', "Loại sản phẩm"); 
+                $sheet->setCellValue('C3', "Giá trị"); 
+
+                $sheet->cells('A3:C3', function($cells) {
+                   
+                    $cells->setAlignment('center');
+                    $cells->setBackground('#9BBB59');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setBorder('solid', 'solid', 'solid', 'solid');
+                    $cells->setValignment('center');
+                });
+                $i = 3;
+                foreach ($danhsach as $key => $value) {
+
+                    $i++;
+                    $sheet->setCellValue('A'.$i, $i-3); 
+                    $sheet->setCellValue('B'.$i, $value->l_ten); 
+                    $sheet->setCellValue('C'.$i, $value->giatri); 
+                    $sheet->cells('A'.$i.':'.'C'.$i, function($cells) {
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                    });
+                }
+                // $sheet->cells("A4:A$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("E4:E$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("D4:D$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("F4:F$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("H4:H$i", function($cells) { $cells->setAlignment('center'); });
+            });
+        })->download('xlsx');
+        } catch(QueryException $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        } catch (PDOException  $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        }
+    }
+
+    public function excelDoanhThu($id) { 
+        try {
+          $name = time()."-Thong-ke-doanh-thu-".$id;
+          
+          Excel::create($name, function($excel) use ($id) {
+            $excel->sheet('THỐNG KÊ DOANH THU', function($sheet) use ($id) {
+                
+             $danhsach = DB::select("
+                SELECT YEAR(dh_taoMoi)as nam, month(dh_taoMoi) as thang, count(dh_ma) as soluong, SUM(dh_tongTien) as giatri
+                FROM donhang
+                WHERE dh_trangThai = 3 AND dh_daThanhToan = 1  AND YEAR(dh_taoMoi)=$id
+                GROUP by nam asc, thang asc"
+              ); 
+              $data = [ 'danhsach' => $danhsach, ];
+
+              $header = ['font' => [
+                'name' =>  'Times New Roman',
+                'size' =>  13,
+                'bold' =>  true ]];
+
+
+                $sheet->setCellValue('A1', "THỐNG KÊ DOANH THU ".$id); 
+                $sheet->getStyle('A1')->applyFromArray([
+                    'font' => [ 'name' => 'Times New Roman',
+                    'size' => 20,
+                    'bold' => true ]]);
+                $sheet->mergeCells('A1:c1');
+                $sheet->cells('A1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#76933C');
+                    $cells->setValignment('center');
+                });
+
+
+                $sheet->getColumnDimension('A')->setAutoSize(true);
+                $sheet->getColumnDimension('B')->setAutoSize(true);
+                $sheet->getColumnDimension('C')->setAutoSize(true);
+                $sheet->getStyle('A3')->applyFromArray($header);
+                $sheet->getStyle('B3')->applyFromArray($header);
+                $sheet->getStyle('C3')->applyFromArray($header);
+                $sheet->setCellValue('A3', "STT"); 
+                $sheet->setCellValue('B3', "Thời gian"); 
+                $sheet->setCellValue('C3', "Doanh thu"); 
+
+                $sheet->cells('A3:C3', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setBackground('#9BBB59');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setBorder('solid', 'solid', 'solid', 'solid');
+                    $cells->setValignment('center');
+                });
+                $i = 3;
+                foreach ($danhsach as $key => $value) {
+
+                    $i++;
+                    $sheet->setCellValue('A'.$i, $i-3); 
+                    $sheet->setCellValue('B'.$i, $value->thang.'-'.$value->nam); 
+                    $sheet->setCellValue('C'.$i, $value->giatri); 
+                    $sheet->cells('A'.$i.':'.'C'.$i, function($cells) {
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                    });
+                }
+                // $sheet->cells("A4:A$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("E4:E$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("D4:D$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("F4:F$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("H4:H$i", function($cells) { $cells->setAlignment('center'); });
+            });
+        })->download('xlsx');
+        } catch(QueryException $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        } catch (PDOException  $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        }
+    }
+
+     public function excelSPBC() { 
+        try {
+          $name = time()."-san-pham-ban-chay";
+          Excel::create($name, function($excel) {
+            $excel->sheet('Sản phẩm bán chạy', function($sheet) {
+              $danhsach = DB::select('
+                SELECT sp.sp_ten, sum(ctdh.ctdh_soluong) as giatri
+                FROM chitiethoadon as ctdh, sanpham as sp, loai as l, nhap as n
+                Where ctdh.n_ma = n.n_ma AND n.sp_ma = sp.sp_ma 
+                GROUP BY sp.sp_ten
+                '); 
+
+              $data = [
+                'danhsach' => $danhsach,
+            ];
+
+            $header = ['font' => [
+                'name' =>  'Times New Roman',
+                'size' =>  13,
+                'bold' =>  true ]];
+
+
+                $sheet->setCellValue('A1', "Sản Phẩm Bán Chạy"); 
+                $sheet->getStyle('A1')->applyFromArray([
+                    'font' => [ 'name' => 'Times New Roman',
+                    'size' => 20,
+                    'bold' => true ]]);
+                $sheet->mergeCells('A1:c1');
+                $sheet->cells('A1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#76933C');
+                    $cells->setValignment('center');
+                });
+
+
+                $sheet->getColumnDimension('A')->setAutoSize(true);
+                $sheet->getColumnDimension('B')->setAutoSize(true);
+                $sheet->getColumnDimension('C')->setAutoSize(true);
+                $sheet->getStyle('A3')->applyFromArray($header);
+                $sheet->getStyle('B3')->applyFromArray($header);
+                $sheet->getStyle('C3')->applyFromArray($header);
+                $sheet->setCellValue('A3', "STT"); 
+                $sheet->setCellValue('B3', "Sản phẩm"); 
+                $sheet->setCellValue('C3', "Số lượng bán"); 
+
+                $sheet->cells('A3:C3', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setBackground('#9BBB59');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setBorder('solid', 'solid', 'solid', 'solid');
+                    $cells->setValignment('center');
+                });
+                $i = 3;
+                foreach ($danhsach as $key => $value) {
+
+                    $i++;
+                    $sheet->setCellValue('A'.$i, $i-3); 
+                    $sheet->setCellValue('B'.$i, $value->sp_ten); 
+                    $sheet->setCellValue('C'.$i, $value->giatri); 
+                    $sheet->cells('A'.$i.':'.'C'.$i, function($cells) {
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                        $cells->setBorder('solid', 'solid', 'solid', 'solid');
+                    });
+                }
+                // $sheet->cells("A4:A$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("E4:E$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("D4:D$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("F4:F$i", function($cells) { $cells->setAlignment('center'); });
+                // $sheet->cells("H4:H$i", function($cells) { $cells->setAlignment('center'); });
+            });
+        })->download('xlsx');
+        } catch(QueryException $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        } catch (PDOException  $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        }
+    }
+
     // public function destroyAll(Request $request)
     // {
     //     try {

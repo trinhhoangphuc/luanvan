@@ -132,16 +132,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
 
     		break;
 
-    		case "create":
 
-        		$scope.dialogTiTle = "Thêm " + $scope.dataTitle + " mới";
-        		$scope.dialogButton = "Thêm";
-        		$scope.status = status;
-        		$scope.danhgia = {ten: null, trangThai: 1};
-        		
-        		$("#myModal").modal("show");
-
-    		break;
 
     		case "edit":
 
@@ -154,9 +145,6 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         			ten: member.dg_ten, 
         			trangThai: member.dg_trangThai
         		};
-        		$scope.frm_ten           = member.dg_ten;
-                $scope.la_ten_moi        = true;
-                $scope.isNewMember       = true;
         		$("#myModal").modal("show");
 
     		break;
@@ -186,67 +174,20 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
     	}
     }
 
-    $("#frmCreatEdit").validate({ // thêm sửa bằng jquery validate
-        rules: {
-            ten: {   
-                required: true,
+    $scope.updateTrangThai = function (id,id_trangThai) {
+        var requestURL = MainURL + "danhgia/update/" + id;
+        var requestData = $.param({trangThai: id_trangThai});
+
+
+        $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
+        .then(function(response){
+            $scope.refresh();
+        }).catch(function(reason){
+            if(reason.status == 500){
+                toastr.error("Sửa đánh giá không thành công!");
             }
-        }, 
-        messages: {
-            ten: {
-                required: "Xin vui lòng nhập tên loại!",
-            }
-        },
-        submitHandler: function(form) {
-            switch($scope.status){
-
-                case "edit": //sửa
-
-                    i = indexOfMember($scope.id_member);
-                    if(i == -1){
-                        $('#myModal').modal('hide');
-                        toastr.warning("Mã đánh giá không chính xác!");
-                    }else{
-                        member = $scope.dsDanhgia[i];
-                        var diff = isMemberDiff(member, $scope.danhgia);
-                        if(diff){
-
-                            var requestURL = MainURL + "danhgia/update/" + $scope.id_member;
-                            var requestData = $.param($scope.danhgia);
-
-                            $http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
-                            .then(function(response){
-                                
-                                if(response.data.message.danhgia != null){
-                                    data = response.data.message.danhgia;
-                                    $scope.dsDanhgia[i] = data;
-
-                                    $scope.newMember_Data = response.data.message.danhgia.dg_ma;
-                                    setTimeout(function(){ 
-                                        $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
-                                        $scope.newMember_Data = ""; 
-
-                                    }, 3000);
-
-                                    $('#myModal').modal('hide');
-                                    toastr.success("Sửa đánh giá thành công!");
-
-                                }
-
-                            }).catch(function(reason){
-                                if(reason.status == 500){
-                                    $('#myModal').modal('hide');
-                                    toastr.error("Sửa đánh giá không thành công!");
-                                }
-                            });
-                        }
-
-                    }
-
-                break;
-            }
-        }
-    });
+        });
+    }
 
     $("#delte").on("submit", function(event){ // xóa dữ liệu
         switch($scope.status){

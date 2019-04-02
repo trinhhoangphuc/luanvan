@@ -76,19 +76,19 @@
 					</div>
 					<div class="mainmenu">
 						<ul class="nav navbar-nav collapse navbar-collapse">
-							<li><a class="@yield('trangchu')" href="{{ route('homepage') }}"> Trang chủ</a></li>
-							<li><a class="@yield('tatcasp')" href="{{ route('getAllProducts') }}">Sản phẩm</a></li>
-							<li class="dropdown"><a class="" href="">Danh mục<i class="fa fa-angle-down"></i></a>
+							<li ><a class="{{ (\Request::route()->getName() == 'homepage') ? 'active' : '' }}" href="{{ route('homepage') }}"> Trang chủ</a></li>
+							<li><a class="" href="{{ route('getAllProducts') }}">Sản phẩm</a></li>
+							<li class="dropdown"><a class="{{ (\Request::route()->getName() == 'Category') ? 'active' : '' }}" href="{{ route('homepage') }}" href="">Danh mục<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
 									@foreach($loaiList as $loai)
-									<li class=''><a href="{{route('Category', $loai->l_ma)}}"> {{ $loai->l_ten }}</a></li>
+									<li class=''><a class='{{(\Request::path()  == "danh-muc/$loai->l_ma") ? "active" : ""}}' href="{{route('Category', $loai->l_ma)}}"> {{ $loai->l_ten }}</a></li>
 									@endforeach
 								</ul>
 							</li> 
-							<li class="dropdown"><a href="">Nhà sản xuất<i class="fa fa-angle-down"></i></a>
+							<li class="dropdown"><a class="{{ (\Request::route()->getName() == 'Brand') ? 'active' : '' }}" href="">Nhà sản xuất<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
 									@foreach($nhasanxuatList as $nsx)
-									<li class=''><a href="{{route('Brand', $nsx->h_ma)}}"> {{ $nsx->h_ten }}</a></li>
+									<li class=''><a class='{{(\Request::path()  == "nha-san-xuat/$nsx->h_ma") ? "active" : ""}}' href="{{route('Brand', $nsx->h_ma)}}"> {{ $nsx->h_ten }}</a></li>
 									@endforeach
 								</ul>
 							</li> 

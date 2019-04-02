@@ -54,8 +54,7 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
 	}
 
 
-    $("#searchFrm").on("submit", function(event){ // thêm quyên cho chức vụ
-
+    $("#searchFrm").on("submit", function(event){ // tìm kiếm
         var name = $("#search").val();
         if(name.length > 0){
             location.href = MainURL + "searchProduct/" + name;
@@ -150,7 +149,7 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
         rules: {
             name: 		{ required: true, },
             email: 		{ required: true, email: true },
-            phone: 		{ required: true, number: true },
+            phone: 		{ required: true, number: true, maxlength: 10, minlength: 10 },
             address: 	{  required: true },
             password: 	{ required: true, minlength: 6, maxlength: 32 },
             repassword: { equalTo: "#password" }
@@ -158,7 +157,12 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
         messages: {
             name: 		{ required: "Xin vui lòng nhập họ tên.", },
             email: 		{ required: 'Xin vui lòng nhập email.', email: "Email không đúng định dạng." },
-            phone: 		{ required: "Xin vui lòng nhập số điện thoại.", number: "Số điện thoại không đúng định dạng." },
+            phone: 		{
+                required: "Xin vui lòng nhập số điện thoại.", 
+                number: "Số điện thoại không đúng định dạng.",  
+                maxlength: "Số điện thoại vượt quá 10 số.",
+                minlength: "Số điện thoại phải đủ 10 sô."
+             },
             address: 	{ required: "Xin vui lòng nhập địa chỉ.", },
             password: 	{ required: "Xin vui lòng nhập mật khẩu.", minlength: "Mật khẩu phải lớn hơn 6 ký tự", maxlength: "Mật khẩu phải nhỏ hơn 32 ký tự" },
             repassword: { equalTo: "Nhập lại mật khẩu không chính xác." }
@@ -190,7 +194,7 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
         rules: {
             name:       { required: true, },
             email:      { required: true, email: true },
-            phone:      { required: true, number: true },
+            phone:       { required: true, number: true, maxlength: 10, minlength: 10 },
             address:    {  required: true },
             password:   { required: true, minlength: 6, maxlength: 32 },
 
@@ -198,7 +202,12 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
         messages: {
             name:       { required: "Xin vui lòng nhập họ tên.", },
             email:      { required: 'Xin vui lòng nhập email.', email: "Email không đúng định dạng." },
-            phone:      { required: "Xin vui lòng nhập số điện thoại.", number: "Số điện thoại không đúng định dạng." },
+            phone:      {
+                required: "Xin vui lòng nhập số điện thoại.", 
+                number: "Số điện thoại không đúng định dạng.",  
+                maxlength: "Số điện thoại vượt quá 10 số.",
+                minlength: "Số điện thoại phải đủ 10 sô."
+             },
             address:    { required: "Xin vui lòng nhập địa chỉ.", },
             password:   { required: "Xin vui lòng nhập mật khẩu.", minlength: "Mật khẩu phải lớn hơn 6 ký tự", maxlength: "Mật khẩu phải nhỏ hơn 32 ký tự" },
             
@@ -228,14 +237,19 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
     $("#frmPostProfile").validate({ 
         rules: {
             name:       { required: true, },
-            phone:      { required: true, number: true },
+            phone:      { required: true, number: true, maxlength: 10, minlength: 10 },
             address:    {  required: true },
             newPass:    { minlength: 6, maxlength: 32 },
             rePass:     { equalTo: "#newPass" },
         }, 
         messages: {
             name:       { required: "Xin vui lòng nhập họ tên.", },
-            phone:      { required: "Xin vui lòng nhập số điện thoại.", number: "Số điện thoại không đúng định dạng." },
+            phone:      {
+                required: "Xin vui lòng nhập số điện thoại.", 
+                number: "Số điện thoại không đúng định dạng.",  
+                maxlength: "Số điện thoại vượt quá 10 số.",
+                minlength: "Số điện thoại phải đủ 10 sô."
+             },
             address:    { required: "Xin vui lòng nhập địa chỉ.", },
             newPass:   { minlength: "Mật khẩu phải lớn hơn 6 ký tự", maxlength: "Mật khẩu phải nhỏ hơn 32 ký tự" },
             rePass:     { equalTo: "Mật khẩu không trung khớp." },
@@ -300,12 +314,17 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
     $("#form-payment").validate({ 
         rules: {
             name:       { required: true, },
-            phone:      { required: true, number: true },
+            phone:      { required: true, number: true, maxlength: 10, minlength: 10 },
             address:    {  required: true },
         }, 
         messages: {
             name:       { required: "Xin vui lòng nhập họ tên.", },
-            phone:      { required: "Xin vui lòng nhập số điện thoại.", number: "Số điện thoại không đúng định dạng." },
+            phone:      {
+                required: "Xin vui lòng nhập số điện thoại.", 
+                number: "Số điện thoại không đúng định dạng.",  
+                maxlength: "Số điện thoại vượt quá 10 số.",
+                minlength: "Số điện thoại phải đủ 10 sô."
+             },
             address:    { required: "Xin vui lòng nhập địa chỉ.", },
         },
         

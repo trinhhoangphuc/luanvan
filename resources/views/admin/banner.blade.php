@@ -77,7 +77,7 @@
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.bn_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
                                             <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.bn_ma)"><i class="fa fa-pencil"></i></button>
-                                            <button class="btn btn-sm btn-flat bg-maroon btn-delete" ng-click="CreateEdit_show('delete', item.bn_ma)"><i class="fa fa-trash" ></i></button>
+                                            <button class="btn btn-sm btn-flat btn-danger btn-flat btn-delete" ng-click="CreateEdit_show('delete', item.bn_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
                             <div class="form-group"> 
-                                <button type="submit" id="addbanner" class="btn bg-maroon btn-block" >@{{dialogButton}}</button>
+                                <button type="submit" id="addbanner" class="btn btn-danger btn-flat btn-block" >@{{dialogButton}}</button>
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                             <Br/>
                             <div class="form-group row"> 
                                 <div class="col-sm-6"> 
-                                    <button type="submit" class="btn bg-maroon btn-block">@{{dialogButton}}</button>
+                                    <button type="submit" class="btn btn-danger btn-flat btn-block">@{{dialogButton}}</button>
                                 </div>
                                 <div class="col-sm-6"> 
                                     <button type="button" class="btn btn-default btn-block" data-dismiss="modal" title="Close Modal">Hủy</button>

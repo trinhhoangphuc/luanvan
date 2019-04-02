@@ -10,12 +10,18 @@ $(document).ready(function() {
   }).done(function(res){
     var dt = res.message.duLieuThongKe;
     var luu = 0;
-
+    var result = ""
     chartData = [];
     chartUnit = [];
     for(i=0; i<=dt.length-1; i++) {
+
+        result += "<tr>"+
+            "<td class='text-center'>"+ (i+1) +"</td>"+
+            "<td class='text-center'>"+ dt[i].l_ten +"</td>"+
+            "<td class='text-center'>"+ dt[i].giatri +"</td>"+
+            "</tr>";
+
         mau = "rgb(" +Math.floor(Math.random() * 255)+ "," +Math.floor(Math.random() * 255)+ "," +Math.floor(Math.random() * 255)+")";
-        
         var test = {
           "text": dt[i].l_ten,
           "values" : [parseInt(dt[i].giatri)],
@@ -24,10 +30,11 @@ $(document).ready(function() {
           "lineWidth": 1,
           "marker": { backgroundColor: mau}
         }
-       
         chartData.push(test);
+
     }
 
+    $("#noiDung").html(result);
 
     var myConfig = {
       backgroundColor:'#FBFCFE',

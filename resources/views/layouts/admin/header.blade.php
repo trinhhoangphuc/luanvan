@@ -75,22 +75,24 @@
         </li>
 
         @if(in_array(15, Session::get("admin_q")) || in_array(12, Session::get("admin_q")))
-        <li class="treeview @yield('ttch')">
-          <a href="#">
-            <i class="glyphicon glyphicon-tower"></i> 
-            <span>Thông tin cửa hàng</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+        <li class="@yield('banner')">
+            <a href="{{route('QLbanner')}}"><i class="fa fa-picture-o" aria-hidden="true"></i> <span>Ảnh Quảng cáo</span></a>
+        </li>
+        @endif
+
+         @if(in_array(11, Session::get("admin_q")))
+         <li class="@yield('khuyemai')">
+          <a href="{{ route('QLkhuyenmai') }}">
+            <i class="fa fa-gift" aria-hidden="true"></i> <span>Khuyến mãi</span>
           </a>
-          <ul class="treeview-menu">
-            @if(in_array(15, Session::get("admin_q")))
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Tin tức</a></li>
-            @endif
-            @if(in_array(13, Session::get("admin_q")))
-            <li class="@yield('banner')"><a href="{{route('QLbanner')}}"><i class="fa fa-circle-o"></i> Ảnh Quảng cáo</a></li>
-            @endif
-          </ul>
+        </li>
+        @endif
+
+        @if(in_array(9, Session::get("admin_q")))
+        <li class="@yield('donhang')">
+          <a href="{{ route('QLdonhang') }}">
+            <i class="glyphicon glyphicon-file"></i> <span>Đơn hàng</span> <span id="totalOrder"></span>
+          </a>
         </li>
         @endif
 
@@ -146,21 +148,7 @@
 
           </ul>
         </li>
-         @if(in_array(11, Session::get("admin_q")))
-         <li class="@yield('khuyemai')">
-          <a href="{{ route('QLkhuyenmai') }}">
-            <i class="fa fa-gift" aria-hidden="true"></i> <span>Khuyến mãi</span>
-          </a>
-        </li>
-        @endif
-
-        @if(in_array(9, Session::get("admin_q")))
-        <li class="@yield('donhang')">
-          <a href="{{ route('QLdonhang') }}">
-            <i class="glyphicon glyphicon-file"></i> <span>Đơn hàng</span> <span id="totalOrder"></span>
-          </a>
-        </li>
-        @endif
+        
 
         @if(in_array(7, Session::get("admin_q")) || in_array(6, Session::get("admin_q")))
         <li class="treeview @yield('nhansu')">
@@ -194,7 +182,7 @@
           <ul class="treeview-menu">
             <li class="@yield('tknam')"><a href="{{ route('TKnam') }}"><i class="fa fa-circle-o"></i> Theo năm</a></li>
             <li class="@yield('tkloai')"><a href="{{ route('TKloai') }}" ><i class="fa fa-circle-o"></i> Theo loại</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Theo hạn sản phẩm</a></li>
+            <li class="@yield('tksp')"><a href="{{ route('TKsanpham') }}"><i class="fa fa-circle-o"></i> Sản phẩm bán chạy</a></li>
           </ul>
         </li>
         @endif

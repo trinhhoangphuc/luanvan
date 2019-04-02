@@ -76,8 +76,8 @@
                                             <i class="fa chech-star" ng-class="item.dg_sao == 5 ? 'fa-star':'fa-star-o'"></i>
                                         </td>
                                         <td>
-                                            <span ng-if="item.dg_trangThai == 1" class="label bg-green">Hiển thị</span>
-                                            <span ng-if="item.dg_trangThai == 0" class="label bg-red">Khóa</span>
+                                            <button ng-click="updateTrangThai(item.dg_ma, 0)" ng-if="item.dg_trangThai == 1" class="btn label bg-green">Hiển thị</button>
+                                            <button ng-click="updateTrangThai(item.dg_ma, 1)" ng-if="item.dg_trangThai == 0" class="btn label bg-red">Khóa</button>
                                         </td>
                                         <td >
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.dg_ma)">

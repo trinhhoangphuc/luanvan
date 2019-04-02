@@ -1,31 +1,33 @@
 @extends('layouts.admin.master')
 
 @section('title')
-    Thống kê theo năm
+    Sản phẩm bán chạy
 @endsection
 
 @section('thongke')
     active
 @endsection
 
-@section('tknam')
+@section('tksp')
     active
 @endsection
 
 @section('noidung')
 
+		
 <script src="{{asset('public/libs/zingchart.min.js')}}"></script>
-<script src="{{asset('public/App/thongketheonamController.js')}}"></script>
+
+
 <div class="content-wrapper">
 
-   <section class="content-header">
+    <section class="content-header">
         <h1>
             Thống kê
-            <small>Theo năm</small>
+            <small>Sản phẩm bán chạy</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-            <li class="active">Theo năm</li>
+            <li class="active">Sản phẩm bán chạy</li>
         </ol>
     </section>
 
@@ -41,14 +43,7 @@
 
                       <div class="tab-pane active" id="IMAGES">
                         <div class="chart-box" >
-                            <div id="chTKT"></div>
-                            <div style="width: 15%; margin: auto;">
-                                <div class="dropdown" style="width: 100%" id="cmbTKT">
-                                    <button class="btn btn-danger btn-flat dropdown-toggle btn-tk" type="button" data-toggle="dropdown">Dữ liệu thống kê<span class="caret"></span></button>
-                                    <ul class="dropdown-menu dm-2"></ul>
-                                </div>
-                            </div>
-
+                            <div id="myChart"></div>
                         </div>
                     </div>
 
@@ -57,8 +52,8 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th>STT</th>
-                                        <th>Thời gian</th>
-                                        <th class="text-center">Doanh thu</th>
+                                        <th>Sản phẩm</th>
+                                        <th class="text-center">Số lượng</th>
                                     </tr>
                                 </thead>
                                 <tbody id="noiDung">
@@ -67,7 +62,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="3" class="text-right" id="btn-excel">
-                                            
+                                            <a href="{{route('excelSPBC')}}" target="_blank" class="btn btn-danger btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất File Excel</a>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -81,5 +76,14 @@
     </section>
 
 </div>
+<script src="{{asset('public/App/sanphambanchay.js')}}"></script>
+<style type="text/css">
+	.zc-ref {
+  display: none;
+}
+#myChart-wrapper{
+  margin:auto;
+}
+</style>
 
 @endsection

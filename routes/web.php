@@ -438,6 +438,7 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		
 		Route::delete('delete/{id}', "KhuyenmaiController@destroy");
 
+
 		// Route::post('deleteAll', "bannerController@destroyAll");
 	});
 	// kết thúc
@@ -452,6 +453,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 				return redirect(route("login"));
 		})->name("TKnam");
 
+		Route::get('excelYeah/{id}', 'DonhangController@excelDoanhThu')->name('excelYeah');
+
 		Route::get('orderYeah',  'DonhangController@donhang_nam');
 
 		Route::get('theoloai', function () {
@@ -463,6 +466,22 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		})->name("TKloai");
 
 		Route::get('orderLoai',  'DonhangController@thongkeLoai');
+
+		Route::get('excelLoai', 'DonhangController@excelLoai')->name('excelLoai');
+
+		Route::get('sanphambanchay', function () {
+
+			if(in_array(10, Session::get("admin_q")))
+				return view('admin.sanphambanchay');
+			else
+				return redirect(route("login"));
+		})->name("TKsanpham");
+
+		Route::get('sanPhamBanChay',  'DonhangController@sanPhamBanChay');
+
+		Route::get('excelSPBC', 'DonhangController@excelSPBC')->name('excelSPBC');
+
+
 
 	});
 

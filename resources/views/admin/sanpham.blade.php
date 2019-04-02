@@ -284,8 +284,8 @@
                             <ul class="nav nav-tabs">
                               <li class="active"><a href="#IMAGES" data-toggle="tab"><span class="glyphicon glyphicon-picture"></span> Hình ảnh</a></li>
                                <li><a href="#QUNTITY" data-toggle="tab"><span class="glyphicon glyphicon-tag"></span> Số lượng</a></li>
-                          </ul>
-                          <div class="tab-content">
+                            </ul>
+                            <div class="tab-content">
                               
                               <div class="tab-pane active" id="IMAGES">
                                     <div id="frmUpload">
@@ -448,7 +448,7 @@
 
                           </div>
                         
-                      </div>
+                    </div>
 
                     </div>
                 </div>

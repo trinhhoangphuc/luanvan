@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var urlChart = URL_2 + "admin/thongke/orderYeah";
+  var urlChart = URL_2 + "admin/thongke/orderYeah";
   var chartConfig = null;
   var chartData = [];
   var chartUnit = [];
@@ -25,13 +25,24 @@ $(document).ready(function() {
 
       chartData = [];
       chartUnit = [];
+      var result = "";
       for (var i = 0; i < srcUnit.length; i++) {
         if (srcUnit[i].startsWith(value)) {
           chartData.push(srcData[i]);
           chartUnit.push(srcUnit[i]);
+           result += "<tr>"+
+            "<td class='text-center'>"+ (i+1) +"</td>"+
+            "<td class='text-center'>"+ srcUnit[i] +"</td>"+
+            "<td class='text-center' style='color: red'>"+ formatNumber(srcData[i], ',', '.') + " đ" +"</td>"+
+            "</tr>";
         }
       }
-  
+      console.log(value);
+      var url_excel = URL_2 + "admin/thongke/excelYeah/" + parseInt(value);
+      var button = '<a href="'+url_excel+'" target="_blank" class="btn btn-danger btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất File Excel</a>';
+      $("#noiDung").html(result);
+      $("#btn-excel").html(button);
+
   }
 
   function capNhatChart(nam) {

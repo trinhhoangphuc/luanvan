@@ -124,6 +124,8 @@ class KhuyenmaiController extends Controller
         }
     }
 
+
+
     public function danhsachSPbyIdLoai($id)
     {
        try{
