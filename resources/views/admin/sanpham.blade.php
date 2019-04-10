@@ -44,7 +44,7 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsLoai.length != 0">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsLoai.length != 0">
                             <table id="myTable" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                     <thead class="text-center">
                                       
@@ -80,7 +80,15 @@
                                                 <table class="table table-bordered">
                                                     <tr>
                                                         <td class="text-center" colspan="4" style="background: #FAFAFA;">
-                                                            <div class="product-name">@{{ item.sp_ten }} </div>
+                                                            <div class="product-name">@{{ item.sp_ten }} 
+                                                                <p>
+                                                                    <i class="fa chech-star" ng-class="item.sp_danhGia >= 1 ? 'fa-star':'fa-star-o'"></i>
+                                                                    <i class="fa chech-star" ng-class="item.sp_danhGia >= 2 ? 'fa-star':'fa-star-o'"></i>
+                                                                    <i class="fa chech-star" ng-class="item.sp_danhGia >= 3 ? 'fa-star':'fa-star-o'"></i>
+                                                                    <i class="fa chech-star" ng-class="item.sp_danhGia >= 4 ? 'fa-star':'fa-star-o'"></i>
+                                                                    <i class="fa chech-star" ng-class="item.sp_danhGia == 5 ? 'fa-star':'fa-star-o'"></i>
+                                                                </p>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -92,8 +100,9 @@
                                                     <tr>
                                                         <td><b>Giá bán:</b></td>
                                                         <td class="text-center  text-danger">@{{ item.sp_giaBan | number: 0 }} đ</td>
-                                                        <td><b>Số lượng:</b></td>
-                                                        <td class="text-center">@{{ item.sp_soLuong }}</td>
+                                                        <td><b>Giãm giá:</b></td>
+                                                        <td class="text-center text-danger">@{{ item.sp_giamGia | number: 0 }} đ</td>
+                                                        
                                                     </tr>
                                                     <tr>
                                                         <td><b>Tình trạng:</b></td>
@@ -102,14 +111,8 @@
                                                             <span class="badge btn-danger btn-flat" ng-if="item.sp_soLuong == 0">Hết hàng</span>
                                                             <span class="badge bg-orange" ng-if="item.sp_soLuong <= 10 && item.sp_soLuong > 0">Sắp hết</span>
                                                         </td>
-                                                        <td><b>Đánh giá:</b></td>
-                                                        <td class="text-center">
-                                                            <i class="fa chech-star" ng-class="item.sp_danhGia >= 1 ? 'fa-star':'fa-star-o'"></i>
-                                                            <i class="fa chech-star" ng-class="item.sp_danhGia >= 2 ? 'fa-star':'fa-star-o'"></i>
-                                                            <i class="fa chech-star" ng-class="item.sp_danhGia >= 3 ? 'fa-star':'fa-star-o'"></i>
-                                                            <i class="fa chech-star" ng-class="item.sp_danhGia >= 4 ? 'fa-star':'fa-star-o'"></i>
-                                                            <i class="fa chech-star" ng-class="item.sp_danhGia == 5 ? 'fa-star':'fa-star-o'"></i>
-                                                        </td>
+                                                        <td><b>Số lượng:</b></td>
+                                                        <td class="text-center">@{{ item.sp_soLuong }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><b>Mới:</b></td>
@@ -143,7 +146,7 @@
                                     </tdody>
                                 </table>
                         </div>
-                        <div class="" ng-show="!isLoading && dsLoai.length == 0 ">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsLoai.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
                                     <thead class="text-center">
@@ -210,19 +213,7 @@
                         <div class="form-group">
                             <label for="gia" class=""><b>Giá bán:</b></label>
                             <input type="number" id="gia" name="gia" ng-model="sanpham.gia" class="form-control" ng-required="true"  autocomplete="off" min="1" max="9999999999999">
-                        </div>
-                         <div class="form-group">
-                            <label for="giamGia" class=""><b>Giảm giá:</b></label>
-                            <input type="number" id="giamGia" name="giamGia" ng-model="sanpham.giamGia" class="form-control" ng-required="true"  autocomplete="off" min="0" max="9999999999999">
-                        </div>
-                        <div class="form-group">
-                            <label for="thongTin" class=""><b>Hương vị:</b></label>
-                            <select name="maHuong" id="maHuong" class="form-control" ng-model="sanpham.maHuong"  style="width: 100%; height: 150px" multiple="multiple">
-                                 <option ng-if="dsHuongvi.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
-                                 <option ng-repeat="hv in dsHuongvi" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
-                            </select>
-                        </div>
-                        
+                        </div>                        
                         <div class="form-group">
                             <label for="thongTin" class=""><b>Mô tả:</b></label>
                             <!-- <textarea ckeditor="formData.ckeditorOptions"  ng-model="sanpham.thongTin" name="thongTin" id="thongTin"></textarea> -->
@@ -291,7 +282,7 @@
                                     <div id="frmUpload">
                                         <div class="ListOfFiles border-img-upload" >
                                             <div class="row" ng-if="dsHinh.length > 0" >
-                                                <div class="" ng-repeat="hinh in dsHinh" style=" width: 20%; display:inline-table; margin: auto !important;">
+                                                <div class="col-sm-3" ng-repeat="hinh in dsHinh" style=" ">
                                                     <div class="box-img" style="margin-top: 5px;">
                                                         <img src="{{asset('public/images/products')}}/@{{hinh.ha_ten}}" width="100%" class="img-responsive" />
                                                         <button class="btn btn-sm btn-flat btn-danger btn-flat btn-uload-img left" ng-click="frmUpload_Delete(hinh.sp_ma, hinh.ha_ma)">
@@ -424,12 +415,16 @@
                                             <label for="thongTin" class=""><b>Hương vị:</b></label>
                                             <select name="maHuong" id="maHuong" class="form-control" ng-model="nhap.maHuong"  style="width: 100%;">
                                                  <option ng-if="dsChitiethuong.length == 0" value="0" ng-value="0">--Chưa có dữ liệu--</option>
-                                                 <option ng-repeat="hv in dsChitiethuong" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ dsHuongvi.dbFind("hv_ma", hv.hv_ma).hv_ten }}</option>
+                                                 <option ng-repeat="hv in dsHuongvi" id="multi_@{{ hv.hv_ma }}" value="@{{ hv.hv_ma }}" ng-value="hv.hv_ma">@{{ hv.hv_ten }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="soluong" class=""><b>Số lượng:</b></label>
+                                            <label for="soluong" class=""><b>Số lượng nhập:</b></label>
                                             <input type="number" id="soluong" name="soluong" ng-model="nhap.soluong" class="form-control"  min="1" max="999999" value="10" required="" />
+                                        </div>
+                                        <div class="form-group" ng-if="status == 'edit'">
+                                            <label for="tonkho" class=""><b>Tồn kho:</b></label>
+                                            <input type="number" id="soluong" name="tonkho" ng-model="nhap.tonkho" class="form-control"  min="1" max="999999" value="10" required="" />
                                         </div>
                                         <div class="form-group">
                                             <label for="ngaysanxuat" class=""><b>Ngày sản xuất:</b></label>
@@ -438,6 +433,10 @@
                                         <div class="form-group">
                                             <label for="hansudung" class=""><b>Hạn sử dụng:</b></label>
                                             <input type="date" id="hansudung" name="hansudung" ng-model="nhap.hansudung" class="form-control " required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ngaynhap" class=""><b>Ngày nhập hàng:</b></label>
+                                            <input type="date" id="ngaynhap" name="ngaynhap" ng-model="nhap.ngaynhap" class="form-control " required="">
                                         </div>
                                         <div class="form-group"> 
                                             <button type="submit" class="btn btn-danger btn-block" >@{{dialogButton}}</button>

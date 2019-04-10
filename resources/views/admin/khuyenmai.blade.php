@@ -45,10 +45,11 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsKhuyenmai.length != 0">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsKhuyenmai.length != 0">
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
+                                        <th>STT</th>
                                         <th>Mã đơn</th>
                                         <th>Tên</th>
                                         <th>Bắt đầu</th>
@@ -69,7 +70,7 @@
                                 		});
                                 	</script>
                                     <tr  ng-repeat="item in dsKhuyenmai" id="tr_@{{item.km_ma}}" ng-class="item.km_ma == newMember_Data? 'bg-default':''">
-                                                                                
+                                        <td>@{{ $index+1 }}</td>                               
                                         <td>#@{{ item.km_ma }}</td>
                                         <th class="text-center">@{{ item.km_ten }}</th class="text-center">
                                         <td>@{{ item.km_batDau| asDate | date:'dd-MM-yyyy' }}</td>
@@ -81,18 +82,18 @@
                                         <td>
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.km_ma)"><i class="fa fa-eye-slash"></i></button>
                                             <button  class="btn  btn-sm btn-flat bg-purple" ng-if="item.km_trangThai == 1" ng-click="CreateEdit_show('addProduct', item.km_ma)"><i class="fa fa-sliders"></i></button>
-                                            <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.km_ma)"><i class="fa fa-pencil"></i></button>
+                                            <button ng-if="item.km_trangThai == 1" class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.km_ma)"><i class="fa fa-pencil"></i></button>
                                             <button class="btn btn-sm btn-flat btn-danger btn-flat btn-delete" ng-click="CreateEdit_show('delete', item.km_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="" ng-show="!isLoading && dsKhuyenmai.length == 0 ">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsKhuyenmai.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
                                     <tr >
-
+                                        <th>STT</th>
                                         <th>Mã đơn</th>
                                         <th>Ngày đặt</th>
                                         <th>Thanh toán</th>
@@ -124,7 +125,8 @@
                         <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
                             <div class="title">@{{dialogTiTle}}</div>
-                        </div>                        <div class="modal-body">
+                        </div>                        
+                        <div class="modal-body">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label for="name" class=""><b>Tiêu đề:</b></label>
@@ -152,7 +154,7 @@
                                 <label for="ngayKT" class=""><b>Ngày kết thúc:</b></label>
                                 <input type="date" id="ngayKT" name="ngayKT" ng-model="khuyenmai.ngayKT" class="form-control " required="">
                             </div>
-                            <div class="form-group">
+<!--                             <div class="form-group">
                                 <label for="trangthaiKhoa" class="control-label"><b>Trạng Thái:</b></label>
                                 <div>
                                     &nbsp;
@@ -166,7 +168,7 @@
                                     </label>
                                     
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group"> 
                                 <button type="submit" class="btn btn-danger btn-flat btn-block" >@{{dialogButton}}</button>
                             </div>
@@ -179,11 +181,10 @@
         <div class="modal fade" id="myModal2">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
-                            <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                       </div>
-                   </div>
+                     <div class="imgcontainer">
+                        <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
+                        <div class="title">Sản phẩm khuyến mãi</div>
+                    </div> 
                    <div class="modal-body">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
@@ -284,14 +285,10 @@
             <div class="modal-dialog">
                 
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="imgcontainer">
+                    <div class="imgcontainer">
                             <span class="close" data-dismiss="modal" title="Close Modal">&times;</span>
-                            <div class="logo-login-register">
-                                 <h3 class="title-comm" style="margin-top: 0; margin-bottom: 0;"><span class="title-holder">@{{dialogTiTle}}</span></h3>
-                            </div>
-                        </div>
-                     </div>
+                            <div class="title">@{{dialogTiTle}}</div>
+                        </div> 
                     <div class="modal-body">
                         <form name="delte" id="delte">
                             <div class="form-group"> 

@@ -138,49 +138,50 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
 		var test = 0;
 
-		for (var i = 0; i< $scope.sanpham.maHuong.length; i++) {
-			for (var y = 0; y< $scope.dsChitiethuong.length; y++) {
-				if ($scope.sanpham.maHuong[i] == $scope.dsChitiethuong[y].hv_ma) {
-					test++;
-				}
-			}	
-		}
+		// for (var i = 0; i< $scope.sanpham.maHuong.length; i++) {
+		// 	for (var y = 0; y< $scope.dsChitiethuong.length; y++) {
+		// 		if ($scope.sanpham.maHuong[i] == $scope.dsChitiethuong[y].hv_ma) {
+		// 			test++;
+		// 		}
+		// 	}	
+		// }
 
-		if(test == $scope.sanpham.maHuong.length)
-			check = true;
-		else check = false;
+		// if(test == $scope.sanpham.maHuong.length)
+		// 	check = true;
+		// else check = false;
 
-		console.log("checkHuong: " + $scope.checkHuong.length);
-		console.log("test " + test);
-		console.log("mang " + $scope.checkHuong.length);
-		console.log("check " + check);
+		// console.log("checkHuong: " + $scope.checkHuong.length);
+		// console.log("test " + test);
+		// console.log("mang " + $scope.checkHuong.length);
+		// console.log("check " + check);
 
     	return db.sp_ten != frm.ten 
     	|| db.h_ma != frm.maHang 
     	|| db.l_ma != frm.maLoai
     	|| db.sp_giaBan != frm.gia
-    	|| db.sp_giamGia != frm.giamGia
     	|| db.sp_soLuong != frm.soluong
     	|| db.sp_thongTin != frm.thongTin
     	|| db.sp_tinhTrang != frm.tinhTrang
-    	|| db.sp_trangThai != frm.trangThai
-    	|| !check;
+    	|| db.sp_trangThai != frm.trangThai;
     }
 
     function isMemberDiff_Nhap(db, frm){
 
-    	var DateNgaySX = Date.parse(db.n_ngaySX);
-        var DateNgaySX_2 = Date.parse(frm.ngaysanxuat);
+    	var DateNgaySX=Date.parse(db.n_ngaySX);
+        var DateNgaySX_2=Date.parse(frm.ngaysanxuat);
 
-        var DateHanSD = Date.parse(db.n_hanSD);
-        var DateHanSD_2 = Date.parse(frm.hansudung);
+        var DateHanSD=Date.parse(db.n_hanSD);
+        var DateHanSD_2=Date.parse(frm.hansudung);
 
+        var DateNgayNhap=Date.parse(db.n_ngayNhap);
+        var DateNgayNhap_2=Date.parse(frm.ngaynhap);
 
-
-        return db.hv_ma != frm.maHuong
-        	|| db.n_soLuong != frm.soluong
-        	|| DateNgaySX != DateNgaySX_2
-        	|| DateHanSD != DateHanSD_2;
+        return db.hv_ma 	    != 	frm.maHuong
+        	|| db.n_soLuongNhap != 	frm.soluong
+        	|| db.n_soLuong     !=	frm.tonkho
+        	|| DateNgaySX 	    != 	DateNgaySX_2
+        	|| DateHanSD 		!= 	DateHanSD_2
+        	|| DateNgayNhap 	!= 	DateNgayNhap_2;
     }
 
 
@@ -238,7 +239,6 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 					trangThai: 1, 
 					gia: 100000,
 					soluong: 20,
-					giamGia: 0,
 					maLoai: ma_loai,
 					maHang: ma_hang,
 					thongTin: "",
@@ -259,27 +259,19 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 					$scope.dialogTiTle = "Sửa " + $scope.dataTitle;
 					$scope.status = status;
 					$scope.id_member = id;
-					member = $scope.dsSanpham[indexOfMember(id)];
-					//lấy hương vị sản phâme
-					
+					member = $scope.dsSanpham[indexOfMember(id)];		
 
 					$scope.sanpham = {
 						ten: member.sp_ten, 
 						trangThai: member.sp_trangThai, 
 						tinhTrang: member.sp_tinhTrang,
 						gia: member.sp_giaBan,
-						giamGia: member.sp_giamGia,
 						soluong: member.sp_soLuong,
 						maLoai: member.l_ma,
 						maHang: member.h_ma,
 						thongTin: member.sp_thongTin,
 
 					};
-					$scope.sanpham.maHuong = [];
-					for(i=0; i< $scope.dsChitiethuong.length; i++)
-					{
-						$scope.sanpham.maHuong.push($scope.dsChitiethuong[i].hv_ma);
-					}
 
 					$("#myModal").modal("show");
 				});
@@ -345,10 +337,11 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 				$http.get(requestURL5).then(function(response){
 					$scope.dsChitiethuong = response.data.message.chitiethuong;
 					$scope.nhap = {
-	                    maHuong: $scope.dsChitiethuong[0].hv_ma,
+	                    maHuong: $scope.dsHuongvi[0].hv_ma,
 	                    soluong: 10,
 	                    ngaysanxuat:  $scope.today,
-	                    hansudung:  $scope.today
+	                    hansudung:  $scope.today,
+	                    ngaynhap:  $scope.today
 	                }
 	                $scope.dialogButton = "Thêm";
 	                $scope.status = "create";
@@ -369,10 +362,12 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 					nhap_member = $scope.dsSoLuongNhap[indexOfMemberNhap(id_nhap)];
 
 					$scope.nhap = {
-	                    maHuong: nhap_member.hv_ma,
-	                    soluong: nhap_member.n_soLuong,
+	                    maHuong: 	  nhap_member.hv_ma,
+	                    soluong: 	  nhap_member.n_soLuongNhap,
+	                    tonkho: 	  nhap_member.n_soLuong,
 	                    ngaysanxuat:  new Date(nhap_member.n_ngaySX),
-	                    hansudung:   new Date(nhap_member.n_hanSD)
+	                    hansudung:    new Date(nhap_member.n_hanSD),
+	                    ngaynhap: 	  new Date(nhap_member.n_ngayNhap),
 	                }
 	                $scope.dialogButton = "Cập nhật";
 	                $scope.status = "edit";
@@ -417,11 +412,6 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     			number: true,
     			digits: true,
     		},
-    		giamgia: {   
-    			required: true,
-    			number: true,
-    			digits: true,
-    		},
     		maHuong:{
     			required: true,
     		}
@@ -433,11 +423,6 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     		gia: {
     			required: "Xin vui lòng nhập giá!",
     			number: "Giá sản phẩm bắt buộc là số!",
-    			digits : "Không được nhập số âm!",
-    		},
-    		giamgia: {
-    			required: "Xin vui lòng nhập chi phí!",
-    			number: "Chi phí tiền bắt buộc là số!",
     			digits : "Không được nhập số âm!",
     		},
     		maHuong: {
@@ -647,6 +632,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
             	$scope.nhap.ngaysanxuat = $filter('date')(new Date($scope.nhap.ngaysanxuat),'yyyy-MM-dd');
                 $scope.nhap.hansudung = $filter('date')(new Date($scope.nhap.hansudung),'yyyy-MM-dd');
+                $scope.nhap.ngaynhap = $filter('date')(new Date($scope.nhap.ngaynhap),'yyyy-MM-dd');
 
             	var d1 = Date.parse($scope.nhap.ngaysanxuat);
         		var d2 = Date.parse($scope.nhap.hansudung);
@@ -686,6 +672,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
             case "edit":
 	            $scope.nhap.ngaysanxuat = $filter('date')(new Date($scope.nhap.ngaysanxuat),'yyyy-MM-dd');
                 $scope.nhap.hansudung = $filter('date')(new Date($scope.nhap.hansudung),'yyyy-MM-dd');
+                $scope.nhap.ngaynhap = $filter('date')(new Date($scope.nhap.ngaynhap),'yyyy-MM-dd');
 
             	var d1 = Date.parse($scope.nhap.ngaysanxuat);
         		var d2 = Date.parse($scope.nhap.hansudung);
@@ -819,7 +806,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
             // console.log('asyncFilter');
             setTimeout(deferred.resolve, 1e3);
           }
-        });
+    });
 
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
 
 @section('title')
-    Thống kê theo năm
+   Redshop - Thống kê theo năm
 @endsection
 
 @section('thongke')

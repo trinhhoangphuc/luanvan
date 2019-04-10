@@ -111,9 +111,13 @@ app.controller('donhangController', function($scope, $http, $filter, MainURL, DT
         		$scope.status = status;
         		$scope.id_member = member.dh_ma;
                 $scope.dialogButton = "Cập nhật";
+                if(member.dh_trangThai == 0)
+                    var id_trangthai = 1;
+                else
+                    var id_trangthai = member.dh_trangThai;
         		$scope.donhang = {
         			thanhToan: member.dh_daThanhToan, 
-        			trangThai: member.dh_trangThai
+        			trangThai: id_trangthai
         		};
         		$("#myModal3").modal("show");
 

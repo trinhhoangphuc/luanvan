@@ -27,6 +27,7 @@
 	toastr.warning("Không thể đánh giá sản phẩm!");
 </script>
 @endif
+<script src='https://unpkg.com/spritespin@4.0.3/release/spritespin.js' type='text/javascript'></script>
 <div class="row">
 	<div class="col-sm-12 col-xs-12 col-md-12">
 		<div class="titleProducts">
@@ -41,20 +42,31 @@
 	<div class="col-md-6">
 		<div class="product-information2">
 
-			<div class="exzoom " id="exzoom">
-				<div class="exzoom_img_box">
-					<ul class='exzoom_img_ul'>
-						@foreach($hinhanh as $hinh)
-						<li><img src="{{ asset('public/images/products/' . $hinh->ha_ten )}}" class="show-small-img" alt=""></li>
-						@endforeach
-					</ul>
+			<div id="slide">
+				<div class="exzoom " id="exzoom">
+					<div class="exzoom_img_box">
+						<ul class='exzoom_img_ul'>
+							@foreach($hinhanh as $hinh)
+							<li><img src="{{ asset('public/images/products/' . $hinh->ha_ten )}}" class="show-small-img" alt=""></li>
+							@endforeach
+						</ul>
+					</div>
+					<div class="exzoom_nav"></div>
+					<p class="exzoom_btn">
+						<a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+						<a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+					</p>
 				</div>
-				<div class="exzoom_nav"></div>
-				<p class="exzoom_btn">
-					<a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
-					<a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
-				</p>
 			</div>
+			<div id="360" class="">
+			<div id='mySpriteSpin' class="spritespin"></div>	
+			</div>
+
+
+			<br/>
+			<button id="slideBTN" type="button" class="btn btn-flat btn-hotel-2" onclick="slide360('slide')"><i class="far fa-images"></i></button>
+			<button type="button" class="btn btn-flat btn-hotel-2" onclick="slide360('360')"><i class="fas fa-arrows-alt-h"></i></button>
+			
 
 		</div>
 
@@ -357,4 +369,44 @@
 		</div>
 	</div>
 </div>
+<script type='text/javascript'>
+	var dsHinh = <?php echo $hinhanh; ?>;
+	var test = [];
+	
+	function slide360(status) {
+		switch(status){
+			case "slide":
+				$("#slide").removeClass("hidden");
+				$("#360").addClass("hidden");
+			break;
+			case "360":
+
+				$("#360").removeClass("hidden");
+				$("#slide").addClass("hidden");
+				for (i=0; i<dsHinh.length; i++) {
+					url_hinh = "http://localhost/luanvan/public/images/products/" + dsHinh[i].ha_ten;
+					test.push(url_hinh);
+				}
+				$('.spritespin').spritespin({
+					source: test,
+
+					sense: -1,
+					responsive: true,
+					animate: false,
+					plugins: [
+					'360',
+					'drag'
+					]
+				});
+			break;
+		}
+	}
+	$(document).ready(function() {
+		
+		$("#slideBTN").click(function() {
+			// body...
+		});
+	});
+
+</script>
 @endsection

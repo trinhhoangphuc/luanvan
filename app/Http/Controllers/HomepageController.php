@@ -107,12 +107,16 @@ class HomepageController extends Controller
                 Session::push("viewList", $sanpham->sp_ma);
             }
 
-    		$chitiethuongList = Chitiethuong::select("chitiethuong.*", "huongvi.hv_ten")
-                ->where("sp_ma", $sanpham->sp_ma)
-                ->join("huongvi", "huongvi.hv_ma", "chitiethuong.hv_ma")
-                ->get();
+    		// $chitiethuongList = Chitiethuong::select("chitiethuong.*", "huongvi.hv_ten")
+      //           ->where("sp_ma", $sanpham->sp_ma)
+      //           ->join("huongvi", "huongvi.hv_ma", "chitiethuong.hv_ma")
+      //           ->get();
+            $chitiethuongList = Nhap::select("huongvi.hv_ten", "huongvi.hv_ma")->distinct()
+                   ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
+                   ->join("sanpham", "sanpham.sp_ma", "nhap.sp_ma")
+                   ->where("sanpham.sp_ma", $sanpham->sp_ma)->get();
 
-    		$hinhanh = Hinhanh::where("sp_ma", $sanpham->sp_ma)->get();
+    		$hinhanh = Hinhanh::where("sp_ma", $sanpham->sp_ma)->orderBy("ha_stt", "desc")->get();
 
     		$sanphamcungloaiList = Sanpham::where("l_ma", $sanpham->l_ma)
                 ->where("sp_ma", "<>" ,$sanpham->sp_ma)

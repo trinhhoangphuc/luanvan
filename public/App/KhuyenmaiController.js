@@ -56,7 +56,7 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
 	.withLanguage(language);
 
 	function ShowDetail(member){
-		var result = '<tr><td colspan="8" style="padding:5px">'+
+		var result = '<tr><td colspan="7" style="padding:5px">'+
 
 		'<table align="center" class="table table-bordered" style="margin:0px"><tbody>'+
 		'<tr>'+
@@ -108,8 +108,7 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
             || db.km_moTaNgan != frm.moTaNgan
             || db.km_noiDung != frm.noiDung
             || Date.parse(db.km_batDau) != Date.parse(frm.ngayBD)
-            || Date.parse(db.km_ketThuc) != Date.parse(frm.ngayKT)
-            || db.km_trangThai != frm.trangThai; 
+            || Date.parse(db.km_ketThuc) != Date.parse(frm.ngayKT); 
     }
 
     $scope.changeProduct = function(){
@@ -170,7 +169,6 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
         		$scope.status = status;
         		$scope.khuyenmai = {
                     ten: null, 
-                    trangThai: 1,
                     ngayBD: $scope.today,
                     ngayKT: $scope.today,
                     noiDung: null,
@@ -203,7 +201,6 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
                  $scope.id_member = member.km_ma;
                  $scope.khuyenmai = {
                      ten: member.km_ten, 
-                     trangThai: member.km_trangThai,
                      ngayBD:  new Date(member.km_batDau),
                      ngayKT: new Date(member.km_ketThuc),
                      noiDung: member.km_noiDung,

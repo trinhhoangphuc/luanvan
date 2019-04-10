@@ -85,8 +85,35 @@ class DonhangController extends Controller
                 $donhang->nv_xuLy = Session::get('admin_id');
                 $donhang->dh_ngayXuLy = date('Y-m-d H:i:s');
                 $donhang->dh_nguoiXuLy = Session::get('admin_name');
-                $donhang->dh_trangThai = $request->get('trangThai');
                 $donhang->dh_daThanhToan = $request->get('thanhToan');
+                if($donhang->dh_trangThai == 2 && $request->get('trangThai') != 2){
+                    $donhang->dh_trangThai = $request->get('trangThai');
+                    $chitiethoadon = Chitiethoadon::where("dh_ma", $donhang->dh_ma)->get();
+                    foreach ($chitiethoadon as $key) {
+                        $nhap = Nhap::find($key->n_ma);
+                        $nhap->n_soLuong = $nhap->n_soLuong - $key->ctdh_soluong;
+                        $nhap->save();  
+
+                        $sanpham = Sanpham::find($nhap->sp_ma);
+                        $sanpham->sp_soLuong = $sanpham->sp_soLuong - $key->ctdh_soluong;
+                        $sanpham->save(); 
+                    }
+                }else if(($donhang->dh_trangThai == 1 || $donhang->dh_trangThai == 3) && $request->get('trangThai') == 2){
+                    $donhang->dh_trangThai = $request->get('trangThai');
+                    $chitiethoadon = Chitiethoadon::where("dh_ma", $donhang->dh_ma)->get();
+                    foreach ($chitiethoadon as $key) {
+                        $nhap = Nhap::find($key->n_ma);
+                        $nhap->n_soLuong = $nhap->n_soLuong + $key->ctdh_soluong;
+                        $nhap->save();  
+
+                        $sanpham = Sanpham::find($nhap->sp_ma);
+                        $sanpham->sp_soLuong = $sanpham->sp_soLuong + $key->ctdh_soluong;
+                        $sanpham->save(); 
+                    }
+                }else{
+                    $donhang->dh_trangThai = $request->get('trangThai');
+                }
+
                 $donhang->save();
                 $donhang = Donhang::select("donhang.*", "thanhtoan.tt_ten", "vanchuyen.vc_ten")
                         ->join("thanhtoan", "thanhtoan.tt_ma", "donhang.tt_ma")
@@ -211,7 +238,7 @@ class DonhangController extends Controller
         }
     }
 
-     public function donhang_nam() { // get # /donhang/thang
+    public function donhang_nam() { // get # /donhang/thang
         try {
             $duLieuThongKe = DB::select('
                 SELECT YEAR(dh_taoMoi)as nam, month(dh_taoMoi) as thang, count(dh_ma) as soluong, SUM(dh_tongTien) as giatri
@@ -360,11 +387,7 @@ class DonhangController extends Controller
                         $cells->setValignment('center');
                     });
                 }
-                // $sheet->cells("A4:A$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("E4:E$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("D4:D$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("F4:F$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("H4:H$i", function($cells) { $cells->setAlignment('center'); });
+            
             });
         })->download('xlsx');
         } catch(QueryException $ex) {
@@ -443,11 +466,7 @@ class DonhangController extends Controller
                         $cells->setValignment('center');
                     });
                 }
-                // $sheet->cells("A4:A$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("E4:E$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("D4:D$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("F4:F$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("H4:H$i", function($cells) { $cells->setAlignment('center'); });
+            
             });
         })->download('xlsx');
         } catch(QueryException $ex) {
@@ -528,11 +547,7 @@ class DonhangController extends Controller
                         $cells->setBorder('solid', 'solid', 'solid', 'solid');
                     });
                 }
-                // $sheet->cells("A4:A$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("E4:E$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("D4:D$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("F4:F$i", function($cells) { $cells->setAlignment('center'); });
-                // $sheet->cells("H4:H$i", function($cells) { $cells->setAlignment('center'); });
+            
             });
         })->download('xlsx');
         } catch(QueryException $ex) {
@@ -547,6 +562,110 @@ class DonhangController extends Controller
           ], 200);
         }
     }
+
+    public function excelSPTK($id) { 
+        try {
+          $name = time()."-San-pham-ton-kho".$id;
+          
+          Excel::create($name, function($excel) use ($id) {
+            $excel->sheet('Sản phẩm tồn kho', function($sheet) use ($id) {
+                
+             $danhsach = DB::select("
+                SELECT nhap.*, huongvi.hv_ten, TIMESTAMPDIFF(MONTH,NOW(),n_hanSD) AS hansudung
+                FROM  nhap, huongvi
+                WHERE nhap.hv_ma = huongvi.hv_ma AND nhap.n_soLuong > 0 AND nhap.sp_ma = $id
+                ORDER BY TIMESTAMPDIFF(MONTH,NOW(),n_hanSD)  asc"
+              ); 
+
+             $sanpham = DB::table("sanpham")->select('sp_ten')->where("sp_ma", $id)->first();
+
+              $data = [ 'danhsach' => $danhsach, ];
+
+              $header = ['font' => [
+                'name' =>  'Times New Roman',
+                'size' =>  13,
+                'bold' =>  true ]];
+
+
+                $sheet->setCellValue('A1', "Số lượng tồn kho sản phẩm ".$sanpham->sp_ten); 
+                $sheet->getStyle('A1')->applyFromArray([
+                    'font' => [ 'name' => 'Times New Roman',
+                    'size' => 20,
+                    'bold' => true ]]);
+                $sheet->mergeCells('A1:H1');
+                $sheet->cells('A1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#76933C');
+                    $cells->setValignment('center');
+                });
+
+
+                $sheet->getColumnDimension('A')->setAutoSize(true);
+                $sheet->getColumnDimension('B')->setAutoSize(true);
+                $sheet->getColumnDimension('C')->setAutoSize(true);
+                $sheet->getColumnDimension('D')->setAutoSize(true);
+                $sheet->getColumnDimension('E')->setAutoSize(true);
+                $sheet->getColumnDimension('F')->setAutoSize(true);
+                $sheet->getColumnDimension('G')->setAutoSize(true);
+                $sheet->getColumnDimension('H')->setAutoSize(true);
+                $sheet->getStyle('A3')->applyFromArray($header);
+                $sheet->getStyle('B3')->applyFromArray($header);
+                $sheet->getStyle('C3')->applyFromArray($header);
+                $sheet->getStyle('D3')->applyFromArray($header);
+                $sheet->getStyle('E3')->applyFromArray($header);
+                $sheet->getStyle('F3')->applyFromArray($header);
+                $sheet->getStyle('G3')->applyFromArray($header);
+                $sheet->getStyle('H3')->applyFromArray($header);
+                $sheet->setCellValue('A3', "Mã nhập"); 
+                $sheet->setCellValue('B3', "Hương vị"); 
+                $sheet->setCellValue('C3', "Ngày sản xuất"); 
+                $sheet->setCellValue('D3', "Hạn sử dụng"); 
+                $sheet->setCellValue('E3', "Số lượng nhập"); 
+                $sheet->setCellValue('F3', "Tồn kho"); 
+                $sheet->setCellValue('G3', "Ngày nhập"); 
+                $sheet->setCellValue('H3', "Thời hạn"); 
+
+
+                $sheet->cells('A3:H3', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setBackground('#9BBB59');
+                    $cells->setFontColor('#ffffff');
+                    $cells->setBorder('solid', 'solid', 'solid', 'solid');
+                    $cells->setValignment('center');
+                });
+                $i = 3;
+                foreach ($danhsach as $key => $value) {
+
+                    $i++;
+                    $sheet->setCellValue('A'.$i, $value->n_ma); 
+                    $sheet->setCellValue('B'.$i, $value->hv_ten); 
+                    $sheet->setCellValue('C'.$i, date('d-m-Y', strtotime($value->n_ngaySX))); 
+                    $sheet->setCellValue('D'.$i, date('d-m-Y', strtotime($value->n_hanSD))); 
+                    $sheet->setCellValue('E'.$i, $value->n_soLuongNhap); 
+                    $sheet->setCellValue('F'.$i, $value->n_soLuong); 
+                    $sheet->setCellValue('G'.$i, date('d-m-Y', strtotime($value->n_ngayNhap))); 
+                    $sheet->setCellValue('H'.$i, $value->hansudung ." tháng"); 
+                    $sheet->cells('A'.$i.':'.'H'.$i, function($cells) {
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                    });
+                }
+            
+            });
+        })->download('xlsx');
+        } catch(QueryException $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        } catch (PDOException  $ex) {
+          return response([
+              'error'   => true,
+              'message' => $ex->getMessage()
+          ], 200);
+        }
+    }
+    
 
     // public function destroyAll(Request $request)
     // {

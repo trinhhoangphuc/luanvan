@@ -9,7 +9,7 @@ class Huongvi extends Model {
     const     UPDATED_AT    = 'hv_capNhat';
 
     protected $table        = 'huongvi';
-    protected $fillable     = ['hv_ten', 'hv_trangThai', 'hv_taoMoi', 'hv_capNhat'];
+    protected $fillable     = ['hv_ten', 'hv_taoMoi', 'hv_capNhat'];
     protected $guarded      = ['hv_ma'];
 
     protected $primaryKey   = 'hv_ma';

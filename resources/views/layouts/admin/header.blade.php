@@ -183,6 +183,7 @@
             <li class="@yield('tknam')"><a href="{{ route('TKnam') }}"><i class="fa fa-circle-o"></i> Theo năm</a></li>
             <li class="@yield('tkloai')"><a href="{{ route('TKloai') }}" ><i class="fa fa-circle-o"></i> Theo loại</a></li>
             <li class="@yield('tksp')"><a href="{{ route('TKsanpham') }}"><i class="fa fa-circle-o"></i> Sản phẩm bán chạy</a></li>
+            <li class="@yield('tonkho')"><a href="{{ route('TKsanphamTK') }}"><i class="fa fa-circle-o"></i> Sản phẩm tồn kho</a></li>
           </ul>
         </li>
         @endif

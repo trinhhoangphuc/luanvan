@@ -77,7 +77,7 @@ app.controller('huongviController', function($scope, $http, $filter, MainURL, DT
 	}
 
 
-	function isMemberDiff(db, frm){ return db.hv_ten != frm.ten || db.hv_trangThai != frm.trangThai; }
+	function isMemberDiff(db, frm){ return db.hv_ten != frm.ten; }
 
 
 	$scope.checkInput = function(){ // lấy tất cả dòng dữ liệu
@@ -133,7 +133,7 @@ app.controller('huongviController', function($scope, $http, $filter, MainURL, DT
         		$scope.dialogTiTle = "Thêm " + $scope.dataTitle + " mới";
         		$scope.dialogButton = "Thêm";
         		$scope.status = status;
-        		$scope.huongvi = {ten: null, trangThai: 1};
+        		$scope.huongvi = {ten: null};
         		
         		$("#myModal").modal("show");
 
@@ -148,7 +148,6 @@ app.controller('huongviController', function($scope, $http, $filter, MainURL, DT
         		$scope.id_member = member.hv_ma;
         		$scope.huongvi = {
         			ten: member.hv_ten, 
-        			trangThai: member.hv_trangThai
         		};
         		$scope.frm_ten           = member.hv_ten;
                 $scope.la_ten_moi        = true;

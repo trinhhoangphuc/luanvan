@@ -43,7 +43,6 @@ class HuongviController extends Controller
             }else{
                 $item = new Huongvi();
                 $item->hv_ten = $request->ten;
-                $item->hv_trangThai = $request->trangThai;
                 if($item->save()){
                     $huongvi = Huongvi::where('hv_ma', $item->hv_ma)->first();
                     $json = json_encode($huongvi);
@@ -75,7 +74,6 @@ class HuongviController extends Controller
                         $huongvi->hv_ten = $request->get('ten');
                 }
  
-                $huongvi->hv_trangThai = $request->get('trangThai');
                 $huongvi->save();
                 $huongvi = Huongvi::where('hv_ma', $id)->first();
                 $json = json_encode($huongvi);

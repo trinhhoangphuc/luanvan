@@ -45,7 +45,7 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsDanhgia.length != 0">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsDanhgia.length != 0">
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
@@ -89,7 +89,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="" ng-show="!isLoading && dsDanhgia.length == 0 ">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsDanhgia.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
                                     <tr >

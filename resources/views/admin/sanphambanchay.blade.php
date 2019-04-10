@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
 
 @section('title')
-    Sản phẩm bán chạy
+    Redshop - Sản phẩm bán chạy
 @endsection
 
 @section('thongke')

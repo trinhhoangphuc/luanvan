@@ -8,7 +8,7 @@ class Nhap extends Model {
     public    $timestamps   = false;
 
     protected $table        = 'nhap';
-    protected $fillable     = ['sp_ma', 'n_soLuong', 'n_ngaySX', 'n_hanSD', 'hv_ma'];
+    protected $fillable     = ['sp_ma', 'n_soLuongNhap', 'n_soLuong', 'n_ngaySX', 'n_hanSD', 'hv_ma'];
     protected $guarded      = ['n_ma'];
 
     protected $primaryKey   = 'n_ma';

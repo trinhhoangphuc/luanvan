@@ -32,6 +32,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		return view('admin.index');
 	})->name("Indexadmin");
 
+	Route::get('thongtin', 'NhanvienController@info')->name("info");
+
 	
 
 	// Quản lý loại sản phẩm
@@ -39,7 +41,7 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		if(in_array(2, Session::get("admin_q")))
 			return view('admin.loai');
 		else
-			return(route("login"));
+			return redirect(route("login"));
 	})->name("QLloaisanpham");
 
 	Route::group(["prefix" =>"loai"], function(){
@@ -481,7 +483,17 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 		Route::get('excelSPBC', 'DonhangController@excelSPBC')->name('excelSPBC');
 
+		Route::get('sanphamtonkho', function () {
 
+			if(in_array(10, Session::get("admin_q")))
+				return view('admin.thongketonkho');
+			else
+				return redirect(route("login"));
+		})->name("TKsanphamTK");
+
+		Route::get('sanphamtonkho/danhsach/{id}',  'NhapController@index2'); // load dánh sách
+
+		Route::get('excelSPTK/{id}',  'DonhangController@excelSPTK'); // load dánh sách
 
 	});
 

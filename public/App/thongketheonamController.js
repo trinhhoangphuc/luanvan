@@ -38,10 +38,7 @@ $(document).ready(function() {
         }
       }
       console.log(value);
-      var url_excel = URL_2 + "admin/thongke/excelYeah/" + parseInt(value);
-      var button = '<a href="'+url_excel+'" target="_blank" class="btn btn-danger btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất File Excel</a>';
       $("#noiDung").html(result);
-      $("#btn-excel").html(button);
 
   }
 

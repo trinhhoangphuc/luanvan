@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Nhanvien;
+use App\DB;
+use Session;
 use Illuminate\Database\QueryException;
 use Validator;
 use Illuminate\Support\MessageBag;
@@ -25,6 +27,21 @@ class NhanvienController extends Controller
         }
     }
 
+    public function info()
+    {
+        if(Session::has('admin_id'))
+        {
+            $nhanvien = Nhanvien::select("nhanvien.*", "chucvu.cv_ten")
+                ->join("chucvu", "chucvu.cv_ma", "nhanvien.cv_ma")
+                ->where("nhanvien.nv_ma", Session::get("admin_id"))
+                ->first();
+            return view("admin.thongtincanhan", compact("nhanvien"));
+        }
+        else{
+            return redirect(route("login"));
+        }
+    }
+
     public function store(Request $request)
     {
         try {
@@ -43,7 +60,7 @@ class NhanvienController extends Controller
                 $nhanvien = new Nhanvien();
                 $nhanvien->nv_hoTen     =   $request->get('ten');
                 $nhanvien->nv_email     =   $request->get('email');
-                $nhanvien->nv_matKhau   =   md5("redshop");
+                $nhanvien->nv_matKhau   =   md5("123456789");
                 $nhanvien->nv_gioiTinh  =   $request->get('gioitinh');
                 $nhanvien->nv_ngaySinh  =   $request->get('ngaysinh');
                 $nhanvien->nv_diaChi    =   $request->get('diachi');

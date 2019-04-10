@@ -31,7 +31,7 @@
                 <div class="box" >
                     <div class="box-header"><h3 class="box-title"><span class="glyphicon glyphicon-list-alt"></span> Danh sách @{{dataTitle}}</h3></div>
 
-                    <div class="box-body">
+                    <div class="box-body" class="">
                         <table width="100%" ng-show="isLoading">
                             <tr>
                                 <td width="45%" class="text-right">Dữ liệu đang được tải về</td>
@@ -41,11 +41,12 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsDonhang.length != 0">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsDonhang.length != 0">
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
                                         <th>STT</th>
+                                        <th>Mã đơn</th>
                                         <th>Ngày đặt</th>
                                         <th>Thanh toán</th>
                                         <th>Trạng Thái</th>
@@ -65,17 +66,19 @@
                                     <tr  ng-repeat="item in dsDonhang" id="tr_@{{item.dh_ma}}" ng-class="item.dh_ma == newMember_Data? 'bg-default':''">
                                                                                 
                                         <td class="text-dark"><b>@{{$index+1}}</b></td>
+                                        <td class="text-dark"><b>#@{{item.dh_ma}}</b></td>
+
                                         <td class="text-dark">@{{ item.dh_taoMoi | asDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
                                         <td>
                                             <span ng-if="item.dh_daThanhToan == 1" class="label bg-green">Đã thanh toán</span>
-                                            <span ng-if="item.dh_daThanhToan == 0" class="label bg-red">Chưa thanh toán</span>
+                                            <span ng-if="item.dh_daThanhToan == 0" class="label bg-warning">Chưa thanh toán</span>
+                                            <span ng-if="item.dh_trangThai == 2" class="label bg-red">Hủy đơn</span>
                                         </td>
                                         <td>
                                             <span ng-if="item.dh_trangThai == 0" class="label bg-orange">Chờ xác nhận</span>
                                             <span ng-if="item.dh_trangThai == 1" class="label label-info">Đã xác nhận</span>
-                                            <span ng-if="item.dh_trangThai == 2" class="label bg-primary">Đang vận chuyển</span>
+                                            <span ng-if="item.dh_trangThai == 2" class="label label-danger">Hủy đơn</span>
                                             <span ng-if="item.dh_trangThai == 3" class="label bg-olive">Hoàn tất</span>
-                                            <span ng-if="item.dh_trangThai == 4" class="label bg-red">Hủy đơn</span>
                                         </td>
                                         <td >
                                              <button class="btn btn-sm btn-flat bg-olive btn-print" ng-if="item.dh_trangThai != 0" ng-click="xuatHoaDonLe(item.dh_ma)">
@@ -96,6 +99,7 @@
                                     <tr >
 
                                         <th>STT</th>
+                                        <th>Mã đơn</th>
                                         <th>Ngày đặt</th>
                                         <th>Thanh toán</th>
                                         <th>Trạng Thái</th>
@@ -277,16 +281,12 @@
                               <div>
                                 &nbsp;
                                 <label class="radio-content">
-                                    <input type="radio" name="trangThai"  ng-model="donhang.trangThai" ng-value="0" value="0">
-                                    <span class="label bg-orange">Chờ xác nhận</span>
-                                </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label class="radio-content">
                                     <input type="radio" name="trangThai"  ng-model="donhang.trangThai" ng-value="1" value="1">
                                     <span class="label label-info">Đã xác nhận</span>  
                                 </label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label class="radio-content">
                                     <input type="radio" name="trangThai"  ng-model="donhang.trangThai" ng-value="2" value="2">
-                                    <span class="label bg-primary">Đang vận chuyển</span>    
+                                    <span class="label label-danger">Hủy đơn</span>    
                                 </label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label class="radio-content">
                                     <input type="radio" name="trangThai"  ng-model="donhang.trangThai" ng-value="3" value="3">

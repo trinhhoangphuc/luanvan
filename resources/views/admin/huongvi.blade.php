@@ -45,7 +45,7 @@
                                 <td width="45% " style="text-align: left !important;">Xin chờ trong giây lát...</td>
                             </tr>
                         </table>
-                        <div class="" ng-show="!isLoading && dsHuongvi.length != 0">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsHuongvi.length != 0">
                             <table id="example1" class="table table-bordered table-hover" datatable="ng" dt-options="dtOptions" dt-columns="dtColumns">
                                 <thead class="text-center">
                                     <tr >
@@ -55,7 +55,7 @@
                                         </th>
 
                                         <th>Hương vị</th>
-                                        <th>Trạng Thái</th>
+                                        
                                         <th>
                                             <button class="btn   btn-sm btn-flat btn-primary btn-refresh" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
                                             <button class="btn   btn-sm btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button>
@@ -67,10 +67,6 @@
                                         <td><input type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.hv_ma }}" /></td>
 
                                         <td class="text-dark"><b>@{{item.hv_ten}}</b></td>
-                                        <td>
-                                            <span ng-if="item.hv_trangThai == 1" class="label bg-green">Hiển thị</span>
-                                            <span ng-if="item.hv_trangThai == 0" class="label bg-red">Khóa</span>
-                                        </td>
                                         <td >
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.hv_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
@@ -81,7 +77,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="" ng-show="!isLoading && dsHuongvi.length == 0 ">
+                        <div class="table-responsive" style="padding: 0px 15px" ng-show="!isLoading && dsHuongvi.length == 0 ">
                             <table id="example1" class="table table-bordered table-hover" >
                                 <thead class="text-center">
                                     <tr >
@@ -91,7 +87,7 @@
                                         </th>
 
                                         <th>Hương vị</th>
-                                        <th>Trạng Thái</th>
+                                        
                                         <th>
                                             <button class="btn btn-sm btn-flat btn-primary btn-refresh" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
                                             <button class="btn btn-sm btn-flat bg-olive btn-add" ng-click="CreateEdit_show('create', -1)"><i class="fa fa-plus"></i></button>
@@ -127,21 +123,6 @@
                                 <label for="name" class=""><b>Tên hương vị:</b></label>
                                 <input type="text" id="name" name="ten" ng-model="huongvi.ten" class="form-control " placeholder="Nhập tên hương vị" ng-required="true"autocomplete="off">
                                 <span class="error" id="dlgExistName"></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="trangthaiKhoa" class="control-label"><b>Trạng Thái:</b></label>
-                                <div>
-                                    &nbsp;
-                                    <label class="radio-content">
-                                        <input type="radio" name="trangThai" id="trangthaiKhaDung" ng-model="huongvi.trangThai" ng-value="1" value="1">
-                                        <i class="fa fa-heart text-danger"></i> Hiển thị
-                                    </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <label class="radio-content">
-                                        <input type="radio" name="trangThai" id="trangthaiKhoa" ng-model="huongvi.trangThai" ng-value="0" value="0">
-                                        <i class="fa fa-lock text-blue"></i> Tạm khóa
-                                    </label>
-                                    
-                                </div>
                             </div>
                             <div class="form-group"> 
                                 <button type="submit" class="btn btn-danger btn-flat btn-block" >@{{dialogButton}}</button>

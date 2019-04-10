@@ -64,7 +64,7 @@ class SanphamController extends Controller
               $sanpham->h_ma = $request->maHang;
               $sanpham->sp_hinh = "noimage.jpg";
               $sanpham->sp_giaBan = $request->gia;
-              $sanpham->sp_giamGia = $request->giamGia;
+              $sanpham->sp_giamGia = 0;
               $sanpham->sp_soLuong = 0;
               $sanpham->sp_thongTin = $request->thongTin;
               $sanpham->sp_danhGia = 0;
@@ -72,21 +72,11 @@ class SanphamController extends Controller
 
 
 
-              if($sanpham->save()){
-                 $sanpham = Sanpham::where('sp_ma', $sanpham->sp_ma)->first();
-                for ($i=0; $i < count($request->maHuong) ; $i++) { 
-                    
-                }
-
-                foreach ($request->maHuong as $key) {
-                    $Chitiethuong = new Chitiethuong();
-                    $Chitiethuong->hv_ma = $key;
-                    $Chitiethuong->sp_ma = $sanpham->sp_ma;
-                    $Chitiethuong->save();
-                }
-                 $json = json_encode($sanpham);
-                 return response(['error'=>false, 'message'=>compact('sanpham', 'json')], 200);
-             }
+            if($sanpham->save()){
+                $sanpham = Sanpham::find($sanpham->sp_ma);
+                $json = json_encode($sanpham);
+                return response(['error'=>false, 'message'=>compact('sanpham', 'json')], 200);
+            }
          }
 
     	}catch(QueryException $ex){
@@ -116,24 +106,13 @@ class SanphamController extends Controller
                 $sanpham->l_ma = $request->maLoai;
                 $sanpham->h_ma = $request->maHang;
                 $sanpham->sp_giaBan = $request->gia;
-                $sanpham->sp_giamGia = $request->giamGia;
                 $sanpham->sp_soLuong = $request->soluong;
                 $sanpham->sp_thongTin = $request->thongTin;
                 $sanpham->sp_trangThai = $request->trangThai;
                 $sanpham->sp_tinhTrang = $request->tinhTrang;
 
                 if($sanpham->save()){
-                    $sanpham = Sanpham::where('sp_ma', $sanpham->sp_ma)->first();
-
-                    Chitiethuong::where("sp_ma", $sanpham->sp_ma)->delete();
-
-                    foreach ($request->maHuong as $key) {
-                        $Chitiethuong = new Chitiethuong();
-                        $Chitiethuong->hv_ma = $key;
-                        $Chitiethuong->sp_ma = $sanpham->sp_ma;
-                        $Chitiethuong->save();
-                    }
-
+                    $sanpham = Sanpham::find($sanpham->sp_ma);
                     $json = json_encode($sanpham);
                     return response(['error'=>false, 'message'=>compact('sanpham', 'json')], 200);
                 }
