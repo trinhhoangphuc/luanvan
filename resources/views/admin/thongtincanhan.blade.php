@@ -26,7 +26,7 @@
     		<div class="col-sm-8">
     			<div class="box" >
     				<div class="box-body">
-    					<form name="frmCreatEdit" id="frmCreatEdit">
+    					<form name="frmCreatEdit" id="frmCreatEdit" action="{{route('postinfo')}}" method="POST" enctype="multipart/form-data">
     						<input type="hidden" name="_token" value="{{ csrf_token() }}">
     						<div class="form-group text-center">
     							<img class="user_avatar" id="output" src="{{asset('public/images/avatar/staff/'.$nhanvien->nv_hinh)}}">
@@ -48,22 +48,22 @@
     							<input type="email" id="email" name="email" class="form-control" placeholder="Nhập địa chỉ email" readonly value="{{$nhanvien->nv_email}}" />
     						</div>
     						<div class="form-group">
-                                <label for="gioitinh" class="control-label"><b>Giới tính:</b></label>
+                                <label for="gender" class="control-label"><b>Giới tính:</b></label>
                                 <div>
                                     &nbsp;
                                     <label class="radio-content">
-                                        <input type="radio" name="gioitinh" id="gioitinhnam" <?php if($nhanvien->nv_gioiTin == 1) echo "checked"; ?>  value="1"> <i class="fa fa-mars text-primary" aria-hidden="true"></i> Nam
+                                        <input type="radio" name="gender" id="gioitinhnam" <?php if($nhanvien->nv_gioiTinh == 1) echo "checked"; ?>  value="1"> <i class="fa fa-mars text-primary" aria-hidden="true"></i> Nam
                                     </label>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <label class="radio-content">
-                                        <input type="radio" name="gioitinh" id="gioitinhnu" <?php if($nhanvien->nv_gioiTin == 0) echo "checked"; ?> value="0"> <i class="fa fa-venus text-danger" aria-hidden="true"></i> Nữ
+                                        <input type="radio" name="gender" id="gioitinhnu" <?php if($nhanvien->nv_gioiTinh == 0) echo "checked"; ?> value="0"> <i class="fa fa-venus text-danger" aria-hidden="true"></i> Nữ
                                     </label>
 
                                 </div>
                             </div>
     						<div class="form-group">
     							
-                                <label for="ngaysinh" class=""><b>Ngày sinh:</b></label>
-                                <input type="date" id="ngaysinh" name="ngaysinh" class="form-control " placeholder="Nhập ngày sinh" ng-required="true" value="{{ date_format($nhanvien->nv_ngaySinh, 'Y-m-d')}}">
+                                <label for="dayofbirth" class=""><b>Ngày sinh:</b></label>
+                                <input type="date" id="dayofbirth" name="dayofbirth" class="form-control " placeholder="Nhập ngày sinh" ng-required="true" value="{{ date_format($nhanvien->nv_ngaySinh, 'Y-m-d')}}">
                             </div>
     						<div class="form-group">
     							<label for="phone" class=""><b>Số điện thoại:</b></label>
@@ -133,4 +133,14 @@
         
     });
 </script>
+@if(Session::get('success'))
+    <script type="text/javascript"> 
+        toastr.success("Cập nhật thông tin thành công!");
+    </script>
+@endif
+@if(Session::get('erro'))
+    <script type="text/javascript"> 
+        toastr.success("Cập nhật thông tin không thành công!");
+    </script>
+@endif
 @endsection

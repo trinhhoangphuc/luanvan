@@ -636,4 +636,12 @@ class HomepageController extends Controller
         }else return redirect(route('homepage'));
             
     }
+
+    public function getKhuyenmai()
+    {
+        $khuyenmai = Khuyenmai::select("khuyenmai.*", "nhanvien.nv_hoTen")
+            ->join("nhanvien", "nhanvien.nv_ma", "khuyenmai.nv_nguoiLap")
+            ->orderBy("km_ketThuc", "desc")->paginate(10);
+        return view("customer.khuyenmai", compact("khuyenmai"));
+    }
 }

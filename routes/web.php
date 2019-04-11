@@ -34,6 +34,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 	Route::get('thongtin', 'NhanvienController@info')->name("info");
 
+	Route::post('thongtin', 'NhanvienController@postProfile')->name("postinfo");
+
 	
 
 	// Quản lý loại sản phẩm
@@ -564,6 +566,7 @@ Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
 
 Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
 
+Route::get("/khuyenmai", "HomepageController@getKhuyenmai")->name('getKhuyenmai');
 
 Route::get('/404', function () {
 		return view("error.404");	

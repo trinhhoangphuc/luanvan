@@ -21,6 +21,7 @@ class LoginAdminController extends Controller
     			$quyen = Chitietquyen::where("cv_ma", $user->cv_ma)->get();
     			Session::put("admin_id", $user->nv_ma);
                 Session::put("admin_name", $user->nv_hoTen);
+                Session::put("admin_img", $user->nv_hinh);
     			foreach ($quyen as $key => $value) {
     				array_push($test, $value["q_ma"]);
     			}
@@ -45,6 +46,7 @@ class LoginAdminController extends Controller
 
     			Session::forget("admin_id");
     			Session::forget("admin_q");
+                Session::forget("admin_img");
     			return redirect()->back();
 
     		}else{

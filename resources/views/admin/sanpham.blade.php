@@ -222,8 +222,23 @@
                             </textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label for="" class="control-label"><b>Hiển thị ảnh: </b></label>
+                            <span>
+                                &nbsp;
+                                <label class="radio-content">
+                                    <input type="radio" name="anh360" id="phai" ng-model="sanpham.anh360" ng-value="1" value="1">
+                                     Ảnh 360
+                                </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label class="radio-content">
+                                    <input type="radio" name="anh360" id="khong" ng-model="sanpham.anh360" ng-value="0" value="0">
+                                     Slide ảnh
+                                </label>
+                            </span>
+                        </div>
+
                         <div class="form-group" ng-if=" status=='edit' ">
-                            <label for="trangthaiKhoa" class="control-label"><b>Sản phẩm mới: </b></label>
+                            <label for="" class="control-label"><b>Sản phẩm mới: </b></label>
                             <span>
                                 &nbsp;
                                 <label class="radio-content">

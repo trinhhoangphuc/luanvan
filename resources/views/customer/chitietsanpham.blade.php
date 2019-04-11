@@ -42,6 +42,7 @@
 	<div class="col-md-6">
 		<div class="product-information2">
 
+			@if($sanpham->sp_anh360 == 0)
 			<div id="slide">
 				<div class="exzoom " id="exzoom">
 					<div class="exzoom_img_box">
@@ -58,10 +59,12 @@
 					</p>
 				</div>
 			</div>
-			<div id="360" class="">
-			<div id='mySpriteSpin' class="spritespin"></div>	
-			</div>
+			@else
 
+			<div id="360" class="">
+				<div id='mySpriteSpin' class="spritespin"></div>	
+			</div>
+			@endif
 
 			<br/>
 			<button id="slideBTN" type="button" class="btn btn-flat btn-hotel-2" onclick="slide360('slide')"><i class="far fa-images"></i></button>
@@ -372,41 +375,56 @@
 <script type='text/javascript'>
 	var dsHinh = <?php echo $hinhanh; ?>;
 	var test = [];
-	
-	function slide360(status) {
-		switch(status){
-			case "slide":
-				$("#slide").removeClass("hidden");
-				$("#360").addClass("hidden");
-			break;
-			case "360":
-
-				$("#360").removeClass("hidden");
-				$("#slide").addClass("hidden");
-				for (i=0; i<dsHinh.length; i++) {
-					url_hinh = "http://localhost/luanvan/public/images/products/" + dsHinh[i].ha_ten;
-					test.push(url_hinh);
-				}
-				$('.spritespin').spritespin({
-					source: test,
-
-					sense: -1,
-					responsive: true,
-					animate: false,
-					plugins: [
-					'360',
-					'drag'
-					]
-				});
-			break;
-		}
+	for (i=0; i<dsHinh.length; i++) {
+		url_hinh = "http://localhost/luanvan/public/images/products/" + dsHinh[i].ha_ten;
+		test.push(url_hinh);
 	}
-	$(document).ready(function() {
-		
-		$("#slideBTN").click(function() {
-			// body...
-		});
+	$('.spritespin').spritespin({
+		source: test,
+
+		sense: -1,
+		responsive: true,
+		animate: false,
+		plugins: [
+		'360',
+		'drag'
+		]
 	});
+	
+	// function slide360(status) {
+	// 	switch(status){
+	// 		case "slide":
+	// 			$("#slide").removeClass("hidden");
+	// 			$("#360").addClass("hidden");
+	// 		break;
+	// 		case "360":
+
+	// 			$("#360").removeClass("hidden");
+	// 			$("#slide").addClass("hidden");
+	// 			for (i=0; i<dsHinh.length; i++) {
+	// 				url_hinh = "http://localhost/luanvan/public/images/products/" + dsHinh[i].ha_ten;
+	// 				test.push(url_hinh);
+	// 			}
+	// 			$('.spritespin').spritespin({
+	// 				source: test,
+
+	// 				sense: -1,
+	// 				responsive: true,
+	// 				animate: false,
+	// 				plugins: [
+	// 				'360',
+	// 				'drag'
+	// 				]
+	// 			});
+	// 		break;
+	// 	}
+	// }
+	// $(document).ready(function() {
+		
+	// 	$("#slideBTN").click(function() {
+	// 		// body...
+	// 	});
+	// });
 
 </script>
 @endsection

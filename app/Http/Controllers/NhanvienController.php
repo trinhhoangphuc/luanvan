@@ -9,6 +9,7 @@ use Session;
 use Illuminate\Database\QueryException;
 use Validator;
 use Illuminate\Support\MessageBag;
+use Illuminate\PHPImageWorkshop\ImageWorkshop;
 
 class NhanvienController extends Controller
 {
@@ -163,5 +164,52 @@ class NhanvienController extends Controller
         }catch(PDOException $ex){
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }
+    }
+
+    public function postProfile(Request $request)
+    {
+        if(Session::has("admin_id")){
+
+            $nhanvien               = Nhanvien::find(Session::get("admin_id"));
+            $nhanvien->nv_hoTen     = $request->get('name');
+            $nhanvien->nv_gioiTinh  = $request->get('gender');
+            $nhanvien->nv_diaChi    = $request->get('address');
+            $nhanvien->nv_dienThoai = $request->get('phone');
+            $nhanvien->nv_ngaySinh  = $request->get('dayofbirth');
+
+            if($request->hasFile('avtuser')){
+                if($nhanvien->nv_hinh != "user.png" && file_exists(public_path('images/avatar/staff/'.$nhanvien->nv_hinh))){
+                    unlink(public_path('images/avatar/staff/'.$nhanvien->nv_hinh));
+                }
+
+                $file =  $request->file('avtuser');
+
+                $dirImg  = __DIR__.'\..\..\..\public\images\avatar\staff\\';
+
+                $src= ImageWorkshop::initFromPath($file->getRealPath());
+                $src->resizeInPixel(200, 200, false);
+
+                $createFolders = true;
+                $backgroundColor = null; 
+                $imageQuality = 80; 
+
+
+                $destFileName = time()."_".$file->getClientOriginalName();
+
+                $src->save($dirImg, $destFileName, $createFolders, $backgroundColor, $imageQuality);
+
+                $nhanvien->nv_hinh = $destFileName;
+            }
+
+            if($request->get("newPass") != "")
+                $nhanvien->nv_matKhau = md5($request->get("newPass"));
+
+            if($nhanvien->save()){
+                Session::put("admin_name", $nhanvien->nv_hoTen);
+                Session::put("admin_img", $nhanvien->nv_hinh);
+                return redirect(route("info"))->with("success", "Cập nhật thông tin thành công!");
+            }else return redirect(route("info"))->with("erro", "Cập nhật thông tin không thành công!");
+
+        }else return redirect(route('homepage'));
     }
 }

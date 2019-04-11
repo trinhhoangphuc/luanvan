@@ -68,6 +68,7 @@ class SanphamController extends Controller
               $sanpham->sp_soLuong = 0;
               $sanpham->sp_thongTin = $request->thongTin;
               $sanpham->sp_danhGia = 0;
+              $sanpham->sp_anh360 = $request->anh360;
               $sanpham->sp_trangThai = $request->trangThai;
 
 
@@ -109,6 +110,7 @@ class SanphamController extends Controller
                 $sanpham->sp_soLuong = $request->soluong;
                 $sanpham->sp_thongTin = $request->thongTin;
                 $sanpham->sp_trangThai = $request->trangThai;
+                $sanpham->sp_anh360 = $request->anh360;
                 $sanpham->sp_tinhTrang = $request->tinhTrang;
 
                 if($sanpham->save()){

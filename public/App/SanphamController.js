@@ -162,6 +162,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     	|| db.sp_soLuong != frm.soluong
     	|| db.sp_thongTin != frm.thongTin
     	|| db.sp_tinhTrang != frm.tinhTrang
+    	|| db.sp_anh360 != frm.anh360
     	|| db.sp_trangThai != frm.trangThai;
     }
 
@@ -242,6 +243,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 					maLoai: ma_loai,
 					maHang: ma_hang,
 					thongTin: "",
+					anh360: 0
 				};
 
 				$("#myModal").modal("show");
@@ -270,6 +272,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 						maLoai: member.l_ma,
 						maHang: member.h_ma,
 						thongTin: member.sp_thongTin,
+						anh360: member.sp_anh360
 
 					};
 

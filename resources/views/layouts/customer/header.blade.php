@@ -77,7 +77,7 @@
 					<div class="mainmenu">
 						<ul class="nav navbar-nav collapse navbar-collapse">
 							<li ><a class="{{ (\Request::route()->getName() == 'homepage') ? 'active' : '' }}" href="{{ route('homepage') }}"> Trang chủ</a></li>
-							<li><a class="" href="{{ route('getAllProducts') }}">Sản phẩm</a></li>
+							<li><a class="{{ (\Request::route()->getName() == 'getAllProducts') ? 'active' : '' }}" href="{{ route('getAllProducts') }}">Sản phẩm</a></li>
 							<li class="dropdown"><a class="{{ (\Request::route()->getName() == 'Category') ? 'active' : '' }}" href="{{ route('homepage') }}" href="">Danh mục<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
 									@foreach($loaiList as $loai)
@@ -91,7 +91,8 @@
 									<li class=''><a class='{{(\Request::path()  == "nha-san-xuat/$nsx->h_ma") ? "active" : ""}}' href="{{route('Brand', $nsx->h_ma)}}"> {{ $nsx->h_ten }}</a></li>
 									@endforeach
 								</ul>
-							</li> 
+							</li>
+							<li><a class="{{ (\Request::route()->getName() == 'getKhuyenmai') ? 'active' : '' }}" href="{{ route('getKhuyenmai') }}">Khuyến mãi</a></li>
 						</ul>
 						<ul class="nav navbar-nav collapse navbar-collapse navbar-right">
 							<li>
