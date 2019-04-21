@@ -172,7 +172,8 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
                     ngayBD: $scope.today,
                     ngayKT: $scope.today,
                     noiDung: null,
-                    moTaNgan: null
+                    moTaNgan: null,
+                    trangThai: 1,
                 };
         		
         		$("#myModal").modal("show");
@@ -205,6 +206,7 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
                      ngayKT: new Date(member.km_ketThuc),
                      noiDung: member.km_noiDung,
                      moTaNgan: member.km_moTaNgan,
+                     trangThai: member.km_trangThai,
                  };
                  $scope.frm_ten           = member.km_ten;
                  $scope.la_ten_moi        = true;

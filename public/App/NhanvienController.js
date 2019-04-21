@@ -193,6 +193,17 @@ app.controller('nhanvienController', function($scope, $http, MainURL, DTOptionsB
 
 			break;
 
+			case "resetPass":
+				member = $scope.dsNhanvien[indexOfMember(id)];
+    			$scope.dialogTiTle = "Cấp lại mật khẩu " + $scope.dataTitle;
+        		$scope.dialogButton = "Cấp lại mật khẩu";
+        		$scope.status = status;
+        		$scope.id_member = id;
+        		$("#message").html("Bạn có muốn cấp lại mật khẩu cho \"<b class='text-danger'>"+member.nv_hoTen+"</b>\" ?");
+        		$("#myModal2").modal("show");
+
+			break;
+
 			case "delete":
 
     			member = $scope.dsNhanvien[indexOfMember(id)];
@@ -200,7 +211,7 @@ app.controller('nhanvienController', function($scope, $http, MainURL, DTOptionsB
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.nv_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.nv_hoTen+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -446,6 +457,58 @@ app.controller('nhanvienController', function($scope, $http, MainURL, DTOptionsB
                     toastr.warning("Vui lòng chọn dữ liệu trước khi xóa!");
                 }
 
+            break;
+
+            case "resetPass" : //xóa
+
+            	$scope.LoadingFrm = true;
+
+                i = indexOfMember($scope.id_member);
+                if(i == -1){
+                	$('#myModal').modal('hide');
+                	toastr.warning("Mã nhân viên không tồn tại, vui lòng kiểm tra lại!");
+                }else{
+                	member = $scope.dsNhanvien[i];
+
+                	var requestURL = MainURL + "nhanvien/updatePassword/" + $scope.id_member;
+                	var requestData = $.param({});
+
+                	$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
+                	.then(function(response){
+
+
+                		if(response.data.message.nhanvien != null){
+                			data = response.data.message.nhanvien;
+                			$scope.dsNhanvien[i] = data;
+
+                			$scope.newMember_Data = response.data.message.nhanvien.nv_ma;
+                			setTimeout(function(){ 
+                                $('#tr_'+$scope.newMember_Data).removeClass('bg-default');
+                                $scope.newMember_Data = ""; 
+
+                            }, 3000);
+
+                			$('#myModal2').modal('hide');
+                			toastr.success("Cấp lại mật khẩu nhân viên thành công!");
+                			$scope.LoadingFrm = false;
+
+                		}else{
+                			$('#myModal2').modal('hide');
+                			toastr.error("Cấp lại mật khẩu nhân viên không thành công!, vui lòng kiểm tra lại");
+                			$scope.LoadingFrm = false;
+                		}
+
+
+                	}).catch(function(reason){
+                		if(reason.status == 500){
+                			$('#myModal2').modal('hide');
+                			toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
+                			$scope.LoadingFrm = false;
+                		}
+                	});
+                	
+
+                }
             break;
         } 
     });

@@ -665,6 +665,26 @@ class DonhangController extends Controller
           ], 200);
         }
     }
+
+    public function getTotal() { // get # /donhang/total
+        try {
+            $ds_donhang = DB::table("donhang")->get();
+            return response([
+                    'error'   => false,
+                    'message' => $ds_donhang->count()
+                ], 200);
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
+    }
     
 
     // public function destroyAll(Request $request)

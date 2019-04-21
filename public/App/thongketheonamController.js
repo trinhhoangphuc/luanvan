@@ -37,8 +37,10 @@ $(document).ready(function() {
             "</tr>";
         }
       }
-      console.log(value);
+      var urlExcelChart = URL_2 + "admin/thongke/excelYeah/"+value;
+      var btn_excel = '<a href="'+urlExcelChart+'" target="_blank" class="btn btn-danger btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất File Excel</a>'
       $("#noiDung").html(result);
+      $("#btn-excel").html(btn_excel);
 
   }
 

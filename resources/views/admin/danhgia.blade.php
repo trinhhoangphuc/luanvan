@@ -82,7 +82,7 @@
                                         <td >
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.dg_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
-                                            <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.dg_ma)"><i class="fa fa-pencil"></i></button>
+                                            <!-- <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.dg_ma)"><i class="fa fa-pencil"></i></button> -->
                                             <button class="btn btn-sm btn-flat btn-danger btn-flat btn-delete" ng-click="CreateEdit_show('delete', item.dg_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>

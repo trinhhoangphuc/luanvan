@@ -66,9 +66,9 @@
 			</div>
 			@endif
 
-			<br/>
+			<!-- <br/>
 			<button id="slideBTN" type="button" class="btn btn-flat btn-hotel-2" onclick="slide360('slide')"><i class="far fa-images"></i></button>
-			<button type="button" class="btn btn-flat btn-hotel-2" onclick="slide360('360')"><i class="fas fa-arrows-alt-h"></i></button>
+			<button type="button" class="btn btn-flat btn-hotel-2" onclick="slide360('360')"><i class="fas fa-arrows-alt-h"></i></button> -->
 			
 
 		</div>
@@ -328,14 +328,14 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<input id="name" type="text" class="form-control" name="name" placeholder="Họ tên của bạn" value="<?php  if(Session::has('customer_id')) echo Session::get('customer_name'); ?>" <?php  if(Session::has('customer_id')) echo "readonly"; ?> required/>
+								<input id="name" type="text" class="form-control" name="name" placeholder="Họ tên của bạn" value="<?php  if(Session::has('customer_id')) echo Session::get('customer_name'); ?>" <?php  if(Session::has('customer_id')) echo "readonly"; ?> />
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<input id="phone" type="text" class="form-control" name="phone" placeholder="Số điện thoại" value="<?php  if(Session::has('customer_id')) echo Session::get('customer_phone'); ?>" <?php  if(Session::has('customer_id')) echo "readonly"; ?> required/>
+								<input id="phone" type="text" class="form-control" name="phone" placeholder="Số điện thoại" value="<?php  if(Session::has('customer_id')) echo Session::get('customer_phone'); ?>" <?php  if(Session::has('customer_id')) echo "readonly"; ?> />
 							</div>
 						</div>
 					</div>
@@ -347,7 +347,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
-								<textarea class="form-control" name="noiDung" id="noiDung" rows="5" placeholder="Nội dụng" required></textarea>
+								<textarea class="form-control" name="noiDung" id="noiDung" rows="5" placeholder="Nội dụng" ></textarea>
 							</div>
 						</div>
 					</div>
@@ -425,6 +425,8 @@
 	// 		// body...
 	// 	});
 	// });
+
+	
 
 </script>
 @endsection

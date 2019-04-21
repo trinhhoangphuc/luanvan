@@ -368,4 +368,26 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
     //     $scope.hidethis = true;
     // };
 
+    $("#frmpostRate").validate({ 
+        rules: {
+            name: { required: true, },
+            phone:      { required: true, number: true, maxlength: 10, minlength: 10 },
+            noiDung:{ required: true,}
+        }, 
+        messages: {
+            name: {
+                required: "Xin vui lòng nhập tên!",
+            },
+            phone: {
+                required: "Xin vui lòng nhập số điện thoại.", 
+                number: "Số điện thoại không đúng định dạng.",  
+                maxlength: "Số điện thoại vượt quá 10 số.",
+                minlength: "Số điện thoại phải đủ 10 sô."
+             },
+            noiDung:{
+                required: "Xin vui lòng nhập lời bình luận!",
+            }
+        },
+        
+    });
 });

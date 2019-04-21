@@ -285,6 +285,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::delete('delete/{id}', "NhanvienController@destroy");
 
 		Route::post('deleteAll', "NhanvienController@destroyAll");
+
+		Route::post('updatePassword/{id}', "NhanvienController@updatePassword");
 	});
 	// kết thúc
 
@@ -331,6 +333,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::delete('delete/{id}', "KhachhangController@destroy");
 
 		Route::post('deleteAll', "KhachhangController@destroyAll");
+
+		Route::get('getTotal', "KhachhangController@getTotal");
 	});
 	// kết thúc
 
@@ -406,6 +410,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::get('hoadon/{id}',  'DonhangController@getDonHangById');
 
 		Route::get('orderMonth',  'DonhangController@donhang_thang');
+
+		Route::get('getTotal',  'DonhangController@getTotal');
 
 		Route::get('inhoadon',  function () {
 			return view('admin.hoadon');
@@ -566,7 +572,9 @@ Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
 
 Route::get("/searchProduct/{name}", "HomepageController@searchProduct");
 
-Route::get("/khuyenmai", "HomepageController@getKhuyenmai")->name('getKhuyenmai');
+Route::get("/khuyen-mai", "HomepageController@getKhuyenmai")->name('getKhuyenmai');
+
+Route::get("/chi-tiet-khuyen-mai/{id}", "HomepageController@getChiTietKhuyenmai")->name('getChiTietKhuyenmai');
 
 Route::get('/404', function () {
 		return view("error.404");	

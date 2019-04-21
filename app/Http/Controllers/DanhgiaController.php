@@ -40,7 +40,7 @@ class DanhgiaController extends Controller
                     $sanpham = Sanpham::where("sp_ma", $danhgia->sp_ma)->first();
                    $star = Danhgia::where("sp_ma", $danhgia->sp_ma)->where("dg_sao", ">", 0)->where("dg_trangThai", 1)->avg("dg_sao");
 
-                    if($star){
+                    if($star != null){
                         $star = round($star);
                         $sanpham->sp_danhGia = $star;
                     }
@@ -61,5 +61,35 @@ class DanhgiaController extends Controller
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }
 
+    }
+
+    public function destroy($id)
+    {
+        try{
+            $danhgia = Danhgia::where('dg_ma', $id)->first();
+            if($danhgia){
+  
+                $sanpham = Sanpham::where("sp_ma", $danhgia->sp_ma)->first();
+                $danhgia->delete();
+                $star = Danhgia::where("sp_ma", $sanpham->sp_ma)->where("dg_sao", ">", 0)->where("dg_trangThai", 1)->avg("dg_sao");
+
+                if($star != null){
+                    $star = round($star);
+                    $sanpham->sp_danhGia = $star;
+                }
+                else
+                    $sanpham->sp_danhGia = 0;
+
+                if($sanpham->save()){
+                    
+                    return response(['error'=>false, 'message'=>true], 200); 
+                }
+
+            }
+        }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
     }
 }

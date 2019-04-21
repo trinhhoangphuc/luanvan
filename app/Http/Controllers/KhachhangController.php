@@ -199,4 +199,24 @@ class KhachhangController extends Controller
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }
     }
+
+     public function getTotal() { // get # /donhang/total
+        try {
+            $ds_khachhang = DB::table("khachhang")->get();
+            return response([
+                    'error'   => false,
+                    'message' => $ds_khachhang->count()
+                ], 200);
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
+    }
 }

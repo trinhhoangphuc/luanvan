@@ -34,7 +34,7 @@
 				@foreach($khuyenmai as $km)
 				<div class="col-sm-6">
 					<div class="box-promotion">
-						<a href="">
+						<a href="{{ route('getChiTietKhuyenmai', $km->km_ma) }}">
 							<div class="title-promotion">
 								<span>{{ $km->km_ten }}</span>&nbsp; @if($km->km_trangThai == 0)<span class="label label-danger">Hết hạn</span>@else <span class="label label-success">Còn hạn</span> @endif
 							</div>

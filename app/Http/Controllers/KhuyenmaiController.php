@@ -52,6 +52,7 @@ class KhuyenmaiController extends Controller
                 $item->km_noiDung = $request->noiDung;
                 $item->km_batDau = $request->ngayBD;
                 $item->km_ketThuc = $request->ngayKT;
+                $item->km_trangThai = $request->trangThai;
                 $item->nv_nguoiLap = Session::get("admin_id");
                 if($item->save()){
 
@@ -91,6 +92,7 @@ class KhuyenmaiController extends Controller
                 $khuyenmai->km_noiDung = $request->noiDung;
                 $khuyenmai->km_batDau = $request->ngayBD;
                 $khuyenmai->km_ketThuc = $request->ngayKT;
+                $khuyenmai->km_trangThai = $request->trangThai;
                 $khuyenmai->save();
 
                 if($khuyenmai->km_trangThai == 1){

@@ -644,4 +644,16 @@ class HomepageController extends Controller
             ->orderBy("km_ketThuc", "desc")->paginate(10);
         return view("customer.khuyenmai", compact("khuyenmai"));
     }
+
+    public function getChiTietKhuyenmai($id)
+    {
+        $khuyenmai = Khuyenmai::select("khuyenmai.*", "nhanvien.nv_hoTen")
+            ->join("nhanvien", "nhanvien.nv_ma", "khuyenmai.nv_nguoiLap")
+            ->where("km_ma", $id)->first();
+        if($khuyenmai)
+            return view("customer.chitietkhuyenmai", compact("khuyenmai"));
+        else
+            return redirect(route('error404'));
+    }
+    
 }

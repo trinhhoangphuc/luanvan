@@ -164,6 +164,29 @@ class NhanvienController extends Controller
         }catch(PDOException $ex){
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }
+    } 
+
+    public function updatePassword(Request $request, $id)
+    {
+       try{
+
+            $nhanvien = Nhanvien::where('nv_ma', $id)->first();
+            if($nhanvien){
+
+                $nhanvien->nv_matKhau = md5("123456789");
+
+                if($nhanvien->save()){
+                    $nhanvien = Nhanvien::where('nv_ma', $nhanvien->nv_ma)->first();
+                    $json = json_encode($nhanvien);
+                    return response(['error'=>false, 'message'=>compact('nhanvien', 'json')], 200);
+               }
+            }
+  
+        }catch(QueryException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }catch(PDOException $ex){
+            return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
     }
 
     public function postProfile(Request $request)

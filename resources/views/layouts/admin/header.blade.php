@@ -20,16 +20,16 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{asset('public/images/layouts/users/5.jpg')}}" class="user-image" alt="User Image">
+              <img src="{{asset('public/images/avatar/staff/' .Session::get('admin_img')) }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Session::get("admin_name")}}</span>
             </a>
             <ul class="dropdown-menu">
             
               <li class="user-header">
-                <img src="{{asset('public/images/layouts/users/5.jpg')}}" class="img-circle" alt="User Image">
+                <img src="{{asset('public/images/avatar/staff/' .Session::get('admin_img')) }}" class="img-circle" alt="User Image">
 
                 <p>
-                  Trịnh Hoàng Phúc - Web Developer
+                  {{Session::get("admin_name")}}
                   <small>
                   </small>
                 </p>
@@ -37,7 +37,7 @@
 
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Thông tin</a>
+                  <a href="{{route('info')}}" class="btn btn-default btn-flat">Thông tin</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{route('postLogout')}}" class="btn btn-default btn-flat">Đăng xuất</a>
@@ -56,10 +56,10 @@
 
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{asset('public/images/layouts/users/5.jpg')}}" class="img-circle" alt="User Image">
+          <img src="{{asset('public/images/avatar/staff/' .Session::get('admin_img')) }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Trịnh Hoàng Phúc</p>
+          <p>{{ Session::get('admin_name') }}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>

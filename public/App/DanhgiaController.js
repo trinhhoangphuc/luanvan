@@ -156,7 +156,7 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
         		$scope.dialogButton = "Xóa";
         		$scope.status = status;
         		$scope.id_member = id;
-        		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.dg_ten+"</b>\" ?");
+        		$("#message").html("Bạn có muốn xóa Đánh giá với mã là: \"<b class='text-danger'>"+member.dg_ma+"</b>\" ?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -270,4 +270,6 @@ app.controller('danhgiaController', function($scope, $http, $filter, MainURL, DT
             break;
         } 
     });
+
+
 });

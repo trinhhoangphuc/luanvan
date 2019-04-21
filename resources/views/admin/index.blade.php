@@ -30,9 +30,9 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3 id="pSLDH"></h3>
 
-                        <p>Đơn hàng mới</p>
+                        <p  id="pSLDH">Đơn hàng mới</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -60,7 +60,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3 id="pSLKH"></h3>
 
                         <p>User Registrations</p>
                     </div>

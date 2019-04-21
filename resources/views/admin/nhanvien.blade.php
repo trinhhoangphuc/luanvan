@@ -82,6 +82,7 @@
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.nv_ma)">
                                                 <i class="fa fa-eye-slash"></i></button>
                                             <button  ng-if="{{Session::get('admin_id')}} != item.nv_ma" class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.nv_ma)"><i class="fa fa-pencil"></i></button>
+                                            <button class="btn  btn-sm btn-flat bg-purple btn-resetPass" ng-click="CreateEdit_show('resetPass', item.nv_ma)"><i class="fa fa-key"></i></button>
                                             <button  ng-if="{{Session::get('admin_id')}} != item.nv_ma" class="btn btn-sm btn-flat btn-danger btn-flat btn-delete" ng-click="CreateEdit_show('delete', item.nv_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>

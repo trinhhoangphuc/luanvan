@@ -9,8 +9,8 @@ function laySoLieu(link, id){
 }
 $(document).ready(function() {
 	var urlChart = URL_2 + "admin/donhang/orderMonth";
-	// laySoLieu("http://localhost/Shop/public/admin/totalCustomer", '#pSLKH');
-	// laySoLieu("http://localhost/Shop/public/admin/totalOrderUnCheck", '#pSLDH');
+	laySoLieu( URL_2 +"admin/donhang/getTotal", '#pSLDH');
+	laySoLieu(URL_2 +"admin/khachhang/getTotal", '#pSLKH');
 	// laySoLieu("http://localhost/Shop/public/admin/totalProduct", '#pSLSP');
 
 	// setInterval(function(){

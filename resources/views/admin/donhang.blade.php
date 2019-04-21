@@ -70,8 +70,8 @@
 
                                         <td class="text-dark">@{{ item.dh_taoMoi | asDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
                                         <td>
-                                            <span ng-if="item.dh_daThanhToan == 1" class="label bg-green">Đã thanh toán</span>
-                                            <span ng-if="item.dh_daThanhToan == 0" class="label bg-warning">Chưa thanh toán</span>
+                                            <span ng-if="item.dh_daThanhToan == 1" class="label bg-olive">Đã thanh toán</span>
+                                            <span ng-if="item.dh_daThanhToan == 0" class="label  bg-orange">Chưa thanh toán</span>
                                             <span ng-if="item.dh_trangThai == 2" class="label bg-red">Hủy đơn</span>
                                         </td>
                                         <td>

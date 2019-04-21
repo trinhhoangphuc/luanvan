@@ -82,7 +82,7 @@
                                         <td>
                                             <button class="btn btn-sm btn-flat btn-info btn-detail" ng-click="CreateEdit_show('detail', item.km_ma)"><i class="fa fa-eye-slash"></i></button>
                                             <button  class="btn  btn-sm btn-flat bg-purple" ng-if="item.km_trangThai == 1" ng-click="CreateEdit_show('addProduct', item.km_ma)"><i class="fa fa-sliders"></i></button>
-                                            <button ng-if="item.km_trangThai == 1" class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.km_ma)"><i class="fa fa-pencil"></i></button>
+                                            <button class="btn btn-sm btn-flat bg-orange btn-edit" ng-click="CreateEdit_show('edit', item.km_ma)"><i class="fa fa-pencil"></i></button>
                                             <button class="btn btn-sm btn-flat btn-danger btn-flat btn-delete" ng-click="CreateEdit_show('delete', item.km_ma)"><i class="fa fa-trash" ></i></button>
                                         </td>
                                     </tr>
@@ -154,21 +154,21 @@
                                 <label for="ngayKT" class=""><b>Ngày kết thúc:</b></label>
                                 <input type="date" id="ngayKT" name="ngayKT" ng-model="khuyenmai.ngayKT" class="form-control " required="">
                             </div>
-<!--                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="trangthaiKhoa" class="control-label"><b>Trạng Thái:</b></label>
                                 <div>
                                     &nbsp;
                                     <label class="radio-content">
                                         <input type="radio" name="trangThai" id="trangthaiKhaDung" ng-model="khuyenmai.trangThai" ng-value="1" value="1">
-                                        <i class="fa fa-heart text-danger"></i> Hiển thị
+                                        <i class="fa fa-heart text-danger"></i> Hoạt động
                                     </label>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <label class="radio-content">
                                         <input type="radio" name="trangThai" id="trangthaiKhoa" ng-model="khuyenmai.trangThai" ng-value="0" value="0">
-                                        <i class="fa fa-lock text-blue"></i> Tạm khóa
+                                        <i class="fa fa-lock text-blue"></i> Hết hạn
                                     </label>
                                     
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="form-group"> 
                                 <button type="submit" class="btn btn-danger btn-flat btn-block" >@{{dialogButton}}</button>
                             </div>

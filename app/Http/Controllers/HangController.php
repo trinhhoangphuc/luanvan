@@ -108,7 +108,6 @@ class HangController extends Controller
     {
     	try{
             $hang = Hang::where('h_ma', $id)->first();
-            $hang = Hang::where('h_ma', $id)->first();
             if($hang){
                 $sanpham = Sanpham::where('l_ma', $id)->get();
                 if($sanpham){
