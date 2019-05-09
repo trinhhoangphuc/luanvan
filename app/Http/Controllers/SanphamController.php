@@ -9,10 +9,11 @@ use App\Hinhanh;
 use Illuminate\Database\QueryException;
 use Validator;
 use Illuminate\Support\MessageBag;
+use DB;
 
 class SanphamController extends Controller
 {
-   public function index() //load danh sách
+    public function index() //load danh sách
     {
     	try{
 
@@ -166,6 +167,26 @@ class SanphamController extends Controller
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
         }catch(PDOException $ex){
             return response(['error'=>true, 'message'=>$ex->getMessage()], 200);
+        }
+    }
+
+    public function getTotal() { // get # /donhang/total
+        try {
+            $ds_sanpham = DB::table("sanpham")->get();
+            return response([
+                    'error'   => false,
+                    'message' => $ds_sanpham->count()
+                ], 200);
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
         }
     }
 

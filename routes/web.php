@@ -59,6 +59,7 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::delete('delete/{id}', "LoaiController@destroy");
 
 		Route::post('deleteAll', "LoaiController@destroyAll");
+
 	});
 	// kết thúc
 
@@ -155,6 +156,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::post('deleteAll', "SanphamController@destroyAll");
 
 		Route::get("test/{id}", "SanphamController@test")->name("test");
+
+		Route::get('getTotal', "SanphamController@getTotal");
 	});
 	// kết thúc
 

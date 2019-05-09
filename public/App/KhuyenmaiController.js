@@ -382,16 +382,16 @@ app.controller('khuyenmaiController', function($scope, $http, $filter, MainURL, 
 
                         if(response.data.message){
                             $scope.dsKhuyenmai.splice(i, 1);
-                            $('#myModal2').modal('hide');
+                            $('#myModal3').modal('hide');
                             toastr.success("Xóa khuyến mãi sản phẩm thành công!");
                         }else{
-                            $('#myModal2').modal('hide');
+                            $('#myModal3').modal('hide');
                             toastr.error("Xóa khuyến mãi sản phẩm không thành công!");
                         }
 
                     }).catch(function(reason){
                         if(reason.status == 500){
-                            $('#myModal2').modal('hide');
+                            $('#myModal3').modal('hide');
                             toastr.error("Có lỗi xảy ra, vui lòng kiểm tra lại!");
                         }
                     });

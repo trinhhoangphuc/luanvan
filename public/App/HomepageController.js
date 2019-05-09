@@ -85,7 +85,7 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
 				$("#frmLogin").addClass("hidden");
 				$("#frmRegiter").removeClass("hidden");
 
-				$scope.register = {gender: 1}
+				$scope.register = {gender: 1, repassword: null};
 
 				$("#loginRegiter").modal("show");
 			break;
@@ -174,9 +174,9 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
             .then(function(response){
             	if(response.data.error){
             		if(response.data.message.email != undefined)
-            			$('#errorEmail').text(response.data.message.email[0]).show();
+            			$('#errorEmail').text(response.data.message.email[0]).show().fadeOut( 4000 );
             		if(response.data.message.phone != undefined)
-            			$('#errorPhone').text(response.data.message.phone[0]).show();
+            			$('#errorPhone').text(response.data.message.phone[0]).show().fadeOut( 4000 );
             	}else{
             		if(response.data.message_2){
             			$("#submitLoginRegister").addClass("hidden");
@@ -219,9 +219,9 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
             .then(function(response){
                 if(response.data.error){
                     if(response.data.message.email != undefined)
-                        $('#errorEmail-2').text(response.data.message.email[0]).show();
+                        $('#errorEmail-2').text(response.data.message.email[0]).show().fadeOut( 4000 );
                     if(response.data.message.phone != undefined)
-                        $('#errorPhone-2').text(response.data.message.phone[0]).show();
+                        $('#errorPhone-2').text(response.data.message.phone[0]).show().fadeOut( 4000 );
                 }else{
                     if(response.data.message_2){
                         window.location.reload();

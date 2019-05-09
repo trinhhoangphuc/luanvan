@@ -53,7 +53,7 @@
                                             <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
                                             <button id="btn-deleteall" class="btn btn-default btn-sm" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                         </th>
-
+                                        <th>Hình</th>
                                         <th>Họ tên</th>
                                         <th>Giới tính</th>
                                         <th width="20%">Chức vụ</th>
@@ -67,7 +67,7 @@
                                 <tbody>
                                     <tr  ng-repeat="item in dsNhanvien" id="tr_@{{item.nv_ma}}" ng-class="item.nv_ma == newMember_Data? 'bg-default':''" ng-if="item.nv_email != 'webredshop@gmail.com'">
                                         <td><input ng-if="{{Session::get('admin_id')}} != item.nv_ma" type="checkbox" id="chk@{{ $index+1 }}" value="@{{ item.nv_ma }}" /></td>
-
+                                        <td width="10%"><img src="{{asset('public/images/avatar/staff')}}/@{{item.nv_hinh}}" alt="" width="100%" ></td>
                                         <td class="text-dark"><b>@{{ item.nv_hoTen }}</b></td>
                                         <td class="text-dark">
                                             <span ng-if="item.nv_gioiTinh == 1">Nam</span>
@@ -97,7 +97,7 @@
                                             <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
                                             <button id="btn-deleteall" class="btn btn-default btn-sm" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                         </th>
-
+                                        <th>Hình</th>
                                         <th>Họ tên</th>
                                         <th>Giới tính</th>
                                         <th width="20%">Chức vụ</th>
