@@ -804,8 +804,8 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
     $scope.uploader.filters.push({
       name: 'asyncFilter',
       fn: function(item /*{File|FileLikeObject}*/, options, deferred) {
-            // console.log('asyncFilter');
-            setTimeout(deferred.resolve, 1e3);
+            // console.log('asyncFilter');1e3
+            setTimeout(deferred.resolve, 500);
           }
     });
 
