@@ -666,7 +666,7 @@ class DonhangController extends Controller
         }
     }
 
-    public function getTotal() { // get # /donhang/total
+    public function getTotalOrder() { // get # /donhang/total
         try {
             $ds_donhang = DB::table("donhang")->get();
             return response([
@@ -685,6 +685,8 @@ class DonhangController extends Controller
                 ], 200);
         }
     }
+
+    
     
 
     // public function destroyAll(Request $request)

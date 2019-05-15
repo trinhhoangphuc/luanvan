@@ -107,16 +107,12 @@ class HomepageController extends Controller
                 Session::push("viewList", $sanpham->sp_ma);
             }
 
-    		// $chitiethuongList = Chitiethuong::select("chitiethuong.*", "huongvi.hv_ten")
-      //           ->where("sp_ma", $sanpham->sp_ma)
-      //           ->join("huongvi", "huongvi.hv_ma", "chitiethuong.hv_ma")
-      //           ->get();
             $chitiethuongList = Nhap::select("huongvi.hv_ten", "huongvi.hv_ma")->distinct()
                    ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
                    ->join("sanpham", "sanpham.sp_ma", "nhap.sp_ma")
                    ->where("sanpham.sp_ma", $sanpham->sp_ma)->get();
 
-    		$hinhanh = Hinhanh::where("sp_ma", $sanpham->sp_ma)->orderBy("ha_stt", "desc")->get();
+    		$hinhanh = Hinhanh::where("sp_ma", $sanpham->sp_ma)->orderBy("ha_stt", "asc")->get();
 
     		$sanphamcungloaiList = Sanpham::where("l_ma", $sanpham->l_ma)
                 ->where("sp_ma", "<>" ,$sanpham->sp_ma)
@@ -381,7 +377,16 @@ class HomepageController extends Controller
                 ->where('n_soLuong', ">", 0)
                 ->orderBy("n_hanSD", "asc")
                 ->first();
+
+            foreach (Cart::content() as $key) {
+                if($key->id == $nhap->n_ma && ($key->qty+1 > $nhap->n_soLuong) ){
+                    return response(['error'=>false, "message2"=>true], 200);
+                    break;
+                }
+            }
+
             if($nhap){
+
                 if($sanpham->sp_giamGia > 0) 
                     $price = $sanpham->sp_giamGia;
                 else 
@@ -390,7 +395,8 @@ class HomepageController extends Controller
                 Cart::add(array(
                     'id'=>$nhap->n_ma, 
                     'name'=>$sanpham->sp_ten, 
-                    'qty'=>1, 'price'=>$price, 
+                    'qty'=>1, 
+                    'price'=>$price, 
                     'options' => array(
                         'img' => $sanpham->sp_hinh, 
                         'sp_ma'=>$sanpham->sp_ma, 
@@ -414,6 +420,8 @@ class HomepageController extends Controller
                 ->where('n_soLuong', ">=", $qty)
                 ->orderBy("n_hanSD", "asc")
                 ->first();
+
+
             if($nhap){
                 if($sanpham->sp_giamGia > 0) $price = $sanpham->sp_giamGia;
                 else  $price = $sanpham->sp_giaBan;
@@ -421,7 +429,8 @@ class HomepageController extends Controller
                 Cart::add(array(
                     'id'=>$nhap->n_ma, 
                     'name'=>$sanpham->sp_ten, 
-                    'qty'=>$qty, 'price'=>$price, 
+                    'qty'=>$qty, 
+                    'price'=>$price, 
                     'options' => array(
                         'img' => $sanpham->sp_hinh, 
                         'sp_ma'=>$sanpham->sp_ma, 

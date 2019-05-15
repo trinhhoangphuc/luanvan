@@ -157,8 +157,18 @@ class SanphamController extends Controller
     public function destroyAll(Request $request)
     {
         try {
-           
-        	if(Sanpham::destroy($request->sanphams))
+            
+            foreach ($request->items as $key => $value) {
+                $hinhanh = Hinhanh::where('sp_ma', $value)->get();
+                if($hinhanh){
+                    foreach ($hinhanh as $key2 => $value2) {
+                        if(file_exists(public_path('images/products/'.$value2['ha_ten'])))
+                            unlink(public_path('images/products/'.$value2['ha_ten']));
+                    }
+                }     
+            }    
+
+        	if(Sanpham::destroy($request->items))
         		return response(['error'=>false, 'message'=>true], 200);
         	else
         		return response(['error'=>false, 'message'=>false], 200);

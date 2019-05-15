@@ -9,15 +9,17 @@ function laySoLieu(link, id){
 }
 $(document).ready(function() {
 	var urlChart = URL_2 + "admin/donhang/orderMonth";
-	laySoLieu( URL_2 +"admin/donhang/getTotal", '#pSLDH');
+	laySoLieu( URL_2 +"admin/donhang/getTotalOrder", '#pSLDH');
 	laySoLieu(URL_2 +"admin/khachhang/getTotal", '#pSLKH');
 	laySoLieu(URL_2 +"admin/sanpham/getTotal", '#pSLSP');
+	laySoLieu(URL_2 +"admin/nhanvien/getTotal", '#pSLNV');
 
-	// setInterval(function(){
-	//     laySoLieu("http://localhost/Shop/public/admin/totalCustomer", '#pSLKH');
-	// 	laySoLieu("http://localhost/Shop/public/admin/totalOrderUnCheck", '#pSLDH');
-	// 	laySoLieu("http://localhost/Shop/public/admin/totalProduct", '#pSLSP');
-	// }, 20000);
+	setInterval(function(){
+	    laySoLieu( URL_2 +"admin/donhang/getTotalOrder", '#pSLDH');
+		laySoLieu(URL_2 +"admin/khachhang/getTotal", '#pSLKH');
+		laySoLieu(URL_2 +"admin/sanpham/getTotal", '#pSLSP');
+		laySoLieu(URL_2 +"admin/nhanvien/getTotal", '#pSLNV');
+	}, 20000);
 
 
 	 $.ajax({

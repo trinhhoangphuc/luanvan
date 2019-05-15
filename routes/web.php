@@ -290,6 +290,8 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 		Route::post('deleteAll', "NhanvienController@destroyAll");
 
 		Route::post('updatePassword/{id}', "NhanvienController@updatePassword");
+
+		Route::get('getTotal',  'NhanvienController@getTotal');
 	});
 	// kết thúc
 
@@ -414,7 +416,7 @@ Route::group(["prefix" =>"admin", "middleware"=>"AdminLogin"], function(){
 
 		Route::get('orderMonth',  'DonhangController@donhang_thang');
 
-		Route::get('getTotal',  'DonhangController@getTotal');
+		Route::get('getTotalOrder',  'DonhangController@getTotalOrder');
 
 		Route::get('inhoadon',  function () {
 			return view('admin.hoadon');

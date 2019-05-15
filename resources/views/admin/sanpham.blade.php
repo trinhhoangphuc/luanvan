@@ -53,7 +53,6 @@
                                                 <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
                                                <button id="btn-deleteall" class="btn btn-default btn-sm btn-flat" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                             </th>
-
                                             <th>Ảnh</th>
                                             <th>Thông tin</th>
                                             <th>
@@ -156,7 +155,6 @@
                                                 <input type="checkbox" id="chkSelectItems" ng-click="checkInput()"/>
                                                <button id="btn-deleteall" class="btn btn-default btn-sm btn-flat" ng-click="CreateEdit_show('deleteAll', -1)"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i></button>
                                             </th>
-
                                             <th>Ảnh</th>
                                             <th>Thông tin</th>
                                             <th>

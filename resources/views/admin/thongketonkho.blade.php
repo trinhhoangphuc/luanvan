@@ -82,7 +82,7 @@
                                         <td>@{{ item.hansudung}} tháng</td>
                                         <td>
                                             <span ng-if="item.hansudung > 6" class="label bg-green">Còn hạn</span>
-                                            <span ng-if="item.hansudung <= 6" class="label bg-red">Sắp hết hạn</span>
+                                            <span ng-if="item.hansudung <= 6 && item.hansudung > 0" class="label bg-orgrane">Sắp hết hạn</span>
                                             <span ng-if="item.hansudung <= 0" class="label bg-red">Hết hạn</span>
                                         </td>
                                         <td >

@@ -274,12 +274,16 @@ app2.controller('HomepageController', function($scope, $http, $filter, MainURL){
             case "single":
                 var requestURL = MainURL + "them-gio-hang/" + id;
                 $http.get(requestURL).then(function(response){
+                    if(response.data.message2){
+                        toastr.warning("Sản phẩm không đủ số lượng");
+                    }
                     if(response.data.message){
                         toastr.success("Đã thêm sản phẩm vào giỏ hàng!");
                         $scope.refreshCart();
                     }
-                    else
-                        toastr.warning("Không đủ số lượng!");
+                    // if(!response.data.message){
+                    //     toastr.warning("Không đủ số lượng!");
+                    // }
                 });
             break;
 

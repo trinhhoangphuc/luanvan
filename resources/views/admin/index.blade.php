@@ -32,12 +32,12 @@
                     <div class="inner">
                         <h3 id="pSLDH"></h3>
 
-                        <p  id="pSLDH">Đơn hàng mới</p>
+                        <p  id="pSLDH">Đơn hàng</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('QLdonhang')}}" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -52,7 +52,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('QLkhachhang')}}" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -67,7 +67,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('QLsanpham')}}" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -76,14 +76,14 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3 id="pSLNV"></h3>
 
-                        <p>Bounce Rate</p>
+                        <p>Nhân viên</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="ion ion-person"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('QLnhanvien')}}" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
            

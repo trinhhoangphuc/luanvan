@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Nhanvien;
-use App\DB;
+use DB;
 use Session;
 use Illuminate\Database\QueryException;
 use Validator;
@@ -234,5 +234,25 @@ class NhanvienController extends Controller
             }else return redirect(route("info"))->with("erro", "Cập nhật thông tin không thành công!");
 
         }else return redirect(route('homepage'));
+    }
+
+    public function getTotal() { // get # /donhang/total
+        try {
+            $ds_nhanvien = DB::table("nhanvien")->get();
+            return response([
+                    'error'   => false,
+                    'message' => $ds_nhanvien->count()
+                ], 200);
+        } catch(QueryException $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        } catch (PDOException  $ex) {
+            return response([
+                    'error'   => true,
+                    'message' => $ex->getMessage()
+                ], 200);
+        }
     }
 }

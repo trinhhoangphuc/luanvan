@@ -117,7 +117,7 @@
         @endif
 
          
-
+        @if(in_array(1, Session::get("admin_q")) || in_array(2, Session::get("admin_q")) || in_array(3, Session::get("admin_q")) || in_array(4, Session::get("admin_q")) || in_array(5, Session::get("admin_q")) || in_array(14, Session::get("admin_q")))
         <li class="treeview @yield('hanghoa')">
           <a href="">
             <i class="glyphicon glyphicon-shopping-cart"></i>
@@ -148,7 +148,7 @@
 
           </ul>
         </li>
-        
+        @endif
 
         @if(in_array(7, Session::get("admin_q")) || in_array(6, Session::get("admin_q")))
         <li class="treeview @yield('nhansu')">
@@ -180,10 +180,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="@yield('tknam')"><a href="{{ route('TKnam') }}"><i class="fa fa-circle-o"></i> Theo năm</a></li>
-            <li class="@yield('tkloai')"><a href="{{ route('TKloai') }}" ><i class="fa fa-circle-o"></i> Theo loại</a></li>
+            <li class="@yield('tknam')"><a href="{{ route('TKnam') }}"><i class="fa fa-circle-o"></i> Doanh thu</a></li>
+            <li class="@yield('tkloai')"><a href="{{ route('TKloai') }}" ><i class="fa fa-circle-o"></i> Loại bán chạy</a></li>
             <li class="@yield('tksp')"><a href="{{ route('TKsanpham') }}"><i class="fa fa-circle-o"></i> Sản phẩm bán chạy</a></li>
-            <li class="@yield('tonkho')"><a href="{{ route('TKsanphamTK') }}"><i class="fa fa-circle-o"></i> Sản phẩm tồn kho</a></li>
+            <li class="@yield('tonkho')"><a href="{{ route('TKsanphamTK') }}"><i class="fa fa-circle-o"></i> Số lượng trong kho</a></li>
           </ul>
         </li>
         @endif

@@ -129,31 +129,19 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 				return i;
 			}
 		}
-
 		return -1;
 	}
 
+	$scope.checkInput = function(){
+		if($("#chkSelectItems").prop("checked"))
+			$("input:checkbox").prop("checked", true);
+		else
+			$("input:checkbox").prop("checked", false);
+	}
 
 	function isMemberDiff(db, frm){
 
 		var test = 0;
-
-		// for (var i = 0; i< $scope.sanpham.maHuong.length; i++) {
-		// 	for (var y = 0; y< $scope.dsChitiethuong.length; y++) {
-		// 		if ($scope.sanpham.maHuong[i] == $scope.dsChitiethuong[y].hv_ma) {
-		// 			test++;
-		// 		}
-		// 	}	
-		// }
-
-		// if(test == $scope.sanpham.maHuong.length)
-		// 	check = true;
-		// else check = false;
-
-		// console.log("checkHuong: " + $scope.checkHuong.length);
-		// console.log("test " + test);
-		// console.log("mang " + $scope.checkHuong.length);
-		// console.log("check " + check);
 
     	return db.sp_ten != frm.ten 
     	|| db.h_ma != frm.maHang 
@@ -314,6 +302,16 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
         		$scope.status = status;
         		$scope.id_member = id;
         		$("#message").html("Bạn có muốn xóa \"<b class='text-danger'>"+member.sp_ten+"</b>\" ?");
+        		$("#myModal2").modal("show");
+
+    		break;
+
+    		case "deleteAll":
+
+    			$scope.dialogTiTle = "Xóa " + $scope.dataTitle;
+        		$scope.dialogButton = "Xóa";
+        		$scope.status = status;
+        		$("#message").html("Bạn có muốn xóa các dòng dữ liệu đã chọn?");
         		$("#myModal2").modal("show");
 
     		break;
@@ -591,7 +589,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
 
     			if(dsCheckbox.length > 0){
 
-    				var requestURL = MainURL + 'vanchuyen/deleteAll';
+    				var requestURL = MainURL + 'sanpham/deleteAll';
     				var requestData = $.param({items: dsCheckbox});
 
     				$http.post(requestURL, requestData, {headers: {'Content-Type':'application/x-www-form-urlencoded'}})
