@@ -61,8 +61,8 @@ Giỏ hàng
 								</p>
 							</div>
 							<div class="col-sm-6">
-								<p class="title"><a href="{{route('detail', $item->options->sp_ma)}}" style="color: #777;">{{$item->name}} <span style="color: red;">({{$item->options->taste}})</span></a></p>
-								<p class="seller-by">Quà tặng: <a>{{$item->options->gifName}}</a></p>
+								<p class="title"><a href="{{route('detail', $item->options->sp_ma)}}" style="color: #777;">{{$item->name}}</a></p>
+								<p class="seller-by"><span style="color: red;">({{$item->options->taste}})</span></p>
 								<p class="price">	
 									@if($item->options->discount > 0)
 									<span style="text-decoration: line-through; color:#666;">{{number_format($item->options->price_2,0,",",".")}} đ</span>

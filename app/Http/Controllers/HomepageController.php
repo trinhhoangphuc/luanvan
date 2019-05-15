@@ -107,10 +107,16 @@ class HomepageController extends Controller
                 Session::push("viewList", $sanpham->sp_ma);
             }
 
-            $chitiethuongList = Nhap::select("huongvi.hv_ten", "huongvi.hv_ma")->distinct()
-                   ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
-                   ->join("sanpham", "sanpham.sp_ma", "nhap.sp_ma")
-                   ->where("sanpham.sp_ma", $sanpham->sp_ma)->get();
+            // $chitiethuongList = Nhap::select("huongvi.hv_ten", "huongvi.hv_ma")->distinct()
+            //        ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
+            //        ->join("sanpham", "sanpham.sp_ma", "nhap.sp_ma")
+            //        ->where("sanpham.sp_ma", $sanpham->sp_ma)->get();
+
+            $chitiethuongList = DB::select("
+                SELECT DISTINCT hv.hv_ten, hv.hv_ma
+                FROM  sanpham as sp, huongvi as hv, nhap as pn
+                WHERE pn.hv_ma = hv.hv_ma AND pn.n_soLuong > 0 AND sp.sp_ma = pn.sp_ma AND TIMESTAMPDIFF(MONTH,NOW(),n_hanSD) > 6 AND pn.sp_ma = $id
+            ");
 
     		$hinhanh = Hinhanh::where("sp_ma", $sanpham->sp_ma)->orderBy("ha_stt", "asc")->get();
 
@@ -128,7 +134,8 @@ class HomepageController extends Controller
 
             return view("customer.chitietsanpham", compact("sanpham", "hinhanh", "chitiethuongList", "sanphamcungloaiList", "danhgiaList"));
     		
-    	}
+    	}else
+            return redirect(route('error404'));
     }
 
     public function getFilterProducts($maLoai, $maHang, $giaTu, $giaDen)
@@ -371,12 +378,22 @@ class HomepageController extends Controller
     public function addToCart($id){
         $sanpham = Sanpham::where("sp_ma", $id)->first();
         if($sanpham){
+
             $nhap = Nhap::select("nhap.*", "huongvi.hv_ten")
                 ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
                 ->where("sp_ma", $id)
                 ->where('n_soLuong', ">", 0)
+                ->whereRaw('(TIMESTAMPDIFF(MONTH, NOW(), nhap.n_hanSD)) > 6')
                 ->orderBy("n_hanSD", "asc")
                 ->first();
+
+            // $nhap = DB::select("
+            //     SELECT  pn.*    , hv.hv_ma
+            //     FROM  huongvi as hv, nhap as pn
+            //     WHERE pn.hv_ma = hv.hv_ma AND pn.n_soLuong > 0 AND TIMESTAMPDIFF(MONTH,NOW(),n_hanSD) > 6 AND pn.sp_ma = $id
+            //     LiMIT 0,1
+            // ");
+
 
             foreach (Cart::content() as $key) {
                 if($key->id == $nhap->n_ma && ($key->qty+1 > $nhap->n_soLuong) ){
@@ -418,6 +435,7 @@ class HomepageController extends Controller
                 ->join("huongvi", "huongvi.hv_ma", "nhap.hv_ma")
                 ->where("sp_ma", $id)->where("nhap.hv_ma", $mahuong)
                 ->where('n_soLuong', ">=", $qty)
+                ->whereRaw('(TIMESTAMPDIFF(MONTH, NOW(), nhap.n_hanSD)) > 6')
                 ->orderBy("n_hanSD", "asc")
                 ->first();
 

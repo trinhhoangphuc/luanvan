@@ -23,14 +23,6 @@
 		</div>
 		<hr/>
 		<div class="col-sm-6"><br/>
-			<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI NHẬN</p>
-			<div class="box-info" >
-				<p><b>{{$donhang->dh_nguoiNhan}}</b></p>
-				<p>Địa chỉ: {{$donhang->dh_diaChi}}</p>
-				<p>Điện thoại: {{$donhang->dh_dienThoai}}</p>
-			</div>
-		</div>
-		<div class="col-sm-6"><br/>
 			<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI MUA</p>
 			<div class="box-info" >
 				<p><b>{{$khachhang->kh_hoTen}}</b></p>
@@ -38,22 +30,30 @@
 				<p>Điện thoại: {{$khachhang->kh_dienThoai}}</p>
 			</div>
 		</div>
+		<div class="col-sm-6"><br/>
+			<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI NHẬN</p>
+			<div class="box-info" >
+				<p><b>{{$donhang->dh_nguoiNhan}}</b></p>
+				<p>Địa chỉ: {{$donhang->dh_diaChi}}</p>
+				<p>Điện thoại: {{$donhang->dh_dienThoai}}</p>
+			</div>
+		</div>
 
 		<div class="col-sm-6"><br/>
 			<p style="font-size: 16px;">HÌNH THỨC VẬN CHUYỂN</p>
 			<div class="box-info" >
-				<p>{{$donhang->vc_ten}}</p>
-				<p>Phí vân chuyển: {{number_format($donhang->vc_gia, 0, ",", '.')}} ₫</p>
+				<p><b>{{$donhang->vc_ten}}</b></p>
+				<p>Phí vân chuyển: <span style="color: red;">{{number_format($donhang->vc_gia, 0, ",", '.')}} ₫</span></p>
 			</div>
 		</div>
 		<div class="col-sm-6"><br/>
 			<p style="font-size: 16px;">HÌNH THỨC THANH TOÁN</p>
 			<div class="box-info" >
-				<p>{{$donhang->tt_ten}}</p>
+				<p><b>{{$donhang->tt_ten}}</b></p>
 				@if($donhang->dh_daThanhToan == 0) 
-				<p>Chưa thanh toán</p>
+				<p style="color: red;">Chưa thanh toán</p>
 				@elseif($donhang->dh_daThanhToan == 1)
-				<p>Đã thanh toán</p>
+				<p style="color: red;">Đã thanh toán</p>
 				@endif
 			</div>
 		</div>

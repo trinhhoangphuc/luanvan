@@ -100,7 +100,7 @@ Thanh toán
 					</div>
 					
 					<button class="btn btn-hotel-2" id="btn-payment" style="width: 40%;" type="submit"> Đặt Mua</button>
-					<div id="paypal-button-container" class="hidden" ></div>
+					<div id="paypal-button" class="hidden" ></div>
 				</form>
 			</div>
 		</div>
@@ -131,7 +131,8 @@ Thanh toán
 					<p class="title">
 						<img src="{{asset('public/images/products/'. $item->options->img )}}" alt="{{ $item->name }}" width="20%;">
 						<strong>{{ $item->qty }} x </strong>
-						<a href="{{ route('detail', $item->id) }}">{{ $item->name }}</a>
+						<a style="color: #666;" href="{{route('detail', $item->options->sp_ma)}}">{{ $item->name }}
+						<span style="color: red;">({{$item->options->taste}})</span></a>
 					</p>
 					@if($item->options->discount > 0)			
 					<p class="price"><br/><span>{{number_format($item->options->discount * $item->qty,0,",",".")}} đ</span></p>
@@ -209,34 +210,33 @@ Thanh toán
 	function changeTT(id){
 		for( i=0; i<thanhtoanList.length; i++){
 			if(thanhtoanList[i].tt_ma == 1 && id == 1){
-				$("#paypal-button-container").removeClass("hidden");
+				$("#paypal-button").removeClass("hidden");
 				$("#btn-payment").addClass("hidden");
   				break;
 			}else{
-				$("#paypal-button-container").addClass("hidden");
+				$("#paypal-button").addClass("hidden");
 				$("#btn-payment").removeClass("hidden");
   				break;
 			}
 		}
 	}
 </script>
+<!-- <script src="https://www.paypalobjects.com/api/checkout.js"></script> -->
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
 
 	paypal.Button.render({
 		env: 'sandbox',
 
-		// style: {
-		// 	layout: 'horizontal',
-		// 	size: 'medium',
-		// 	shape: 'pill',
-		// 	color: 'gold'
-		// },
+
+
+		locale: 'en_US',
 		style: {
-			color:  'gold',
-			shape:  'pill',
-			label:  'pay',
-			height: 40
+			size:  'responsive',
+			color: 'gold',
+			shape: 'rect',
+			label: 'checkout',
+			tagline: 'true'
 		},
 
 		funding: {
@@ -270,7 +270,7 @@ Thanh toán
 			
 			for(var i=0; i<vanchuyenList.length; i++){
 				if($("#vc_"+vanchuyenList[i].vc_ma).prop("checked") == true){
-					gia = Math.floor(vanchuyenList[i].vc_gia/ 23189.96);
+					gia = Math.round(vanchuyenList[i].vc_gia/ 23189.96);
 					test = <?php  echo $test; ?> + gia;
 					break;
 				}
@@ -365,6 +365,7 @@ Thanh toán
 			
 			});
 		}
-	}, '#paypal-button-container');
+	}, '#paypal-button');
+	// '#paypal-button-container');
 </script>
 @endsection

@@ -38,31 +38,38 @@ Thông tin chi tiết đơn hàng
 
 		<div class="row">
 
-			<div class="col-sm-4"><br/>
-				<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI NHẬN</p>
+			<div class="col-sm-6"><br/>
+				<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI MUA</p>
 				<div class="box-info">
 					<p><b>{{$khachhang->kh_hoTen}}</b></p>
 					<p>Địa chỉ: {{$khachhang->kh_diaChi}}</p>
 					<p>Điện thoại: {{$khachhang->kh_dienThoai}}</p>
 				</div>
 			</div>
-
-			<div class="col-sm-4"><br/>
-				<p style="font-size: 16px;">HÌNH THỨC GIAO HÀNG</p>
-				<div class="box-info">
-					<p>{{$donhang->vc_ten}} </p>
-					<p>Phí vận chuyển: {{number_format($donhang->vc_gia, 0, ",", ".")}} ₫</p>
+			<div class="col-sm-6"><br/>
+				<p style="font-size: 16px;">ĐỊA CHỈ NGƯỜI NHẬN</p>
+				<div class="box-info" >
+					<p><b>{{$donhang->dh_nguoiNhan}}</b></p>
+					<p>Địa chỉ: {{$donhang->dh_diaChi}}</p>
+					<p>Điện thoại: {{$donhang->dh_dienThoai}}</p>
 				</div>
 			</div>
 
-			<div class="col-sm-4"><br/>
+			<div class="col-sm-6"><br/>
+				<p style="font-size: 16px;">HÌNH THỨC VẬN CHUYỂN</p>
+				<div class="box-info" >
+					<p><b>{{$donhang->vc_ten}}</b></p>
+					<p>Phí vân chuyển: <span style="color: red;">{{number_format($donhang->vc_gia, 0, ",", '.')}} ₫</span></p>
+				</div>
+			</div>
+			<div class="col-sm-6"><br/>
 				<p style="font-size: 16px;">HÌNH THỨC THANH TOÁN</p>
-				<div class="box-info">
-					<p>{{$donhang->tt_ten}}</p>
+				<div class="box-info" >
+					<p><b>{{$donhang->tt_ten}}</b></p>
 					@if($donhang->dh_daThanhToan == 0) 
-					<p>Chưa thanh toán</p>
+					<p style="color: red;">Chưa thanh toán</p>
 					@elseif($donhang->dh_daThanhToan == 1)
-					<p>Đã thanh toán</p>
+					<p style="color: red;">Đã thanh toán</p>
 					@endif
 				</div>
 			</div>
@@ -116,7 +123,7 @@ Thông tin chi tiết đơn hàng
 		<br/>
 		<div class="row">
 			<div class="col-sm-12">
-				<a href="{{route('profile')}}" style="font-size: 18px;"><< Quay lại đơn hàng của tôi</a>
+				<a href="{{route('profile')}}" class="btn btn-hotel-2" style="font-size: 18px;"><< Quay lại đơn hàng của tôi</a>
 			</div>
 		</div>
 	</div>

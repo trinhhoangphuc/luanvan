@@ -90,7 +90,7 @@ Giỏ hàng
 			<div class="login-cart">
 				<div class="order">
 					<span  class="title">Đơn hàng ( {{count($cart)}} sản phẩm)</span>
-					<a class="btn pull-right btn-hotel-2" href="">Sửa</a>
+					<a class="btn pull-right btn-hotel-2" href="{{route('getCart')}}">Sửa</a>
 				</div>
 				@foreach($cart as $item)
 				<div class="item">

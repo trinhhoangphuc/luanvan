@@ -820,7 +820,7 @@ app.controller('sanphamController', function($scope, $http, $timeout, $filter, M
         var fileExtension = '.' + fileTmp.pop();
         var fileName = fileTmp.shift();
 
-        fileItem.file.name = generateImageName($scope.formData.upload_sp_ma, $scope.formData.upload_sp_ten,
+        fileItem.file.name = generateImageName($scope.formData.upload_sp_ma, fileName,
          fileExtension);
 
         // console.info('onAfterAddingFile', fileItem);
